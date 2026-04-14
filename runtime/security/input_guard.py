@@ -17,6 +17,7 @@ class SecurityFilterDecision:
     flags: list[str]
     reason: str
     sanitized_text: str
+    isolation_gate: str
 
 
 class PromptSecurityFilter:
@@ -41,13 +42,27 @@ class PromptSecurityFilter:
     ]
 
     _untrusted_sources = {"document", "web", "email", "attachment", "external"}
+    _trusted_sources = {"user", "operator", "system", "memory", "session"}
+
+    _tool_execution_patterns = [
+        re.compile(r"\b(run|execute|launch|invoke)\b.{0,40}\b(tool|command|script|shell|terminal)\b", re.IGNORECASE),
+        re.compile(r"\b(use|call)\b.{0,20}\b(tool|plugin|function)\b", re.IGNORECASE),
+    ]
 
     def analyze(self, text: str, source: str = "user", explicit_authorization: bool = False) -> SecurityFilterDecision:
         """Analyze content and return block/allow decision with threat flags."""
         if not isinstance(text, str):
             raise TypeError("Input text must be a string")
 
+        normalized_source = " ".join(str(source).split()).lower() or "user"
         flags: list[str] = []
+        isolation_gate = "trusted_context"
+
+        if normalized_source in self._untrusted_sources:
+            isolation_gate = "untrusted_context"
+        elif normalized_source not in self._trusted_sources:
+            isolation_gate = "unknown_context"
+            flags.append("unknown_source_context")
 
         if self._matches_any(text, self._identity_override_patterns):
             flags.append("identity_override_attempt")
@@ -55,8 +70,11 @@ class PromptSecurityFilter:
         if self._matches_any(text, self._prompt_injection_patterns):
             flags.append("prompt_injection_attempt")
 
-        if source in self._untrusted_sources and self._matches_any(text, self._embedded_instruction_patterns):
+        if normalized_source in self._untrusted_sources and self._matches_any(text, self._embedded_instruction_patterns):
             flags.append("untrusted_embedded_instruction")
+
+        if normalized_source in self._untrusted_sources and self._matches_any(text, self._tool_execution_patterns):
+            flags.append("untrusted_tool_execution_request")
 
         blocked = False
         reason = "Input accepted"
@@ -67,12 +85,24 @@ class PromptSecurityFilter:
         elif "prompt_injection_attempt" in flags:
             blocked = True
             reason = "Potential prompt injection detected. Ignoring unsafe instructions."
+        elif "untrusted_tool_execution_request" in flags and not explicit_authorization:
+            blocked = True
+            reason = "Untrusted context cannot directly request tool execution without explicit authorization."
         elif "untrusted_embedded_instruction" in flags and not explicit_authorization:
             blocked = True
             reason = "Untrusted embedded instruction requires explicit authorization."
+        elif "unknown_source_context" in flags and self._matches_any(text, self._embedded_instruction_patterns):
+            blocked = True
+            reason = "Unknown source context with executable instructions requires explicit trust classification."
 
         sanitized = text if not blocked else "[FILTERED_UNSAFE_INPUT]"
-        return SecurityFilterDecision(blocked=blocked, flags=flags, reason=reason, sanitized_text=sanitized)
+        return SecurityFilterDecision(
+            blocked=blocked,
+            flags=flags,
+            reason=reason,
+            sanitized_text=sanitized,
+            isolation_gate=isolation_gate,
+        )
 
     def _matches_any(self, text: str, patterns: list[re.Pattern[str]]) -> bool:
         return any(pattern.search(text) is not None for pattern in patterns)
