@@ -273,6 +273,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="security",
         mapped_components=("runtime.security.policy_anomaly_detector.PolicyAnomalyDetector",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.incident_playbooks",
+        name="Incident Playbooks",
+        description="Execute deterministic containment and recovery workflows when incidents are detected.",
+        owner="security",
+        mapped_components=("runtime.security.incident_playbooks.IncidentPlaybookManager",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -285,6 +292,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
             "mit.prompt_input_filter",
             "mit.untrusted_execution_guardrail",
             "mit.policy_overlay",
+            "mit.incident_playbooks",
             "mit.audit_chain",
         ),
         detection_signals=("prompt_injection_attempt", "unsafe_instruction_pattern"),
@@ -296,7 +304,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="conversation",
         likelihood=4,
         impact=5,
-        mitigation_ids=("mit.identity_override_guard", "mit.audit_chain"),
+        mitigation_ids=("mit.identity_override_guard", "mit.incident_playbooks", "mit.audit_chain"),
         detection_signals=("identity_override_attempt",),
     )
     model.add_abuse_case(
@@ -316,7 +324,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="control-plane",
         likelihood=3,
         impact=5,
-        mitigation_ids=("mit.policy_overlay", "mit.policy_anomaly_detector", "mit.audit_chain"),
+        mitigation_ids=("mit.policy_overlay", "mit.policy_anomaly_detector", "mit.incident_playbooks", "mit.audit_chain"),
         detection_signals=("blocked_token_detected", "deny_rule_triggered", "deny_burst_pattern"),
     )
     model.add_abuse_case(
@@ -326,7 +334,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="conversation",
         likelihood=4,
         impact=4,
-        mitigation_ids=("mit.social_engineering_detector", "mit.policy_overlay", "mit.audit_chain"),
+        mitigation_ids=("mit.social_engineering_detector", "mit.policy_overlay", "mit.incident_playbooks", "mit.audit_chain"),
         detection_signals=(
             "authority_impersonation",
             "urgency_pressure",
