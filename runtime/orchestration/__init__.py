@@ -50,6 +50,14 @@ from .escalation_workflow import (
     EscalationWorkflowError,
     EscalationWorkflowManager,
 )
+from .follow_up_manager import (
+    FollowUpItem,
+    FollowUpManager,
+    FollowUpManagerError,
+    FollowUpPriority,
+    FollowUpSnapshot,
+    FollowUpStatus,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -88,4 +96,10 @@ __all__ = [
     "EscalationTicket",
     "EscalationWorkflowManager",
     "EscalationWorkflowError",
+    "FollowUpStatus",
+    "FollowUpPriority",
+    "FollowUpItem",
+    "FollowUpSnapshot",
+    "FollowUpManager",
+    "FollowUpManagerError",
 ]
