@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/tool-response.schema.json",
+  "title": "FRIDAY Tool Response Contract",
+  "description": "Canonical response envelope for tool outcomes.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "$ref": "common.schema.json#/$defs/schemaVersion"
+    },
+    "response_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "request_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "timestamp": {
+      "$ref": "common.schema.json#/$defs/isoTimestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "partial",
+        "failed",
+        "denied",
+        "cancelled",
+        "timeout"
+      ]
+    },
+    "result": {
+      "type": [
+        "object",
+        "array",
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/artifact"
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "memory_mb": {
+          "type": "number",
+          "minimum": 0
+        },
+        "network_bytes_in": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "network_bytes_out": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "duration_ms",
+        "attempts"
+      ],
+      "additionalProperties": false
+    },
+    "policy_decision": {
+      "$ref": "common.schema.json#/$defs/policyDecision"
+    },
+    "validation": {
+      "$ref": "common.schema.json#/$defs/validationSummary"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "$ref": "tool-error.schema.json"
+      }
+    },
+    "trace": {
+      "$ref": "common.schema.json#/$defs/traceContext"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "response_id",
+    "request_id",
+    "run_id",
+    "timestamp",
+    "status",
+    "metrics",
+    "policy_decision",
+    "validation",
+    "trace"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "failed",
+              "denied",
+              "cancelled",
+              "timeout"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "errors"
+        ],
+        "properties": {
+          "errors": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

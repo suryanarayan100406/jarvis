@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/common.schema.json",
+  "title": "FRIDAY Common Contract Types",
+  "description": "Shared schema definitions used by tool and telemetry contracts.",
+  "type": "object",
+  "$defs": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$",
+      "description": "Contract schema version."
+    },
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+    },
+    "isoTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "riskTier": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "deny",
+        "require_approval"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "debug",
+        "info",
+        "warn",
+        "error",
+        "critical"
+      ]
+    },
+    "traceContext": {
+      "type": "object",
+      "properties": {
+        "trace_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "span_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{16}$"
+        },
+        "parent_span_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{16}$"
+        },
+        "correlation_id": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "trace_id",
+        "span_id"
+      ],
+      "additionalProperties": false
+    },
+    "policyDecision": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/decision"
+        },
+        "risk_tier": {
+          "$ref": "#/$defs/riskTier"
+        },
+        "rule_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluated_at": {
+          "$ref": "#/$defs/isoTimestamp"
+        }
+      },
+      "required": [
+        "decision",
+        "risk_tier",
+        "rule_id",
+        "reason",
+        "evaluated_at"
+      ],
+      "additionalProperties": false
+    },
+    "actorContext": {
+      "type": "object",
+      "properties": {
+        "operator_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "primary_user",
+            "authorized_operator",
+            "limited_user",
+            "system"
+          ]
+        },
+        "session_id": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "operator_id",
+        "role",
+        "session_id"
+      ],
+      "additionalProperties": false
+    },
+    "retryPolicy": {
+      "type": "object",
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "backoff_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "max_attempts",
+        "backoff_ms"
+      ],
+      "additionalProperties": false
+    },
+    "executionPolicy": {
+      "type": "object",
+      "properties": {
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600000
+        },
+        "retry": {
+          "$ref": "#/$defs/retryPolicy"
+        },
+        "dry_run": {
+          "type": "boolean"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "timeout_ms",
+        "retry",
+        "dry_run"
+      ],
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "log",
+            "file",
+            "json",
+            "report",
+            "screenshot",
+            "diff",
+            "other"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "artifact_id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "validationCheck": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "details": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "passed"
+      ],
+      "additionalProperties": false
+    },
+    "validationSummary": {
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/validationCheck"
+          }
+        }
+      },
+      "required": [
+        "passed",
+        "checks"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

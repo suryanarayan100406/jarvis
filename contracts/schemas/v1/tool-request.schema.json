@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/tool-request.schema.json",
+  "title": "FRIDAY Tool Request Contract",
+  "description": "Canonical request envelope for all tool invocations.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "$ref": "common.schema.json#/$defs/schemaVersion"
+    },
+    "request_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "timestamp": {
+      "$ref": "common.schema.json#/$defs/isoTimestamp"
+    },
+    "actor": {
+      "$ref": "common.schema.json#/$defs/actorContext"
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9._-]{2,100}$"
+        },
+        "action": {
+          "type": "string",
+          "pattern": "^[a-z0-9._-]{2,100}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      },
+      "required": [
+        "name",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "local",
+            "host",
+            "service",
+            "ui",
+            "memory",
+            "network",
+            "physical"
+          ]
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "dev",
+            "staging",
+            "prod",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "policy_context": {
+      "type": "object",
+      "properties": {
+        "risk_tier": {
+          "$ref": "common.schema.json#/$defs/riskTier"
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "justification": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "risk_tier",
+        "requires_approval"
+      ],
+      "additionalProperties": false
+    },
+    "execution": {
+      "$ref": "common.schema.json#/$defs/executionPolicy"
+    },
+    "trace": {
+      "$ref": "common.schema.json#/$defs/traceContext"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "run_id",
+    "timestamp",
+    "actor",
+    "tool",
+    "target",
+    "parameters",
+    "policy_context",
+    "execution",
+    "trace"
+  ],
+  "additionalProperties": false
+}

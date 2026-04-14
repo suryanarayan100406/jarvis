@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/tool-error.schema.json",
+  "title": "FRIDAY Tool Error Contract",
+  "description": "Canonical error object for tool failures and policy denials.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "$ref": "common.schema.json#/$defs/schemaVersion"
+    },
+    "error_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "request_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/uuid"
+    },
+    "timestamp": {
+      "$ref": "common.schema.json#/$defs/isoTimestamp"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "validation",
+        "policy",
+        "execution",
+        "timeout",
+        "dependency",
+        "security",
+        "system",
+        "unknown"
+      ]
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_]{3,100}$"
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "remediation_steps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "caused_by": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{3,100}$"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "trace": {
+      "$ref": "common.schema.json#/$defs/traceContext"
+    }
+  },
+  "required": [
+    "schema_version",
+    "error_id",
+    "timestamp",
+    "category",
+    "code",
+    "message",
+    "retryable",
+    "severity",
+    "trace"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,40 @@
+{
+  "projectName": "FRIDAY",
+  "createdDate": "2026-04-14",
+  "mode": "local-first",
+  "allowCloudApis": false,
+  "allowOpenSourceLocalDependencies": true,
+  "assistantProfile": {
+    "identity": "FRIDAY",
+    "defaultAddress": "Boss",
+    "allowAddressOverride": true,
+    "communicationStyle": {
+      "answerFirst": true,
+      "confidenceWhenUncertain": true,
+      "statusFormat": "[STATUS: In Progress | 60%] - descriptor",
+      "priorityFormat": "[PRIORITY: CRITICAL] - message"
+    },
+    "modes": [
+      "war-room",
+      "deep-research",
+      "stealth",
+      "creative",
+      "mission-brief",
+      "jarvis"
+    ]
+  },
+  "autonomy": {
+    "defaultMode": "bounded",
+    "requireApproval": ["high", "critical"],
+    "killSwitchEnabled": true
+  },
+  "policy": {
+    "riskTiers": ["low", "medium", "high", "critical"],
+    "defaultDecision": "deny",
+    "auditImmutable": true
+  },
+  "moonshotTrack": {
+    "enabled": true,
+    "goal": "Progressively approach AGI-like broad capability while preserving safety constraints"
+  }
+}
