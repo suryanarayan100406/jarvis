@@ -40,6 +40,15 @@ from .physical_interlock_engine import (
 	PhysicalInterlockRequest,
 	PhysicalSafetyInterlockEngine,
 )
+from .physical_geofence_engine import (
+	DeviceWorkspace,
+	GeofenceEvaluationDecision,
+	GeofenceEvaluationRequest,
+	GeofencePoint,
+	NoGoZone,
+	PhysicalGeofenceEngine,
+	PhysicalGeofenceError,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -114,6 +123,13 @@ __all__ = [
 	"PhysicalInterlockDecision",
 	"PhysicalSafetyInterlockEngine",
 	"PhysicalInterlockError",
+	"GeofencePoint",
+	"DeviceWorkspace",
+	"NoGoZone",
+	"GeofenceEvaluationRequest",
+	"GeofenceEvaluationDecision",
+	"PhysicalGeofenceEngine",
+	"PhysicalGeofenceError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",

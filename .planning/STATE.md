@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 9.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P9-T5 geofencing and no-go zone constraints.
+5. Next execution target: implement P9-T6 emergency stop propagation to physical connectors.
 
 ## Active Focus
 1. Enable optional IoT and robotics integration with strict safety controls.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 9 execution from .planning/phases/9/PLAN.md.
-2. Implement P9-T5 through P9-T12 with verify-then-advance discipline.
+2. Implement P9-T6 through P9-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -130,3 +130,4 @@
 109. P9-T2 completed: physical device registry added with connector-bound capability and risk metadata, trust-level tagging, and registry filters for risk and trust queries; 530 tests passing.
 110. P9-T3 completed: physical simulation harness added for motion and actuation plans with fail-fast execution control, simulation token promotion, and sandbox-approved live handoff gating; 537 tests passing.
 111. P9-T4 completed: physical safety interlock engine added with trust-floor enforcement, sandbox and operator-role gates, and risk-tier approval routing for live commands; 544 tests passing.
+112. P9-T5 completed: physical geofence engine added with device workspace boundaries, scoped no-go zones, and allow or deny or approval decisions for constrained trajectories; 551 tests passing.
