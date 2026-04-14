@@ -7,6 +7,14 @@ from .screenshot_pipeline import (
     ScreenshotIngestionError,
     ScreenshotIngestionPipeline,
 )
+from .ocr_layout import (
+    OCRLayoutAnalyzer,
+    OCRLayoutBlock,
+    OCRLayoutError,
+    OCRLayoutLine,
+    OCRLayoutResult,
+    OCRTextSpan,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -14,4 +22,10 @@ __all__ = [
     "ScreenshotBatchSummary",
     "ScreenshotIngestionPipeline",
     "ScreenshotIngestionError",
+    "OCRTextSpan",
+    "OCRLayoutLine",
+    "OCRLayoutBlock",
+    "OCRLayoutResult",
+    "OCRLayoutAnalyzer",
+    "OCRLayoutError",
 ]
