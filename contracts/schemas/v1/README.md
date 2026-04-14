@@ -8,6 +8,7 @@ This package defines the canonical JSON Schema contracts for Phase 1 Task 1.
 3. tool-response.schema.json - response envelope for tool outcomes.
 4. tool-error.schema.json - canonical error object.
 5. telemetry-envelope.schema.json - telemetry and audit event envelope.
+6. identity-directive.schema.json - assistant identity and addressing preference contract.
 
 ## Versioning
 1. Current schema_version is 1.0.0.

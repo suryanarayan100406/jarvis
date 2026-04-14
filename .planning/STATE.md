@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 1.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P1-T9 identity directive schema and form-of-address contract.
+5. Next execution target: implement P1-T10 identity override detection and prompt-injection baseline filters.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -33,3 +33,4 @@
 10. P1-T6 completed: deterministic run state machine with strict transition enforcement; 36 tests passing.
 11. P1-T7 completed: baseline integration tests for policy, audit, and kill-switch behavior; 39 tests passing.
 12. P1-T8 completed: ADR set for security trust boundaries and autonomy boundaries.
+13. P1-T9 completed: identity directive schema plus form-of-address preference contract; 46 tests passing.

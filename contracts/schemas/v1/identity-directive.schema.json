@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/identity-directive.schema.json",
+  "title": "FRIDAY Identity Directive Contract",
+  "description": "Contract for assistant identity profile and form-of-address preferences.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "$ref": "common.schema.json#/$defs/schemaVersion"
+    },
+    "assistant_identity": {
+      "type": "string",
+      "enum": [
+        "FRIDAY"
+      ]
+    },
+    "default_address": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allow_address_override": {
+      "type": "boolean"
+    },
+    "authorized_override_roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "primary_user",
+          "authorized_operator",
+          "limited_user",
+          "system"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "address_overrides": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "friday",
+          "jarvis",
+          "war-room",
+          "deep-research",
+          "stealth",
+          "creative",
+          "mission-brief"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "jarvis_mode": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "default_honorific": {
+          "type": "string",
+          "enum": [
+            "Sir",
+            "Maam"
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "default_honorific"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "assistant_identity",
+    "default_address",
+    "allow_address_override",
+    "authorized_override_roles",
+    "address_overrides",
+    "modes",
+    "jarvis_mode"
+  ],
+  "additionalProperties": false
+}
