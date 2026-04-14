@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 7.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P7-T5 untrusted content execution guardrails.
+5. Next execution target: implement P7-T6 social-engineering signal detector for conversation flows.
 
 ## Active Focus
 1. Harden FRIDAY against prompt injection, identity override, and operational misuse.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 7 execution from .planning/phases/7/PLAN.md.
-2. Implement P7-T5 through P7-T12 with verify-then-advance discipline.
+2. Implement P7-T6 through P7-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -104,3 +104,4 @@
 83. P7-T2 completed: secret manager hardening implemented with scoped read and rotate permissions, strength validation, audit logging, revocation controls, and rotation-due workflow support; 399 tests passing.
 84. P7-T3 completed: prompt injection detection enhanced with context-isolation gates and stricter untrusted instruction handling semantics across trusted, untrusted, and unknown source contexts; 401 tests passing.
 85. P7-T4 completed: identity override guard implemented with immutable alert logging via hash-chained audit events, source-context tagging, and alert-path coverage tests; 405 tests passing.
+86. P7-T5 completed: untrusted content execution guardrails implemented with short-lived scoped authorization tokens, replay protection, command safety checks, and source/content binding constraints; 413 tests passing.

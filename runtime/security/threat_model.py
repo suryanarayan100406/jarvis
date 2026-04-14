@@ -252,6 +252,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="replay",
         mapped_components=("runtime.replay.replay_endpoint",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.untrusted_execution_guardrail",
+        name="Untrusted Execution Guardrail",
+        description="Require scoped authorization tokens before executing instructions from untrusted content.",
+        owner="security",
+        mapped_components=("runtime.security.untrusted_execution_guard.UntrustedContentExecutionGuard",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -260,7 +267,12 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="conversation",
         likelihood=5,
         impact=5,
-        mitigation_ids=("mit.prompt_input_filter", "mit.policy_overlay", "mit.audit_chain"),
+        mitigation_ids=(
+            "mit.prompt_input_filter",
+            "mit.untrusted_execution_guardrail",
+            "mit.policy_overlay",
+            "mit.audit_chain",
+        ),
         detection_signals=("prompt_injection_attempt", "unsafe_instruction_pattern"),
     )
     model.add_abuse_case(

@@ -23,6 +23,13 @@ from .secret_manager import (
     SecretRecord,
     SecretRotationResult,
 )
+from .untrusted_execution_guard import (
+    UntrustedContentExecutionGuard,
+    UntrustedExecutionAuthorization,
+    UntrustedExecutionDecision,
+    UntrustedExecutionGuardError,
+    UntrustedExecutionRequest,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -44,4 +51,9 @@ __all__ = [
     "SecretAuditEvent",
     "HardenedSecretManager",
     "SecretManagerError",
+    "UntrustedExecutionAuthorization",
+    "UntrustedExecutionDecision",
+    "UntrustedExecutionRequest",
+    "UntrustedContentExecutionGuard",
+    "UntrustedExecutionGuardError",
 ]
