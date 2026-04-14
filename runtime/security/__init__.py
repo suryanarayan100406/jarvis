@@ -51,6 +51,12 @@ from .incident_playbooks import (
     IncidentStepOutcome,
     build_default_incident_playbooks,
 )
+from .forensic_event_export import (
+    ForensicEventExportError,
+    ForensicEventExporter,
+    ForensicEventRecord,
+    ForensicExportArtifact,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -92,4 +98,8 @@ __all__ = [
     "IncidentPlaybookManager",
     "IncidentPlaybookError",
     "build_default_incident_playbooks",
+    "ForensicEventRecord",
+    "ForensicExportArtifact",
+    "ForensicEventExporter",
+    "ForensicEventExportError",
 ]
