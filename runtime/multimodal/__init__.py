@@ -22,6 +22,12 @@ from .ui_grounding import (
     UIGroundingModel,
     UIStateRepresentation,
 )
+from .visual_planner import (
+    VisualActionPlanner,
+    VisualPlannerError,
+    VisualPlanningResult,
+    VisualStageBinding,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -40,4 +46,8 @@ __all__ = [
     "UIStateRepresentation",
     "UIGroundingModel",
     "UIGroundingError",
+    "VisualActionPlanner",
+    "VisualPlanningResult",
+    "VisualStageBinding",
+    "VisualPlannerError",
 ]

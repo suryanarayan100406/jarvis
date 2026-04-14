@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 8.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P8-T4 visual planner integration with runtime action stages.
+5. Next execution target: implement P8-T5 safe UI action executor with confirmation checkpoints.
 
 ## Active Focus
 1. Add visual understanding and safe UI-level automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
-2. Implement P8-T4 through P8-T12 with verify-then-advance discipline.
+2. Implement P8-T5 through P8-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -116,3 +116,4 @@
 95. P8-T1 completed: screenshot ingestion and normalization pipeline implemented with PNG and JPEG dimension parsing, normalized scene contract generation, and batch deduplication summary outputs; 455 tests passing.
 96. P8-T2 completed: OCR and layout analysis implemented with normalized span parsing, line and block grouping, reading-order reconstruction, and confidence warning signals for text-rich interfaces; 460 tests passing.
 97. P8-T3 completed: UI element grounding model implemented with detector and OCR fusion, confidence-threshold actionability gating, and normalized UI state representation contracts; 466 tests passing.
+98. P8-T4 completed: visual planner integration implemented with runtime stage task bindings, deterministic visual-action plan serialization, and confidence-aware confirmation signaling; 471 tests passing.
