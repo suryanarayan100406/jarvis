@@ -29,6 +29,14 @@ from .runbook_engine import (
     RunbookStep,
     RunbookStepResult,
 )
+from .confidence_routing import (
+    ActionApprovalConfidenceModel,
+    ActionConfidenceInput,
+    ApprovalRoute,
+    ApprovalRoutingDecision,
+    ConfidenceRoutingError,
+    RiskLevel,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -52,4 +60,10 @@ __all__ = [
     "RunbookExecutionResult",
     "RunbookExecutionEngine",
     "RunbookEngineError",
+    "RiskLevel",
+    "ApprovalRoute",
+    "ActionConfidenceInput",
+    "ApprovalRoutingDecision",
+    "ActionApprovalConfidenceModel",
+    "ConfidenceRoutingError",
 ]

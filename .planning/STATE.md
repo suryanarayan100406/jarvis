@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 6.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P6-T4 confidence model for action approval routing.
+5. Next execution target: implement P6-T5 bounded autonomy policy for task risk tiers.
 
 ## Active Focus
 1. Enable autonomous operations with bounded, policy-aware trigger execution.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 6 execution from .planning/phases/6/PLAN.md.
-2. Implement P6-T4 through P6-T12 with verify-then-advance discipline.
+2. Implement P6-T5 through P6-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -90,3 +90,4 @@
 69. P6-T1 completed: autonomous scheduler implemented with cron-style and calendar-based trigger polling, activation deduplication, and next-run forecasting; 330 tests passing.
 70. P6-T2 completed: operational event bus implemented with severity and source-filtered subscriptions, polling, and per-subscriber acknowledgments; 336 tests passing.
 71. P6-T3 completed: runbook execution engine implemented with step sequencing, per-step retries and timeout controls, and degraded-mode continuation for non-blocking failures; 342 tests passing.
+72. P6-T4 completed: action approval confidence routing model implemented with risk and blast-radius penalties, confidence bands, and route decisions for auto-approve, review, escalation, and deny paths; 348 tests passing.
