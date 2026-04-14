@@ -13,6 +13,14 @@ from .autonomous_scheduler import (
     SchedulerTrigger,
     TriggerActivation,
 )
+from .event_bus import (
+    EventBusError,
+    EventSubscription,
+    OperationalAlertEvent,
+    OperationalEventBus,
+    SeverityLevel,
+    SubscriptionPollResult,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -24,4 +32,10 @@ __all__ = [
     "SchedulerPollResult",
     "AutonomousScheduler",
     "SchedulerError",
+    "SeverityLevel",
+    "OperationalAlertEvent",
+    "EventSubscription",
+    "SubscriptionPollResult",
+    "OperationalEventBus",
+    "EventBusError",
 ]

@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 6.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P6-T2 event bus subscriptions for operational alerts.
+5. Next execution target: implement P6-T3 runbook execution engine for routine workflows.
 
 ## Active Focus
 1. Enable autonomous operations with bounded, policy-aware trigger execution.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 6 execution from .planning/phases/6/PLAN.md.
-2. Implement P6-T2 through P6-T12 with verify-then-advance discipline.
+2. Implement P6-T3 through P6-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -88,3 +88,4 @@
 67. P5-T12 completed: context continuity regression tests added for cross-session memory behavior, open-loop persistence, and citation lineage stability; 322 tests passing.
 68. Phase 5 completed: tasks P5-T1 through P5-T12 verified and pushed.
 69. P6-T1 completed: autonomous scheduler implemented with cron-style and calendar-based trigger polling, activation deduplication, and next-run forecasting; 330 tests passing.
+70. P6-T2 completed: operational event bus implemented with severity and source-filtered subscriptions, polling, and per-subscriber acknowledgments; 336 tests passing.
