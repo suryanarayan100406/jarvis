@@ -14,6 +14,15 @@ from .connector_manager import (
 	TransportAdapter,
 )
 from .host_inventory import HostInventoryError, HostInventoryService, HostRecord
+from .policy_overlay import (
+	CommandScopePolicy,
+	ControlPlanePolicyDecision,
+	ControlPlanePolicyOverlay,
+	ControlPlanePolicyOverlayError,
+	ControlPlanePolicyRequest,
+	HostScopePolicy,
+	OperatorScopePolicy,
+)
 from .ssh_connector import SshConnectorError, SshExecutionRequest, SshHostCredentials, SshRemoteConnector
 
 __all__ = [
@@ -33,4 +42,11 @@ __all__ = [
 	"ResolvedCommand",
 	"CommandTemplateLibrary",
 	"CommandTemplateError",
+	"ControlPlanePolicyRequest",
+	"ControlPlanePolicyDecision",
+	"HostScopePolicy",
+	"OperatorScopePolicy",
+	"CommandScopePolicy",
+	"ControlPlanePolicyOverlay",
+	"ControlPlanePolicyOverlayError",
 ]
