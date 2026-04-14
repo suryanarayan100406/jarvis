@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 5.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P5-T11 retrieval quality tests for relevance and citation fidelity.
+5. Next execution target: implement P5-T12 context continuity regression tests.
 
 ## Active Focus
 1. Build persistent memory foundations with explicit context partitioning.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 5 execution from .planning/phases/5/PLAN.md.
-2. Implement P5-T11 through P5-T12 with verify-then-advance discipline.
+2. Implement P5-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -84,3 +84,4 @@
 63. P5-T8 completed: user-correctable memory update workflow implemented with auditable correction records and filtered correction history; 304 tests passing.
 64. P5-T9 completed: preference profile memory implemented for communication style and domain focus with subject and global fallback resolution; 310 tests passing.
 65. P5-T10 completed: memory privacy filters and redaction-aware retrieval implemented for sensitive text and metadata masking in citations and excerpts; 314 tests passing.
+66. P5-T11 completed: retrieval quality tests added for benchmark relevance ranking, duplicate controls, and citation fidelity through updates and redaction paths; 318 tests passing.
