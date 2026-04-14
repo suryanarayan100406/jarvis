@@ -40,6 +40,12 @@ from .ui_state_validator import (
     UIStateValidationResult,
     UIStateValidatorError,
 )
+from .summary_extractor import (
+    DocumentImageSummaryExtractor,
+    MultimodalSummaryCitation,
+    MultimodalSummaryError,
+    MultimodalSummaryResult,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -70,4 +76,8 @@ __all__ = [
     "UIStateValidationResult",
     "CriticalUIStateValidator",
     "UIStateValidatorError",
+    "MultimodalSummaryCitation",
+    "MultimodalSummaryResult",
+    "DocumentImageSummaryExtractor",
+    "MultimodalSummaryError",
 ]
