@@ -40,6 +40,13 @@ from .confidence_scoring import (
     MemoryConfidenceScorer,
     RankedEvidence,
 )
+from .open_loop_register import (
+    OpenLoopRegisterError,
+    OpenLoopRegisterSnapshot,
+    OpenLoopTask,
+    OpenLoopTaskEvent,
+    OpenLoopTaskRegister,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -72,4 +79,9 @@ __all__ = [
     "ConfidenceScoredResult",
     "MemoryConfidenceScorer",
     "ConfidenceScoringError",
+    "OpenLoopTask",
+    "OpenLoopTaskEvent",
+    "OpenLoopRegisterSnapshot",
+    "OpenLoopTaskRegister",
+    "OpenLoopRegisterError",
 ]
