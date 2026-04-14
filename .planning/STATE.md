@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 1.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P1-T6 run state machine with deterministic transitions.
+5. Next execution target: implement P1-T7 baseline integration tests.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -30,3 +30,4 @@
 7. P1-T3 completed: policy engine implemented with risk-tier evaluation and decision reason output; 17 tests passing.
 8. P1-T4 completed: immutable audit writer with hash-chained events and tamper detection; 22 tests passing.
 9. P1-T5 completed: kill-switch controller with global stop signal and halt-hook broadcast; 30 tests passing.
+10. P1-T6 completed: deterministic run state machine with strict transition enforcement; 36 tests passing.
