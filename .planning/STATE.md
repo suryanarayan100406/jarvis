@@ -3,18 +3,18 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 6.
+3. Current phase: 7.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P6-T12 chaos tests for trigger storms and partial subsystem failures.
+5. Next execution target: implement P7-T1 finalized threat model and prioritized mitigations.
 
 ## Active Focus
-1. Enable autonomous operations with bounded, policy-aware trigger execution.
-2. Build resilient orchestration with confidence-aware escalation and follow-up control.
-3. Preserve safety and reliability guarantees under continuous autonomous operation.
+1. Harden FRIDAY against prompt injection, identity override, and operational misuse.
+2. Strengthen incident containment and trust-preserving control pathways.
+3. Preserve usability and performance while expanding security controls.
 
 ## Immediate Next Actions
-1. Start Phase 6 execution from .planning/phases/6/PLAN.md.
-2. Implement P6-T12 with verify-then-advance discipline.
+1. Start Phase 7 execution from .planning/phases/7/PLAN.md.
+2. Implement P7-T1 through P7-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -98,3 +98,5 @@
 77. P6-T9 completed: fallback plan support implemented for failed runbook steps with fallback-action execution, recovery continuation, and degraded-state tracking when fallback is used; 374 tests passing.
 78. P6-T10 completed: autonomous activity summary generator implemented for daily and weekly reporting with metric aggregation, category trends, and markdown brief generation; 378 tests passing.
 79. P6-T11 completed: reliability tests added for long-duration autonomous cycles across scheduler, event bus, runbook fallback recovery, and watchdog restart budgets; 383 tests passing.
+80. P6-T12 completed: chaos tests added for trigger storms and partial subsystem failure scenarios across scheduler, event bus, runbook fallback, and watchdog behavior; 388 tests passing.
+81. Phase 6 completed: tasks P6-T1 through P6-T12 verified and pushed.
