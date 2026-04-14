@@ -44,6 +44,12 @@ from .rollback_actions import (
 	RollbackRoutinePlan,
 	RollbackRoutineResult,
 )
+from .result_reporter import (
+	AggregatedControlPlaneReport,
+	ControlPlaneResultReporter,
+	HostReportEntry,
+	ResultReporterError,
+)
 from .ssh_connector import SshConnectorError, SshExecutionRequest, SshHostCredentials, SshRemoteConnector
 
 __all__ = [
@@ -85,4 +91,8 @@ __all__ = [
 	"ParallelExecutionResult",
 	"ParallelHostOrchestrator",
 	"ParallelOrchestratorError",
+	"HostReportEntry",
+	"AggregatedControlPlaneReport",
+	"ControlPlaneResultReporter",
+	"ResultReporterError",
 ]

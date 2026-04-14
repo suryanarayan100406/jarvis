@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 4.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P4-T9 structured result aggregation and host-by-host reporting.
+5. Next execution target: implement P4-T10 connector health checks and retry policies.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 4 execution from .planning/phases/4/PLAN.md.
-2. Implement P4-T9 through P4-T10 with verify-then-advance discipline.
+2. Implement P4-T10 through P4-T11 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -69,3 +69,4 @@
 48. P4-T6 completed: dry-run execution gate implemented with destructive operation classification plus one-time preview token enforcement; 227 tests passing.
 49. P4-T7 completed: rollback action manager implemented for service restart and deploy routines with failure-triggered recovery flows; 233 tests passing.
 50. P4-T8 completed: bounded parallel host orchestrator implemented with stop-on-error controls and per-host execution outcomes; 238 tests passing.
+51. P4-T9 completed: structured result aggregator and host-by-host reporter implemented with summary and failure extraction outputs; 243 tests passing.
