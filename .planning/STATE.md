@@ -3,18 +3,18 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 7.
+3. Current phase: 8.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P7-T12 operator drill scripts for emergency response readiness.
+5. Next execution target: implement P8-T1 screenshot ingestion and normalization pipeline.
 
 ## Active Focus
-1. Harden FRIDAY against prompt injection, identity override, and operational misuse.
-2. Strengthen incident containment and trust-preserving control pathways.
-3. Preserve usability and performance while expanding security controls.
+1. Add visual understanding and safe UI-level automation.
+2. Build screenshot, OCR, and UI-state perception foundations.
+3. Preserve security safeguards while enabling multimodal execution paths.
 
 ## Immediate Next Actions
-1. Start Phase 7 execution from .planning/phases/7/PLAN.md.
-2. Implement P7-T12 with verify-then-advance discipline.
+1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
+2. Implement P8-T1 through P8-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -111,3 +111,5 @@
 90. P7-T9 completed: forensic event exporter implemented for post-incident analysis with filtered evidence bundling, payload redaction, tamper-chain verification, and deterministic artifact digest generation; 436 tests passing.
 91. P7-T10 completed: red-team harness implemented for adversarial injection, escalation, and exfiltration scenarios with deterministic control-verification reports and summary outputs; 440 tests passing.
 92. P7-T11 completed: security performance regression checks implemented with latency budgets across prompt filtering, untrusted-execution guardrails, social-engineering detection, incident playbook execution, and red-team harness runs; 445 tests passing.
+93. P7-T12 completed: operator emergency drill scripts implemented with default drill scenarios, response-time readiness scoring, and deterministic drill-run reporting; 449 tests passing.
+94. Phase 7 completed: tasks P7-T1 through P7-T12 verified and pushed.

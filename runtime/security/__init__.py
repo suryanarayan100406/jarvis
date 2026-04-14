@@ -66,6 +66,15 @@ from .red_team_harness import (
     default_red_team_scenarios,
     summarize_red_team_report,
 )
+from .operator_drill_scripts import (
+    OperatorDrillError,
+    OperatorDrillResult,
+    OperatorDrillScenario,
+    OperatorEmergencyDrillRunner,
+    OperatorReadinessReport,
+    create_drill_runner_with_default_playbooks,
+    default_operator_drill_scenarios,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -118,4 +127,11 @@ __all__ = [
     "RedTeamHarnessError",
     "default_red_team_scenarios",
     "summarize_red_team_report",
+    "OperatorDrillScenario",
+    "OperatorDrillResult",
+    "OperatorReadinessReport",
+    "OperatorEmergencyDrillRunner",
+    "OperatorDrillError",
+    "default_operator_drill_scenarios",
+    "create_drill_runner_with_default_playbooks",
 ]

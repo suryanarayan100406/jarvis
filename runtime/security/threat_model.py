@@ -294,6 +294,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="security",
         mapped_components=("runtime.security.red_team_harness.SecurityRedTeamHarness",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.operator_drill_scripts",
+        name="Operator Drill Scripts",
+        description="Validate emergency response readiness through deterministic operator drill scenarios.",
+        owner="security",
+        mapped_components=("runtime.security.operator_drill_scripts.OperatorEmergencyDrillRunner",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -308,6 +315,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
             "mit.policy_overlay",
             "mit.incident_playbooks",
             "mit.red_team_harness",
+            "mit.operator_drill_scripts",
             "mit.audit_chain",
         ),
         detection_signals=("prompt_injection_attempt", "unsafe_instruction_pattern"),
@@ -319,7 +327,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="conversation",
         likelihood=4,
         impact=5,
-        mitigation_ids=("mit.identity_override_guard", "mit.incident_playbooks", "mit.red_team_harness", "mit.audit_chain"),
+        mitigation_ids=(
+            "mit.identity_override_guard",
+            "mit.incident_playbooks",
+            "mit.red_team_harness",
+            "mit.operator_drill_scripts",
+            "mit.audit_chain",
+        ),
         detection_signals=("identity_override_attempt",),
     )
     model.add_abuse_case(
@@ -339,7 +353,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="control-plane",
         likelihood=3,
         impact=5,
-        mitigation_ids=("mit.policy_overlay", "mit.policy_anomaly_detector", "mit.incident_playbooks", "mit.audit_chain"),
+        mitigation_ids=(
+            "mit.policy_overlay",
+            "mit.policy_anomaly_detector",
+            "mit.incident_playbooks",
+            "mit.operator_drill_scripts",
+            "mit.audit_chain",
+        ),
         detection_signals=("blocked_token_detected", "deny_rule_triggered", "deny_burst_pattern"),
     )
     model.add_abuse_case(
