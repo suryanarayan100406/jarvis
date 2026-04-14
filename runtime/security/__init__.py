@@ -30,6 +30,12 @@ from .untrusted_execution_guard import (
     UntrustedExecutionGuardError,
     UntrustedExecutionRequest,
 )
+from .social_engineering_detector import (
+    ConversationFlowTurn,
+    SocialEngineeringAssessment,
+    SocialEngineeringSignal,
+    SocialEngineeringSignalDetector,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -56,4 +62,8 @@ __all__ = [
     "UntrustedExecutionRequest",
     "UntrustedContentExecutionGuard",
     "UntrustedExecutionGuardError",
+    "ConversationFlowTurn",
+    "SocialEngineeringSignal",
+    "SocialEngineeringAssessment",
+    "SocialEngineeringSignalDetector",
 ]

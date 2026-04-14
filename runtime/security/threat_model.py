@@ -259,6 +259,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="security",
         mapped_components=("runtime.security.untrusted_execution_guard.UntrustedContentExecutionGuard",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.social_engineering_detector",
+        name="Social Engineering Detector",
+        description="Detect coercive, secret-seeking, and authority-impersonation patterns in conversation flow.",
+        owner="security",
+        mapped_components=("runtime.security.social_engineering_detector.SocialEngineeringSignalDetector",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -304,6 +311,21 @@ def build_default_threat_model() -> ThreatModelRegistry:
         impact=5,
         mitigation_ids=("mit.policy_overlay", "mit.audit_chain"),
         detection_signals=("blocked_token_detected", "deny_rule_triggered"),
+    )
+    model.add_abuse_case(
+        case_id="abuse.social_engineering",
+        title="Social engineering through coercive conversation flow",
+        description="Attacker pressures operators using urgency, impersonation, secrecy, and credential requests.",
+        attack_surface="conversation",
+        likelihood=4,
+        impact=4,
+        mitigation_ids=("mit.social_engineering_detector", "mit.policy_overlay", "mit.audit_chain"),
+        detection_signals=(
+            "authority_impersonation",
+            "urgency_pressure",
+            "credential_harvest",
+            "policy_bypass_request",
+        ),
     )
 
     return model
