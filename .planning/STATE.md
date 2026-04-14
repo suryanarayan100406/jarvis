@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 3.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P3-T1 wake trigger with local phrase detection.
+5. Next execution target: implement P3-T2 streaming speech-to-text and text-to-speech adapters.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
-2. Implement P3-T1 through P3-T3 with verify-then-advance discipline.
+2. Implement P3-T2 through P3-T3 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -48,3 +48,4 @@
 27. P2-T11 completed: integration tests added for end-to-end orchestration, policy-denial propagation, and replay artifact consistency; 108 tests passing.
 28. P2-T12 completed: performance checks for startup, planner latency, and submit acknowledgement budgets; 111 tests passing.
 29. Phase 2 completed: tasks P2-T1 through P2-T12 verified and pushed.
+30. P3-T1 completed: local wake phrase detector added with streaming chunk handling and duplicate-trigger suppression; 117 tests passing.
