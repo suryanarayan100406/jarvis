@@ -10,6 +10,14 @@ from .threat_model import (
     ThreatModelReport,
     build_default_threat_model,
 )
+from .secret_manager import (
+    HardenedSecretManager,
+    SecretAccessResult,
+    SecretAuditEvent,
+    SecretManagerError,
+    SecretRecord,
+    SecretRotationResult,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -22,4 +30,10 @@ __all__ = [
     "ThreatModelRegistry",
     "ThreatModelError",
     "build_default_threat_model",
+    "SecretRecord",
+    "SecretAccessResult",
+    "SecretRotationResult",
+    "SecretAuditEvent",
+    "HardenedSecretManager",
+    "SecretManagerError",
 ]

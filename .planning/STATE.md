@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 7.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P7-T2 secret manager hardening and rotation workflows.
+5. Next execution target: implement P7-T3 prompt injection detection with context isolation gates.
 
 ## Active Focus
 1. Harden FRIDAY against prompt injection, identity override, and operational misuse.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 7 execution from .planning/phases/7/PLAN.md.
-2. Implement P7-T2 through P7-T12 with verify-then-advance discipline.
+2. Implement P7-T3 through P7-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -101,3 +101,4 @@
 80. P6-T12 completed: chaos tests added for trigger storms and partial subsystem failure scenarios across scheduler, event bus, runbook fallback, and watchdog behavior; 388 tests passing.
 81. Phase 6 completed: tasks P6-T1 through P6-T12 verified and pushed.
 82. P7-T1 completed: threat model registry implemented with prioritized abuse-case scoring, mitigation mapping, and finalized coverage reporting for security hardening baselines; 393 tests passing.
+83. P7-T2 completed: secret manager hardening implemented with scoped read and rotate permissions, strength validation, audit logging, revocation controls, and rotation-due workflow support; 399 tests passing.
