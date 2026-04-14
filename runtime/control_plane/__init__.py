@@ -8,6 +8,7 @@ from .connector_manager import (
 	TransportAdapter,
 )
 from .host_inventory import HostInventoryError, HostInventoryService, HostRecord
+from .ssh_connector import SshConnectorError, SshExecutionRequest, SshHostCredentials, SshRemoteConnector
 
 __all__ = [
 	"HostInventoryService",
@@ -18,4 +19,8 @@ __all__ = [
 	"ConnectorExecutionResult",
 	"ConnectorManager",
 	"ConnectorManagerError",
+	"SshHostCredentials",
+	"SshExecutionRequest",
+	"SshRemoteConnector",
+	"SshConnectorError",
 ]
