@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 2.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P2-T10 CLI commands for submit, status, stop, and replay.
+5. Next execution target: implement P2-T11 integration tests for end-to-end orchestration flows.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 2 execution from .planning/phases/2/PLAN.md.
-2. Implement P2-T10 through P2-T12 with verify-then-advance discipline.
+2. Implement P2-T11 through P2-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -44,3 +44,4 @@
 23. P2-T7 completed: tool registry with manifest loading and signature verification checks; 89 tests passing.
 24. P2-T8 completed: local SQLite run store with migration tracking and indexed event querying; 94 tests passing.
 25. P2-T9 completed: run replay endpoint for debugging and audit with filters, truncation metadata, and digest checks; 100 tests passing.
+26. P2-T10 completed: CLI commands for submit, status, stop, and replay with operator-focused JSON outputs; 105 tests passing.
