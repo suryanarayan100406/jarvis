@@ -15,6 +15,13 @@ from .ocr_layout import (
     OCRLayoutResult,
     OCRTextSpan,
 )
+from .ui_grounding import (
+    UIElementCandidate,
+    UIGroundedElement,
+    UIGroundingError,
+    UIGroundingModel,
+    UIStateRepresentation,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -28,4 +35,9 @@ __all__ = [
     "OCRLayoutResult",
     "OCRLayoutAnalyzer",
     "OCRLayoutError",
+    "UIElementCandidate",
+    "UIGroundedElement",
+    "UIStateRepresentation",
+    "UIGroundingModel",
+    "UIGroundingError",
 ]
