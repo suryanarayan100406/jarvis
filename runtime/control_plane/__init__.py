@@ -27,6 +27,13 @@ from .physical_device_registry import (
 	PhysicalDeviceRegistry,
 	PhysicalDeviceRegistryError,
 )
+from .physical_simulation_harness import (
+	PhysicalPlanExecutionResult,
+	PhysicalPlanStep,
+	PhysicalPlanStepResult,
+	PhysicalSimulationHarness,
+	PhysicalSimulationHarnessError,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -92,6 +99,11 @@ __all__ = [
 	"PhysicalDeviceRecord",
 	"PhysicalDeviceRegistry",
 	"PhysicalDeviceRegistryError",
+	"PhysicalPlanStep",
+	"PhysicalPlanStepResult",
+	"PhysicalPlanExecutionResult",
+	"PhysicalSimulationHarness",
+	"PhysicalSimulationHarnessError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",

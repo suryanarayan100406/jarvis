@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 9.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P9-T3 simulation harness for motion and actuation plans.
+5. Next execution target: implement P9-T4 safety interlock engine for physical commands.
 
 ## Active Focus
 1. Enable optional IoT and robotics integration with strict safety controls.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 9 execution from .planning/phases/9/PLAN.md.
-2. Implement P9-T3 through P9-T12 with verify-then-advance discipline.
+2. Implement P9-T4 through P9-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -128,3 +128,4 @@
 107. Phase 8 completed: tasks P8-T1 through P8-T12 verified and pushed.
 108. P9-T1 completed: physical connector SDK added with capability-schema validation, plugin registration and execution routing, plus sandbox approval and simulation support gating; 522 tests passing.
 109. P9-T2 completed: physical device registry added with connector-bound capability and risk metadata, trust-level tagging, and registry filters for risk and trust queries; 530 tests passing.
+110. P9-T3 completed: physical simulation harness added for motion and actuation plans with fail-fast execution control, simulation token promotion, and sandbox-approved live handoff gating; 537 tests passing.
