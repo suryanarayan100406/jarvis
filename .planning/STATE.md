@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 4.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: add P4-T11 integration tests for multi-host workflows.
+5. Next execution target: add P4-T12 adversarial tests for permission leakage and connector misuse.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 4 execution from .planning/phases/4/PLAN.md.
-2. Implement P4-T11 through P4-T12 with verify-then-advance discipline.
+2. Implement P4-T12 and complete Phase 4 verification gates.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -71,3 +71,4 @@
 50. P4-T8 completed: bounded parallel host orchestrator implemented with stop-on-error controls and per-host execution outcomes; 238 tests passing.
 51. P4-T9 completed: structured result aggregator and host-by-host reporter implemented with summary and failure extraction outputs; 243 tests passing.
 52. P4-T10 completed: connector health monitor implemented with retry and backoff policies plus healthy/degraded/unhealthy status outputs; 249 tests passing.
+53. P4-T11 completed: integration tests added for multi-host fan-out, structured reporting, rollback behavior, and dry-run gating workflows; 252 tests passing.
