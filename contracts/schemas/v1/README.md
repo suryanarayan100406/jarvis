@@ -10,6 +10,7 @@ This package defines the canonical JSON Schema contracts for Phase 1 Task 1.
 5. telemetry-envelope.schema.json - telemetry and audit event envelope.
 6. identity-directive.schema.json - assistant identity and addressing preference contract.
 7. session-protocol.schema.json - startup boot and status/priority message protocol contract.
+8. physical-connector-capability.schema.json - plugin connector capability manifest contract for optional physical integrations.
 
 ## Versioning
 1. Current schema_version is 1.0.0.

@@ -13,6 +13,15 @@ from .connector_manager import (
 	ConnectorManagerError,
 	TransportAdapter,
 )
+from .physical_connector_sdk import (
+	PhysicalCapabilityDefinition,
+	PhysicalConnectorAdapter,
+	PhysicalConnectorExecutionResult,
+	PhysicalConnectorManifest,
+	PhysicalConnectorRegistration,
+	PhysicalConnectorSDK,
+	PhysicalConnectorSdkError,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -68,6 +77,13 @@ __all__ = [
 	"ConnectorExecutionResult",
 	"ConnectorManager",
 	"ConnectorManagerError",
+	"PhysicalConnectorAdapter",
+	"PhysicalCapabilityDefinition",
+	"PhysicalConnectorManifest",
+	"PhysicalConnectorRegistration",
+	"PhysicalConnectorExecutionResult",
+	"PhysicalConnectorSDK",
+	"PhysicalConnectorSdkError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",

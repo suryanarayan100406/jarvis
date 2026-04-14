@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 9.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P9-T1 physical connector SDK with capability schema.
+5. Next execution target: implement P9-T2 device registry and trust-level tagging.
 
 ## Active Focus
 1. Enable optional IoT and robotics integration with strict safety controls.
@@ -13,8 +13,8 @@
 3. Preserve policy-gated operations and emergency interlocks for all physical actions.
 
 ## Immediate Next Actions
-1. Start Phase 9 execution from .planning/phases/9/PLAN.md.
-2. Implement P9-T1 through P9-T12 with verify-then-advance discipline.
+1. Continue Phase 9 execution from .planning/phases/9/PLAN.md.
+2. Implement P9-T2 through P9-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -126,3 +126,4 @@
 105. P8-T11 completed: adversarial deceptive UI tests added for invisible overlay decoys, spoofed destructive labels, low-confidence defer traps, and scene replay attack rejection; 511 tests passing.
 106. P8-T12 completed: visual processing latency performance tests added with screenshot-to-plan p95 budget checks and batched visual task throughput budgets; 513 tests passing.
 107. Phase 8 completed: tasks P8-T1 through P8-T12 verified and pushed.
+108. P9-T1 completed: physical connector SDK added with capability-schema validation, plugin registration and execution routing, plus sandbox approval and simulation support gating; 522 tests passing.

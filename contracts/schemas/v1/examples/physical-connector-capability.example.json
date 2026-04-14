@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "connector_id": "warehouse-robotics",
+  "provider": "Acme Robotics",
+  "connector_kind": "robotics",
+  "capabilities": [
+    {
+      "capability_id": "temperature-scan",
+      "capability_type": "sensor",
+      "command": "read_temperature",
+      "risk_tier": "low",
+      "requires_sandbox_approval": false,
+      "simulation_supported": true,
+      "safety_tags": [
+        "read-only",
+        "non-invasive"
+      ],
+      "telemetry_fields": [
+        "temperature_c",
+        "timestamp"
+      ],
+      "metadata": {
+        "units": "celsius"
+      }
+    },
+    {
+      "capability_id": "arm-move",
+      "capability_type": "actuator",
+      "command": "move_arm",
+      "risk_tier": "high",
+      "requires_sandbox_approval": true,
+      "simulation_supported": true,
+      "safety_tags": [
+        "motion",
+        "pinch-hazard"
+      ],
+      "metadata": {
+        "axis_count": 6
+      }
+    }
+  ],
+  "metadata": {
+    "site": "lab-a"
+  }
+}
