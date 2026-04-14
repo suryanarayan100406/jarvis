@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 3.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P3-T5 addressing preference layer with role-based overrides.
+5. Next execution target: implement P3-T6 response formatter for answer-first and confidence tags.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
-2. Implement P3-T5 through P3-T7 with verify-then-advance discipline.
+2. Implement P3-T6 through P3-T8 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -52,3 +52,4 @@
 31. P3-T2 completed: streaming STT and TTS local adapters implemented with chunked transcript/audio frames; 123 tests passing.
 32. P3-T3 completed: conversational turn manager implemented with interruption, resume, and lifecycle state controls; 129 tests passing.
 33. P3-T4 completed: persona profile engine for FRIDAY and JARVIS implemented with profile anchors and safe overrides; 135 tests passing.
+34. P3-T5 completed: addressing preference layer added with operator and role override precedence across modes; 141 tests passing.
