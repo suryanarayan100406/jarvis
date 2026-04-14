@@ -46,6 +46,12 @@ from .summary_extractor import (
     MultimodalSummaryError,
     MultimodalSummaryResult,
 )
+from .confidence_fallback import (
+    VisualConfidenceFallbackDecision,
+    VisualConfidenceFallbackError,
+    VisualConfidenceFallbackStrategy,
+    VisualFallbackMode,
+)
 from .evidence_store import (
     MultimodalEvidenceBundle,
     MultimodalEvidenceReference,
@@ -87,6 +93,10 @@ __all__ = [
     "MultimodalSummaryResult",
     "DocumentImageSummaryExtractor",
     "MultimodalSummaryError",
+    "VisualFallbackMode",
+    "VisualConfidenceFallbackDecision",
+    "VisualConfidenceFallbackStrategy",
+    "VisualConfidenceFallbackError",
     "MultimodalEvidenceReference",
     "MultimodalEvidenceStoreResult",
     "MultimodalEvidenceBundle",

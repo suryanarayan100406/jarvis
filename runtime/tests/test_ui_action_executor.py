@@ -9,6 +9,7 @@ from runtime.multimodal import (
     SafeUIActionExecutor,
     ScreenshotIngestionPipeline,
     UIActionExecutorError,
+    VisualConfidenceFallbackStrategy,
     UIGroundingModel,
     UIStateRepresentation,
     VisualActionPlanner,
@@ -460,6 +461,58 @@ class SafeUIActionExecutorTests(unittest.TestCase):
         precheck_outputs = [entry for entry in result.execution.outputs if entry["action_stage"] == "ui_precheck"]
         self.assertEqual(len(precheck_outputs), 1)
         self.assertEqual(precheck_outputs[0]["status"], "blocked")
+
+    def test_critical_low_confidence_fallback_blocks_before_ui_action(self) -> None:
+        state = self._build_ui_state(
+            [
+                {
+                    "text": "Overview",
+                    "left": 24,
+                    "top": 34,
+                    "width": 80,
+                    "height": 18,
+                    "confidence": 0.91,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                }
+            ],
+            candidates=[
+                {
+                    "role": "button",
+                    "label": "Proceed",
+                    "left": 700,
+                    "top": 580,
+                    "width": 120,
+                    "height": 34,
+                    "confidence": 0.46,
+                }
+            ],
+            source_id="scene:fallback-defer",
+        )
+        context = RunContext(run_id="run-fallback-defer", goal="Proceed setup", actor_id="boss")
+        planner = VisualActionPlanner(
+            min_grounding_confidence=0.5,
+            max_actions=1,
+            fallback_strategy=VisualConfidenceFallbackStrategy(
+                min_autonomous_confidence=0.5,
+                min_confirmation_confidence=0.48,
+            ),
+        )
+        plan = planner.plan(context, state).plan
+
+        result = self.executor.execute(context, plan, state)
+
+        self.assertEqual(result.execution.status, "blocked")
+        precheck_outputs = [entry for entry in result.execution.outputs if entry["action_stage"] == "ui_precheck"]
+        self.assertEqual(len(precheck_outputs), 1)
+        self.assertEqual(precheck_outputs[0]["status"], "blocked")
+        self.assertEqual(precheck_outputs[0]["fallback_mode"], "defer")
+        self.assertEqual(
+            precheck_outputs[0]["fallback_reason"],
+            "element_confidence_critical",
+        )
+        ui_action_outputs = [entry for entry in result.execution.outputs if entry["action_stage"] == "ui_action"]
+        self.assertEqual(ui_action_outputs, [])
 
     def test_scene_mismatch_between_plan_and_ui_state_raises_error(self) -> None:
         context, plan, _state = self._build_visual_plan(

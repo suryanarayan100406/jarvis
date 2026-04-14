@@ -7,6 +7,7 @@ import unittest
 from runtime.multimodal import (
     OCRLayoutAnalyzer,
     ScreenshotIngestionPipeline,
+    VisualConfidenceFallbackStrategy,
     UIGroundingModel,
     UIStateRepresentation,
     VisualActionPlanner,
@@ -167,6 +168,51 @@ class VisualActionPlannerTests(unittest.TestCase):
         action_tasks = [task for task in result.plan.tasks if task.metadata.get("action_stage") == "ui_action"]
         self.assertEqual(len(action_tasks), 1)
         self.assertTrue(action_tasks[0].metadata["requires_confirmation"])
+
+    def test_critical_low_confidence_fallback_defers_autonomous_action(self) -> None:
+        state = self._build_ui_state(
+            [
+                {
+                    "text": "Overview",
+                    "left": 20,
+                    "top": 30,
+                    "width": 80,
+                    "height": 18,
+                    "confidence": 0.9,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                }
+            ],
+            candidates=[
+                {
+                    "role": "button",
+                    "label": "Proceed",
+                    "left": 700,
+                    "top": 580,
+                    "width": 120,
+                    "height": 34,
+                    "confidence": 0.46,
+                }
+            ],
+        )
+
+        planner = VisualActionPlanner(
+            min_grounding_confidence=0.5,
+            max_actions=1,
+            fallback_strategy=VisualConfidenceFallbackStrategy(
+                min_autonomous_confidence=0.5,
+                min_confirmation_confidence=0.48,
+            ),
+        )
+        context = RunContext(run_id="run-critical-fallback", goal="Proceed with setup", actor_id="boss")
+
+        result = planner.plan(context, state)
+
+        action_tasks = [task for task in result.plan.tasks if task.metadata.get("action_stage") == "ui_action"]
+        self.assertEqual(len(action_tasks), 1)
+        self.assertEqual(action_tasks[0].metadata["fallback_mode"], "defer")
+        self.assertEqual(action_tasks[0].metadata["risk_hint"], "critical")
+        self.assertTrue(any("deferred" in warning.lower() for warning in result.warnings))
 
     def test_destructive_goal_marks_action_as_high_risk(self) -> None:
         state = self._build_ui_state(

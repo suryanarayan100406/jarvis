@@ -127,6 +127,28 @@ class SafeUIActionExecutor:
                 continue
 
             if action_stage == "ui_action":
+                fallback_mode = _fallback_mode(metadata)
+                if fallback_mode == "defer":
+                    outputs.append(
+                        {
+                            **base_output,
+                            "status": "blocked",
+                            "error": "UI action deferred: visual confidence fallback requires manual operator review.",
+                            "fallback_mode": fallback_mode,
+                            "fallback_reason": _normalize_optional_text(
+                                metadata.get("fallback_reason"),
+                                fallback="visual_confidence_low",
+                            ),
+                            "recommended_actions": _normalize_recommended_actions(
+                                metadata.get("fallback_recommended_actions")
+                            ),
+                        }
+                    )
+                    final_status = "blocked"
+                    if self.stop_on_blocked:
+                        break
+                    continue
+
                 critical_action = self._is_critical_action(metadata)
                 intent = _normalize_optional_text(metadata.get("intent"), fallback="click")
                 if critical_action:
@@ -402,6 +424,20 @@ class SafeUIActionExecutor:
                 "error": "UI precheck failed: element is disabled.",
             }
 
+        fallback_mode = _fallback_mode(metadata)
+        fallback_reason = _normalize_optional_text(metadata.get("fallback_reason"), fallback="visual_confidence_low")
+        fallback_actions = _normalize_recommended_actions(metadata.get("fallback_recommended_actions"))
+
+        if fallback_mode == "defer":
+            return {
+                "status": "blocked",
+                "error": "UI precheck fallback: visual confidence is critically low for autonomous actioning.",
+                "fallback_mode": fallback_mode,
+                "fallback_reason": fallback_reason,
+                "recommended_actions": fallback_actions,
+                "confidence": element.confidence,
+            }
+
         requires_confirmation = _as_bool(metadata.get("requires_confirmation", False))
         if element.confidence < self.min_precheck_confidence and not requires_confirmation:
             return {
@@ -410,12 +446,18 @@ class SafeUIActionExecutor:
                 "confidence": element.confidence,
             }
 
-        return {
+        result = {
             "status": "success",
             "element_id": element.element_id,
             "confidence": element.confidence,
             "selector_hints": list(element.selector_hints),
         }
+        if fallback_mode == "confirm":
+            result["fallback_mode"] = fallback_mode
+            result["fallback_reason"] = fallback_reason
+            result["recommended_actions"] = fallback_actions
+
+        return result
 
     def _validate_action_target(
         self,
@@ -577,6 +619,28 @@ def _as_bool(value: Any) -> bool:
         if lowered in {"false", "0", "no", "n", "off"}:
             return False
     return bool(value)
+
+
+def _fallback_mode(metadata: dict[str, Any]) -> str:
+    mode = _normalize_optional_text(metadata.get("fallback_mode"), fallback="proceed")
+    if mode not in {"proceed", "confirm", "defer"}:
+        return "proceed"
+    return mode
+
+
+def _normalize_recommended_actions(value: Any) -> list[str]:
+    if not isinstance(value, (list, tuple)):
+        return []
+
+    normalized: list[str] = []
+    seen: set[str] = set()
+    for item in value:
+        action = _normalize_optional_text(item, fallback=None)
+        if action is None or action in seen:
+            continue
+        seen.add(action)
+        normalized.append(action)
+    return normalized
 
 
 def _state_flag(state: dict[str, Any], key: str, *, default: bool) -> bool:

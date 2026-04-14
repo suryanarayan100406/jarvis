@@ -11,6 +11,10 @@ from typing import Any
 from runtime.pipeline.models import PlanResult, PlannedTask, RunContext
 from runtime.planner import PlannerInterfaceAdapter
 
+from .confidence_fallback import (
+    VisualConfidenceFallbackDecision,
+    VisualConfidenceFallbackStrategy,
+)
 from .ui_grounding import UIGroundedElement, UIStateRepresentation
 
 _RUNTIME_STAGES = ("plan", "execute", "validate", "report")
@@ -100,6 +104,7 @@ class VisualActionPlanner:
         min_grounding_confidence: float = 0.5,
         max_actions: int = 3,
         planner_adapter: PlannerInterfaceAdapter | None = None,
+        fallback_strategy: VisualConfidenceFallbackStrategy | None = None,
     ) -> None:
         if min_grounding_confidence < 0 or min_grounding_confidence > 1:
             raise VisualPlannerError("min_grounding_confidence must be between 0 and 1")
@@ -109,6 +114,9 @@ class VisualActionPlanner:
         self.min_grounding_confidence = float(min_grounding_confidence)
         self.max_actions = int(max_actions)
         self.planner_adapter = planner_adapter or PlannerInterfaceAdapter()
+        self.fallback_strategy = fallback_strategy or VisualConfidenceFallbackStrategy(
+            min_autonomous_confidence=self.min_grounding_confidence
+        )
 
     def plan(
         self,
@@ -123,6 +131,21 @@ class VisualActionPlanner:
         goal = _normalize_required(context.goal, "context.goal")
         action_intent = _infer_action_intent(goal)
         selected_elements, selection_warnings = self._select_elements(ui_state, goal)
+        warnings = list(ui_state.warnings)
+        warnings.extend(selection_warnings)
+
+        fallback_decisions: dict[str, VisualConfidenceFallbackDecision] = {}
+        for element in selected_elements:
+            decision = self.fallback_strategy.assess(ui_state, element)
+            fallback_decisions[element.element_id] = decision
+            if decision.mode == "confirm":
+                warnings.append(
+                    f"Low-confidence fallback requires confirmation for '{element.label}' ({decision.reason})."
+                )
+            elif decision.mode == "defer":
+                warnings.append(
+                    f"Low-confidence fallback deferred '{element.label}' pending manual review ({decision.reason})."
+                )
 
         normalized_constraints = _normalize_constraints(constraints or {})
         base_payload = self.planner_adapter.build_plan_payload(goal, normalized_constraints)
@@ -181,7 +204,19 @@ class VisualActionPlanner:
             semantic_last_task_id = semantic_task_id
 
         for index, element in enumerate(selected_elements, start=1):
-            requires_confirmation = self._requires_confirmation(action_intent, element)
+            fallback_decision = fallback_decisions[element.element_id]
+            base_requires_confirmation = self._requires_confirmation(action_intent, element)
+            if fallback_decision.mode == "defer":
+                requires_confirmation = False
+                risk_hint = "critical"
+            elif fallback_decision.mode == "confirm":
+                requires_confirmation = True
+                risk_hint = "high"
+            else:
+                requires_confirmation = base_requires_confirmation
+                risk_hint = "high" if requires_confirmation else "standard"
+
+            fallback_metadata = self.fallback_strategy.to_task_metadata(fallback_decision)
             anchor_id = semantic_last_task_id
 
             precheck_id = _stable_task_id("VPR", f"{element.element_id}:{index}:{goal}")
@@ -199,6 +234,7 @@ class VisualActionPlanner:
                     "confidence": element.confidence,
                     "scene_id": ui_state.scene_id,
                     "requires_confirmation": requires_confirmation,
+                    **fallback_metadata,
                 },
             )
             _append_task(
@@ -227,7 +263,8 @@ class VisualActionPlanner:
                     "scene_id": ui_state.scene_id,
                     "intent": action_intent,
                     "requires_confirmation": requires_confirmation,
-                    "risk_hint": "high" if requires_confirmation else "standard",
+                    "risk_hint": risk_hint,
+                    **fallback_metadata,
                 },
             )
             _append_task(
@@ -256,6 +293,7 @@ class VisualActionPlanner:
                     "scene_id": ui_state.scene_id,
                     "intent": action_intent,
                     "requires_confirmation": requires_confirmation,
+                    **fallback_metadata,
                 },
             )
             _append_task(
@@ -268,8 +306,11 @@ class VisualActionPlanner:
                 element_id=element.element_id,
             )
 
-        warnings = list(ui_state.warnings)
-        warnings.extend(selection_warnings)
+        fallback_summary = [
+            _fallback_decision_to_payload(fallback_decisions[element.element_id])
+            for element in selected_elements
+            if element.element_id in fallback_decisions
+        ]
 
         payload = {
             "goal": goal,
@@ -277,6 +318,7 @@ class VisualActionPlanner:
             "action_intent": action_intent,
             "constraints": normalized_constraints,
             "selected_element_ids": [element.element_id for element in selected_elements],
+            "fallback_decisions": fallback_summary,
             "tasks": [_task_to_payload(task) for task in planned_tasks],
             "runtime_stage_task_map": stage_task_map,
             "warnings": warnings,
@@ -294,6 +336,7 @@ class VisualActionPlanner:
                 "ui_scene_id": ui_state.scene_id,
                 "action_intent": action_intent,
                 "selected_element_ids": [element.element_id for element in selected_elements],
+                "fallback_decisions": fallback_summary,
                 "warnings": warnings,
                 "base_plan_id": base_payload["plan_id"],
             },
@@ -456,6 +499,19 @@ def _task_to_payload(task: PlannedTask) -> dict[str, Any]:
         "task_id": task.task_id,
         "description": task.description,
         "metadata": metadata,
+    }
+
+
+def _fallback_decision_to_payload(decision: VisualConfidenceFallbackDecision) -> dict[str, Any]:
+    return {
+        "scene_id": decision.scene_id,
+        "element_id": decision.element_id,
+        "mode": decision.mode,
+        "reason": decision.reason,
+        "element_confidence": decision.element_confidence,
+        "average_confidence": decision.average_confidence,
+        "low_confidence_ratio": decision.low_confidence_ratio,
+        "recommended_actions": list(decision.recommended_actions),
     }
 
 
