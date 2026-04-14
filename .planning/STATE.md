@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 8.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P8-T1 screenshot ingestion and normalization pipeline.
+5. Next execution target: implement P8-T2 OCR and layout analysis for text-rich interfaces.
 
 ## Active Focus
 1. Add visual understanding and safe UI-level automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
-2. Implement P8-T1 through P8-T12 with verify-then-advance discipline.
+2. Implement P8-T2 through P8-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -113,3 +113,4 @@
 92. P7-T11 completed: security performance regression checks implemented with latency budgets across prompt filtering, untrusted-execution guardrails, social-engineering detection, incident playbook execution, and red-team harness runs; 445 tests passing.
 93. P7-T12 completed: operator emergency drill scripts implemented with default drill scenarios, response-time readiness scoring, and deterministic drill-run reporting; 449 tests passing.
 94. Phase 7 completed: tasks P7-T1 through P7-T12 verified and pushed.
+95. P8-T1 completed: screenshot ingestion and normalization pipeline implemented with PNG and JPEG dimension parsing, normalized scene contract generation, and batch deduplication summary outputs; 455 tests passing.
