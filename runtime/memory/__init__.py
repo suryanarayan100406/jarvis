@@ -59,6 +59,13 @@ from .memory_correction import (
     MemoryCorrectionRecord,
     MemoryCorrectionWorkflow,
 )
+from .preference_profile import (
+    CommunicationStylePreference,
+    DomainFocusPreference,
+    PreferenceProfileError,
+    PreferenceProfileMemory,
+    ResolvedPreferenceProfile,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -104,4 +111,9 @@ __all__ = [
     "MemoryCorrectionRecord",
     "MemoryCorrectionWorkflow",
     "MemoryCorrectionError",
+    "CommunicationStylePreference",
+    "DomainFocusPreference",
+    "ResolvedPreferenceProfile",
+    "PreferenceProfileMemory",
+    "PreferenceProfileError",
 ]
