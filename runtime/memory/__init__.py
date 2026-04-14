@@ -10,6 +10,15 @@ from .domain_model import (
     ShortTermMemoryItem,
     ShortTermMemoryStore,
 )
+from .ingestion_adapters import (
+    CommandHistoryIngestionAdapter,
+    FileIngestionAdapter,
+    IngestedDocument,
+    IngestionError,
+    LogIngestionAdapter,
+    MemoryIngestionAdapters,
+    NotesIngestionAdapter,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -20,4 +29,11 @@ __all__ = [
     "PreferenceMemoryItem",
     "PreferenceMemoryStore",
     "MemoryDomainModel",
+    "IngestionError",
+    "IngestedDocument",
+    "FileIngestionAdapter",
+    "NotesIngestionAdapter",
+    "LogIngestionAdapter",
+    "CommandHistoryIngestionAdapter",
+    "MemoryIngestionAdapters",
 ]
