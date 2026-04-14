@@ -43,7 +43,7 @@ class ModuleBoundaryTests(unittest.TestCase):
 
         report = registry.run_pipeline(context)
 
-        self.assertIn("status=success", report.summary)
+        self.assertIn("execution=success", report.summary)
         self.assertIn("validation=True", report.summary)
 
     def test_planner_is_deterministic_for_same_goal(self) -> None:

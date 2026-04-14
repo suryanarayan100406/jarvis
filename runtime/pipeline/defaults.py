@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 from runtime.planner import PlannerInterfaceAdapter
+from runtime.reporter import ArtifactReporterStage
 
 from .models import ExecutionResult, PlanResult, ReportResult, RunContext, ValidationResult
 
@@ -33,6 +32,9 @@ class PassValidator:
 
 
 class SummaryReporter:
+    def __init__(self) -> None:
+        self._reporter = ArtifactReporterStage()
+
     def report(
         self,
         context: RunContext,
@@ -40,7 +42,12 @@ class SummaryReporter:
         execution: ExecutionResult,
         validation: ValidationResult,
     ) -> ReportResult:
-        summary = (
-            f"run={context.run_id}; plan={plan.plan_id}; status={execution.status}; validation={validation.passed}"
+        report = self._reporter.report(context, plan, execution, validation)
+        metadata = dict(report.metadata)
+        metadata["pipeline"] = "default"
+        return ReportResult(
+            report_id=report.report_id,
+            summary=report.summary,
+            artifacts=report.artifacts,
+            metadata=metadata,
         )
-        return ReportResult(report_id=str(uuid4()), summary=summary, metadata={"pipeline": "default"})
