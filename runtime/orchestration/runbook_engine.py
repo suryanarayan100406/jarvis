@@ -19,6 +19,8 @@ class RunbookStep:
     timeout_seconds: float | None = None
     max_attempts: int | None = None
     continue_on_failure: bool = False
+    fallback_action: str | None = None
+    fallback_parameters: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -37,6 +39,9 @@ class RunbookStepResult:
     attempt_count: int
     output: Any
     error: str | None
+    fallback_status: str | None
+    fallback_output: Any
+    fallback_error: str | None
     started_at: str
     finished_at: str
 
@@ -132,14 +137,18 @@ class RunbookExecutionEngine:
         success_count = 0
         failed_count = 0
         timeout_count = 0
+        fallback_count = 0
 
         for step in runbook.steps:
             result = self._execute_step(step, execution_context)
             step_results.append(result)
             attempts_total += result.attempt_count
 
-            if result.status == "success":
+            if result.status in {"success", "fallback_succeeded"}:
                 success_count += 1
+                if result.status == "fallback_succeeded":
+                    fallback_count += 1
+                    had_non_blocking_failure = True
                 execution_context[step.step_id] = result.output
                 continue
 
@@ -165,6 +174,7 @@ class RunbookExecutionEngine:
                     "steps_success": success_count,
                     "steps_failed": failed_count,
                     "steps_timed_out": timeout_count,
+                    "steps_fallback_used": fallback_count,
                     "attempts_total": attempts_total,
                 },
             )
@@ -182,6 +192,7 @@ class RunbookExecutionEngine:
                 "steps_success": success_count,
                 "steps_failed": failed_count,
                 "steps_timed_out": timeout_count,
+                "steps_fallback_used": fallback_count,
                 "attempts_total": attempts_total,
             },
         )
@@ -197,6 +208,9 @@ class RunbookExecutionEngine:
                 attempt_count=1,
                 output=None,
                 error=f"No handler registered for action: {step.action}",
+                fallback_status=None,
+                fallback_output=None,
+                fallback_error=None,
                 started_at=now,
                 finished_at=now,
             )
@@ -221,46 +235,126 @@ class RunbookExecutionEngine:
                     attempt_count=attempt,
                     output=output,
                     error=None,
+                    fallback_status=None,
+                    fallback_output=None,
+                    fallback_error=None,
                     started_at=started_at,
                     finished_at=_utc_now_iso(),
                 )
             except TimeoutError:
                 last_error = "Step execution timed out"
                 if attempt >= max_attempts:
-                    return RunbookStepResult(
-                        step_id=step.step_id,
-                        action=step.action,
+                    return self._finalize_failure(
+                        step=step,
+                        context=context,
                         status="timeout",
                         attempt_count=attempt,
-                        output=None,
                         error=last_error,
                         started_at=started_at,
-                        finished_at=_utc_now_iso(),
                     )
             except Exception as exc:  # pragma: no cover - boundary guard
                 last_error = str(exc)
                 if attempt >= max_attempts:
-                    return RunbookStepResult(
-                        step_id=step.step_id,
-                        action=step.action,
+                    return self._finalize_failure(
+                        step=step,
+                        context=context,
                         status="failed",
                         attempt_count=attempt,
-                        output=None,
                         error=last_error,
                         started_at=started_at,
-                        finished_at=_utc_now_iso(),
                     )
+
+        return self._finalize_failure(
+            step=step,
+            context=context,
+            status="failed",
+            attempt_count=max_attempts,
+            error=last_error or "Unknown failure",
+            started_at=started_at,
+        )
+
+    def _finalize_failure(
+        self,
+        *,
+        step: RunbookStep,
+        context: dict[str, Any],
+        status: str,
+        attempt_count: int,
+        error: str,
+        started_at: str,
+    ) -> RunbookStepResult:
+        if step.fallback_action:
+            fallback_status, fallback_output, fallback_error = self._execute_fallback(step, context)
+            if fallback_status == "success":
+                return RunbookStepResult(
+                    step_id=step.step_id,
+                    action=step.action,
+                    status="fallback_succeeded",
+                    attempt_count=attempt_count,
+                    output=fallback_output,
+                    error=error,
+                    fallback_status=fallback_status,
+                    fallback_output=fallback_output,
+                    fallback_error=None,
+                    started_at=started_at,
+                    finished_at=_utc_now_iso(),
+                )
+
+            return RunbookStepResult(
+                step_id=step.step_id,
+                action=step.action,
+                status=status,
+                attempt_count=attempt_count,
+                output=None,
+                error=error,
+                fallback_status=fallback_status,
+                fallback_output=fallback_output,
+                fallback_error=fallback_error,
+                started_at=started_at,
+                finished_at=_utc_now_iso(),
+            )
 
         return RunbookStepResult(
             step_id=step.step_id,
             action=step.action,
-            status="failed",
-            attempt_count=max_attempts,
+            status=status,
+            attempt_count=attempt_count,
             output=None,
-            error=last_error or "Unknown failure",
+            error=error,
+            fallback_status=None,
+            fallback_output=None,
+            fallback_error=None,
             started_at=started_at,
             finished_at=_utc_now_iso(),
         )
+
+    def _execute_fallback(self, step: RunbookStep, context: dict[str, Any]) -> tuple[str, Any, str | None]:
+        if step.fallback_action is None:
+            return ("skipped", None, None)
+
+        fallback_handler = self.handlers.get(step.fallback_action)
+        if fallback_handler is None:
+            return ("failed", None, f"No handler registered for fallback_action: {step.fallback_action}")
+
+        fallback_step = RunbookStep(
+            step_id=f"{step.step_id}:fallback",
+            action=step.fallback_action,
+            parameters=dict(step.fallback_parameters or step.parameters),
+            timeout_seconds=step.timeout_seconds,
+            max_attempts=1,
+            continue_on_failure=False,
+        )
+        timeout_seconds = step.timeout_seconds or self.default_timeout_seconds
+        if timeout_seconds <= 0:
+            return ("failed", None, "Fallback timeout configuration is invalid")
+
+        try:
+            output = self._run_with_timeout(fallback_handler, fallback_step, context, timeout_seconds)
+            return ("success", output, None)
+        except TimeoutError:
+            return ("timeout", None, "Fallback execution timed out")
+        except Exception as exc:  # pragma: no cover - boundary guard
+            return ("failed", None, str(exc))
 
     @staticmethod
     def _normalize_step(step: RunbookStep) -> RunbookStep:
@@ -273,6 +367,8 @@ class RunbookExecutionEngine:
             timeout_seconds=step.timeout_seconds,
             max_attempts=step.max_attempts,
             continue_on_failure=step.continue_on_failure,
+            fallback_action=step.fallback_action,
+            fallback_parameters=dict(step.fallback_parameters) if step.fallback_parameters else None,
         )
 
     @staticmethod

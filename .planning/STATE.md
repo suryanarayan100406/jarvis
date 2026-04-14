@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 6.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P6-T9 fallback plans for failed runbook steps.
+5. Next execution target: implement P6-T10 summary generation for daily and weekly autonomous activity.
 
 ## Active Focus
 1. Enable autonomous operations with bounded, policy-aware trigger execution.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 6 execution from .planning/phases/6/PLAN.md.
-2. Implement P6-T9 through P6-T12 with verify-then-advance discipline.
+2. Implement P6-T10 through P6-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -95,3 +95,4 @@
 74. P6-T6 completed: escalation workflow implemented with ticket lifecycle management, severity derivation, resolution tracking, and event bus notifications for low-confidence decisions; 360 tests passing.
 75. P6-T7 completed: follow-up manager implemented for unresolved tasks with owner tracking, status lifecycle, snooze handling, and overdue snapshot reporting; 366 tests passing.
 76. P6-T8 completed: run watchdog implemented for stuck-run detection with bounded auto-restart attempts, cooldown enforcement, and terminalization actions when recovery budgets are exhausted; 372 tests passing.
+77. P6-T9 completed: fallback plan support implemented for failed runbook steps with fallback-action execution, recovery continuation, and degraded-state tracking when fallback is used; 374 tests passing.

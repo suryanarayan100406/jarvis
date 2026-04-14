@@ -134,6 +134,74 @@ class RunbookExecutionEngineTests(unittest.TestCase):
                 steps=[RunbookStep(step_id="s2", action="ok", parameters={})],
             )
 
+    def test_fallback_plan_recovers_failed_step(self) -> None:
+        def primary_fail(_step: RunbookStep, _context: dict) -> str:
+            raise RuntimeError("primary failure")
+
+        def fallback_ok(step: RunbookStep, _context: dict) -> dict:
+            return {"fallback": step.parameters.get("mode")}
+
+        engine = RunbookExecutionEngine(
+            handlers={
+                "primary": primary_fail,
+                "fallback": fallback_ok,
+            }
+        )
+        engine.register_runbook(
+            runbook_id="rb-fallback",
+            name="Fallback flow",
+            steps=[
+                RunbookStep(
+                    step_id="s1",
+                    action="primary",
+                    parameters={},
+                    fallback_action="fallback",
+                    fallback_parameters={"mode": "safe"},
+                )
+            ],
+        )
+
+        result = engine.execute_runbook("rb-fallback")
+
+        self.assertEqual(result.status, "degraded")
+        self.assertEqual(result.step_results[0].status, "fallback_succeeded")
+        self.assertEqual(result.step_results[0].fallback_status, "success")
+        self.assertEqual(result.step_results[0].output["fallback"], "safe")
+        self.assertEqual(result.metrics["steps_fallback_used"], 1)
+
+    def test_fallback_failure_preserves_primary_failure_status(self) -> None:
+        def primary_fail(_step: RunbookStep, _context: dict) -> str:
+            raise RuntimeError("primary failure")
+
+        def fallback_fail(_step: RunbookStep, _context: dict) -> str:
+            raise RuntimeError("fallback failure")
+
+        engine = RunbookExecutionEngine(
+            handlers={
+                "primary": primary_fail,
+                "fallback": fallback_fail,
+            }
+        )
+        engine.register_runbook(
+            runbook_id="rb-fallback-fail",
+            name="Fallback failure flow",
+            steps=[
+                RunbookStep(
+                    step_id="s1",
+                    action="primary",
+                    parameters={},
+                    fallback_action="fallback",
+                )
+            ],
+        )
+
+        result = engine.execute_runbook("rb-fallback-fail")
+
+        self.assertEqual(result.status, "failed")
+        self.assertEqual(result.step_results[0].status, "failed")
+        self.assertEqual(result.step_results[0].fallback_status, "failed")
+        self.assertIn("fallback failure", result.step_results[0].fallback_error)
+
 
 if __name__ == "__main__":
     unittest.main()
