@@ -3,18 +3,18 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 4.
+3. Current phase: 5.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: add P4-T12 adversarial tests for permission leakage and connector misuse.
+5. Next execution target: implement P5-T1 memory domain model for short-term, long-term, and preference stores.
 
 ## Active Focus
-1. Establish core architecture and policy controls before broad automation.
-2. Build minimum safe runtime and logging substrate.
-3. Validate trust and control boundaries early.
+1. Build persistent memory foundations with explicit context partitioning.
+2. Preserve source-grounded retrieval quality with traceable evidence links.
+3. Maintain privacy and safety guarantees across memory workflows.
 
 ## Immediate Next Actions
-1. Start Phase 4 execution from .planning/phases/4/PLAN.md.
-2. Implement P4-T12 and complete Phase 4 verification gates.
+1. Start Phase 5 execution from .planning/phases/5/PLAN.md.
+2. Implement P5-T1 through P5-T2 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -72,3 +72,5 @@
 51. P4-T9 completed: structured result aggregator and host-by-host reporter implemented with summary and failure extraction outputs; 243 tests passing.
 52. P4-T10 completed: connector health monitor implemented with retry and backoff policies plus healthy/degraded/unhealthy status outputs; 249 tests passing.
 53. P4-T11 completed: integration tests added for multi-host fan-out, structured reporting, rollback behavior, and dry-run gating workflows; 252 tests passing.
+54. P4-T12 completed: adversarial tests added for permission leakage, connector misuse, key replay, injection attempts, and dry-run token replay controls; 258 tests passing.
+55. Phase 4 completed: tasks P4-T1 through P4-T12 verified and pushed.
