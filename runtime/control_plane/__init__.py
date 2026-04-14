@@ -13,6 +13,13 @@ from .connector_manager import (
 	ConnectorManagerError,
 	TransportAdapter,
 )
+from .connector_health import (
+	ConnectorHealthError,
+	ConnectorHealthMonitor,
+	ConnectorHealthSummary,
+	HostHealthResult,
+	RetryPolicy,
+)
 from .dry_run_gate import (
 	DryRunClassification,
 	DryRunExecutionGate,
@@ -95,4 +102,9 @@ __all__ = [
 	"AggregatedControlPlaneReport",
 	"ControlPlaneResultReporter",
 	"ResultReporterError",
+	"RetryPolicy",
+	"HostHealthResult",
+	"ConnectorHealthSummary",
+	"ConnectorHealthMonitor",
+	"ConnectorHealthError",
 ]
