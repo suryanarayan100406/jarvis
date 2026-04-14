@@ -30,6 +30,13 @@ from .policy_overlay import (
 	HostScopePolicy,
 	OperatorScopePolicy,
 )
+from .rollback_actions import (
+	RollbackAction,
+	RollbackActionError,
+	RollbackActionManager,
+	RollbackRoutinePlan,
+	RollbackRoutineResult,
+)
 from .ssh_connector import SshConnectorError, SshExecutionRequest, SshHostCredentials, SshRemoteConnector
 
 __all__ = [
@@ -61,4 +68,9 @@ __all__ = [
 	"DryRunExecutionOutcome",
 	"DryRunExecutionGate",
 	"DryRunGateError",
+	"RollbackAction",
+	"RollbackRoutinePlan",
+	"RollbackRoutineResult",
+	"RollbackActionManager",
+	"RollbackActionError",
 ]
