@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 5.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P5-T4 retrieval engine with source citation binding.
+5. Next execution target: implement P5-T5 confidence scoring and evidence ranking.
 
 ## Active Focus
 1. Build persistent memory foundations with explicit context partitioning.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 5 execution from .planning/phases/5/PLAN.md.
-2. Implement P5-T4 through P5-T5 with verify-then-advance discipline.
+2. Implement P5-T5 through P5-T6 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -77,3 +77,4 @@
 56. P5-T1 completed: memory domain model implemented for short-term, long-term, and preference stores with TTL, versioning, and precedence semantics; 264 tests passing.
 57. P5-T2 completed: ingestion adapters implemented for files, notes, logs, and command history with normalized document and hash metadata outputs; 270 tests passing.
 58. P5-T3 completed: indexing pipeline implemented with content deduplication, canonical index records, and version history tracking; 276 tests passing.
+59. P5-T4 completed: retrieval engine implemented with ranked memory matches and source citation binding to indexed record versions; 282 tests passing.

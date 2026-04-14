@@ -27,6 +27,13 @@ from .indexing_pipeline import (
     IndexingResult,
     MemoryIndexingPipeline,
 )
+from .retrieval_engine import (
+    MemoryRetrievalEngine,
+    RetrievalCitation,
+    RetrievalEngineError,
+    RetrievalMatch,
+    RetrievalResult,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -50,4 +57,9 @@ __all__ = [
     "BatchIndexingSummary",
     "MemoryIndexingPipeline",
     "IndexingPipelineError",
+    "RetrievalCitation",
+    "RetrievalMatch",
+    "RetrievalResult",
+    "MemoryRetrievalEngine",
+    "RetrievalEngineError",
 ]
