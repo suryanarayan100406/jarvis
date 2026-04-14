@@ -22,6 +22,11 @@ from .physical_connector_sdk import (
 	PhysicalConnectorSDK,
 	PhysicalConnectorSdkError,
 )
+from .physical_device_registry import (
+	PhysicalDeviceRecord,
+	PhysicalDeviceRegistry,
+	PhysicalDeviceRegistryError,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -84,6 +89,9 @@ __all__ = [
 	"PhysicalConnectorExecutionResult",
 	"PhysicalConnectorSDK",
 	"PhysicalConnectorSdkError",
+	"PhysicalDeviceRecord",
+	"PhysicalDeviceRegistry",
+	"PhysicalDeviceRegistryError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
