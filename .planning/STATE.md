@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 2.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P2-T1 runtime module boundaries.
+5. Next execution target: implement P2-T2 run coordinator with deterministic stage transitions.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -35,3 +35,4 @@
 14. P1-T10 completed: identity override detection and prompt-injection baseline filters; 52 tests passing.
 15. P1-T11 completed: boot sequence and status-format protocol contract; 60 tests passing.
 16. Phase 1 completed: tasks P1-T1 through P1-T11 verified and pushed.
+17. P2-T1 completed: runtime module boundaries for planner, executor, validator, and reporter; 64 tests passing.
