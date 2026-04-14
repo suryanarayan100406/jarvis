@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 1.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P1-T2 schema validation middleware.
+5. Next execution target: implement P1-T3 policy engine with risk-tier evaluation.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -26,3 +26,4 @@
 3. Identity, mode, and communication directives are now included in requirements and roadmap.
 4. P1-T1 completed: canonical contracts created under contracts/schemas/v1.
 5. Task execution policy: validate each task before progressing and push verified changes.
+6. P1-T2 completed: schema validation middleware implemented and verified with 8 passing tests.
