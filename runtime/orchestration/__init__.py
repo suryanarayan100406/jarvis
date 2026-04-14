@@ -21,6 +21,14 @@ from .event_bus import (
     SeverityLevel,
     SubscriptionPollResult,
 )
+from .runbook_engine import (
+    RunbookDefinition,
+    RunbookEngineError,
+    RunbookExecutionEngine,
+    RunbookExecutionResult,
+    RunbookStep,
+    RunbookStepResult,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -38,4 +46,10 @@ __all__ = [
     "SubscriptionPollResult",
     "OperationalEventBus",
     "EventBusError",
+    "RunbookStep",
+    "RunbookDefinition",
+    "RunbookStepResult",
+    "RunbookExecutionResult",
+    "RunbookExecutionEngine",
+    "RunbookEngineError",
 ]
