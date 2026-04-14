@@ -2,17 +2,22 @@
 
 from __future__ import annotations
 
-from hashlib import sha256
 from uuid import uuid4
 
-from .models import ExecutionResult, PlanResult, PlannedTask, ReportResult, RunContext, ValidationResult
+from runtime.planner import PlannerInterfaceAdapter
+
+from .models import ExecutionResult, PlanResult, ReportResult, RunContext, ValidationResult
 
 
 class DeterministicPlanner:
+    def __init__(self) -> None:
+        self._adapter = PlannerInterfaceAdapter()
+
     def plan(self, context: RunContext) -> PlanResult:
-        plan_id = sha256(context.goal.encode("utf-8")).hexdigest()[:12]
-        task = PlannedTask(task_id=f"task-{plan_id}", description=context.goal)
-        return PlanResult(plan_id=plan_id, tasks=[task], metadata={"strategy": "deterministic-default"})
+        plan_result = self._adapter.plan(context)
+        metadata = dict(plan_result.metadata)
+        metadata["strategy"] = "deterministic-default"
+        return PlanResult(plan_id=plan_result.plan_id, tasks=plan_result.tasks, metadata=metadata)
 
 
 class EchoExecutor:
