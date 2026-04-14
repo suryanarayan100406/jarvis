@@ -19,6 +19,14 @@ from .ingestion_adapters import (
     MemoryIngestionAdapters,
     NotesIngestionAdapter,
 )
+from .indexing_pipeline import (
+    BatchIndexingSummary,
+    IndexedDocumentRecord,
+    IndexedDocumentVersion,
+    IndexingPipelineError,
+    IndexingResult,
+    MemoryIndexingPipeline,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -36,4 +44,10 @@ __all__ = [
     "LogIngestionAdapter",
     "CommandHistoryIngestionAdapter",
     "MemoryIngestionAdapters",
+    "IndexedDocumentVersion",
+    "IndexedDocumentRecord",
+    "IndexingResult",
+    "BatchIndexingSummary",
+    "MemoryIndexingPipeline",
+    "IndexingPipelineError",
 ]
