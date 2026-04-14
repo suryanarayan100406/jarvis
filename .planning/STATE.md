@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 8.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P8-T10 regression tests for common desktop and browser workflows.
+5. Next execution target: implement P8-T11 adversarial tests for deceptive UI patterns.
 
 ## Active Focus
 1. Add visual understanding and safe UI-level automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
-2. Implement P8-T10 through P8-T12 with verify-then-advance discipline.
+2. Implement P8-T11 through P8-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -122,3 +122,4 @@
 101. P8-T7 completed: document and image summary extraction implemented with OCR, UI, and scene metadata citations, confidence-aware warnings, and deterministic summary IDs; 493 tests passing.
 102. P8-T8 completed: multimodal evidence store implemented with memory-index persistence for summaries and citations, scene evidence bundle records, and retrieval-compatible multimodal source indexing; 498 tests passing.
 103. P8-T9 completed: low-confidence visual fallback strategy implemented with proceed-confirm-defer classification, planner fallback metadata propagation, and executor enforcement that blocks autonomous actions when confidence is critically low; 504 tests passing.
+104. P8-T10 completed: regression tests added for common desktop and browser multimodal workflows, including end-to-end planning and execution checks plus summary-to-evidence retrieval continuity coverage; 507 tests passing.
