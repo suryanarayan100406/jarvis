@@ -1,6 +1,11 @@
 """Security module exports."""
 
 from .input_guard import IDENTITY_OVERRIDE_MESSAGE, PromptSecurityFilter, SecurityFilterDecision
+from .identity_override_guard import (
+    IdentityOverrideAlert,
+    IdentityOverrideGuard,
+    IdentityOverrideInspection,
+)
 from .threat_model import (
     ThreatAbuseCase,
     ThreatCaseMapping,
@@ -23,6 +28,9 @@ __all__ = [
     "PromptSecurityFilter",
     "SecurityFilterDecision",
     "IDENTITY_OVERRIDE_MESSAGE",
+    "IdentityOverrideAlert",
+    "IdentityOverrideInspection",
+    "IdentityOverrideGuard",
     "ThreatMitigation",
     "ThreatAbuseCase",
     "ThreatCaseMapping",

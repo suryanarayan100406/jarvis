@@ -226,7 +226,10 @@ def build_default_threat_model() -> ThreatModelRegistry:
         name="Identity Override Guard",
         description="Detect identity override instructions and force deterministic identity anchors.",
         owner="security",
-        mapped_components=("runtime.security.input_guard.PromptSecurityFilter",),
+        mapped_components=(
+            "runtime.security.input_guard.PromptSecurityFilter",
+            "runtime.security.identity_override_guard.IdentityOverrideGuard",
+        ),
     )
     model.register_mitigation(
         mitigation_id="mit.policy_overlay",
