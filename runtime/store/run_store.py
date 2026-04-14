@@ -113,18 +113,32 @@ class LocalRunStore:
             )
             return int(cursor.lastrowid)
 
-    def list_events(self, run_id: str, limit: int = 100) -> list[RunEvent]:
+    def list_events(self, run_id: str, limit: int | None = 100) -> list[RunEvent]:
+        if limit is not None and limit < 1:
+            raise ValueError("limit must be at least 1")
+
         with self._connection() as conn:
-            rows = conn.execute(
-                """
-                SELECT event_id, run_id, event_type, payload_json, severity, created_at
-                FROM run_events
-                WHERE run_id = ?
-                ORDER BY created_at ASC, event_id ASC
-                LIMIT ?
-                """,
-                (run_id, limit),
-            ).fetchall()
+            if limit is None:
+                rows = conn.execute(
+                    """
+                    SELECT event_id, run_id, event_type, payload_json, severity, created_at
+                    FROM run_events
+                    WHERE run_id = ?
+                    ORDER BY created_at ASC, event_id ASC
+                    """,
+                    (run_id,),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    """
+                    SELECT event_id, run_id, event_type, payload_json, severity, created_at
+                    FROM run_events
+                    WHERE run_id = ?
+                    ORDER BY created_at ASC, event_id ASC
+                    LIMIT ?
+                    """,
+                    (run_id, limit),
+                ).fetchall()
 
             return [
                 RunEvent(
