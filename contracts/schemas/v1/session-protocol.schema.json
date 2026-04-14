@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://friday.local/schemas/contracts/v1/session-protocol.schema.json",
+  "title": "FRIDAY Session Protocol Contract",
+  "description": "Contract for startup boot messaging and runtime status/priority formatting.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "$ref": "common.schema.json#/$defs/schemaVersion"
+    },
+    "boot_sequence": {
+      "type": "object",
+      "properties": {
+        "online_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "knowledge_base_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "connected_systems_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ready_prompt_template": {
+          "type": "string",
+          "pattern": "\\{address\\}"
+        }
+      },
+      "required": [
+        "online_line",
+        "knowledge_base_line",
+        "connected_systems_line",
+        "context_line",
+        "ready_prompt_template"
+      ],
+      "additionalProperties": false
+    },
+    "status_protocol": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "type": "string",
+          "pattern": "\\{state\\}"
+        },
+        "allowed_states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "template",
+        "allowed_states"
+      ],
+      "additionalProperties": false
+    },
+    "priority_protocol": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "type": "string",
+          "pattern": "\\{level\\}"
+        },
+        "allowed_levels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "template",
+        "allowed_levels"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "boot_sequence",
+    "status_protocol",
+    "priority_protocol"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "boot_sequence": {
+    "online_line": "FRIDAY online. Running system check...",
+    "knowledge_base_line": "- Knowledge base: loaded",
+    "connected_systems_line": "- Connected systems: {connected_systems}",
+    "context_line": "- Context from last session: {context_summary}",
+    "ready_prompt_template": "Ready, {address}. What are we working on?"
+  },
+  "status_protocol": {
+    "template": "[STATUS: {state} | {progress}%] - {descriptor}",
+    "allowed_states": [
+      "In Progress",
+      "Completed",
+      "Blocked"
+    ]
+  },
+  "priority_protocol": {
+    "template": "[PRIORITY: {level}] - {message}",
+    "allowed_levels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ]
+  }
+}

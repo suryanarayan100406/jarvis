@@ -3,9 +3,9 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 1.
+3. Current phase: 2.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P1-T11 boot sequence and status-format protocol contract.
+5. Next execution target: implement P2-T1 runtime module boundaries.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -13,12 +13,10 @@
 3. Validate trust and control boundaries early.
 
 ## Immediate Next Actions
-1. Review and approve .planning/phases/1/PLAN.md.
-2. Review and approve .planning/FRIDAY-OPERATING-SPEC.md.
-3. Initialize repository module structure.
-4. Start T001 through T005 and T031 through T035 from BACKLOG.md.
-5. Execute phases sequentially after Phase 1 verification gate passes.
-6. Follow verify-then-advance workflow in .planning/EXECUTION-PROTOCOL.md.
+1. Start Phase 2 execution from .planning/phases/2/PLAN.md.
+2. Implement P2-T1 through P2-T3 with verify-then-advance discipline.
+3. Commit and push each verified task.
+4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
 ## Notes
 1. Moonshot objective retained as long-term benchmark track.
@@ -35,3 +33,5 @@
 12. P1-T8 completed: ADR set for security trust boundaries and autonomy boundaries.
 13. P1-T9 completed: identity directive schema plus form-of-address preference contract; 46 tests passing.
 14. P1-T10 completed: identity override detection and prompt-injection baseline filters; 52 tests passing.
+15. P1-T11 completed: boot sequence and status-format protocol contract; 60 tests passing.
+16. Phase 1 completed: tasks P1-T1 through P1-T11 verified and pushed.
