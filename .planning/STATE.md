@@ -3,9 +3,9 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 3.
+3. Current phase: 4.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P3-T12 voice latency and reliability tests under noisy input conditions.
+5. Next execution target: implement P4-T1 host inventory service with labels, roles, and trust levels.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -13,8 +13,8 @@
 3. Validate trust and control boundaries early.
 
 ## Immediate Next Actions
-1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
-2. Implement P3-T12 with verify-then-advance discipline.
+1. Start Phase 4 execution from .planning/phases/4/PLAN.md.
+2. Implement P4-T1 through P4-T3 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -59,3 +59,5 @@
 38. P3-T9 completed: operational mode switch manager implemented for War Room, Deep Research, Stealth, Creative, and Mission Brief modes; 165 tests passing.
 39. P3-T10 completed: mission brief schema renderer implemented with strict validation and markdown/json output modes; 171 tests passing.
 40. P3-T11 completed: conversation regression tests added for persona addressing and tone consistency across turns and mode transitions; 175 tests passing.
+41. P3-T12 completed: voice latency and noisy-input reliability tests added for wake detection and streaming STT or TTS flow; 179 tests passing.
+42. Phase 3 completed: tasks P3-T1 through P3-T12 verified and pushed.
