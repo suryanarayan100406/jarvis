@@ -30,6 +30,13 @@ from .policy_overlay import (
 	HostScopePolicy,
 	OperatorScopePolicy,
 )
+from .parallel_orchestrator import (
+	HostOperationRequest,
+	HostOperationResult,
+	ParallelExecutionResult,
+	ParallelHostOrchestrator,
+	ParallelOrchestratorError,
+)
 from .rollback_actions import (
 	RollbackAction,
 	RollbackActionError,
@@ -73,4 +80,9 @@ __all__ = [
 	"RollbackRoutineResult",
 	"RollbackActionManager",
 	"RollbackActionError",
+	"HostOperationRequest",
+	"HostOperationResult",
+	"ParallelExecutionResult",
+	"ParallelHostOrchestrator",
+	"ParallelOrchestratorError",
 ]
