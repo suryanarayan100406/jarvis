@@ -34,6 +34,12 @@ from .retrieval_engine import (
     RetrievalMatch,
     RetrievalResult,
 )
+from .confidence_scoring import (
+    ConfidenceScoredResult,
+    ConfidenceScoringError,
+    MemoryConfidenceScorer,
+    RankedEvidence,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -62,4 +68,8 @@ __all__ = [
     "RetrievalResult",
     "MemoryRetrievalEngine",
     "RetrievalEngineError",
+    "RankedEvidence",
+    "ConfidenceScoredResult",
+    "MemoryConfidenceScorer",
+    "ConfidenceScoringError",
 ]
