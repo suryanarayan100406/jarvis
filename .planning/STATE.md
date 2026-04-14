@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 2.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P2-T8 local run store with migrations and event indexing.
+5. Next execution target: implement P2-T9 run replay endpoint for debugging and audit.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -13,8 +13,8 @@
 3. Validate trust and control boundaries early.
 
 ## Immediate Next Actions
-1. Start Phase 2 execution from .planning/phases/2/PLAN.md.
-2. Implement P2-T1 through P2-T3 with verify-then-advance discipline.
+1. Continue Phase 2 execution from .planning/phases/2/PLAN.md.
+2. Implement P2-T9 through P2-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -42,3 +42,4 @@
 21. P2-T5 completed: validator stage with policy-aware checks and approval evidence validation; 81 tests passing.
 22. P2-T6 completed: reporter stage with summary and artifact references; 84 tests passing.
 23. P2-T7 completed: tool registry with manifest loading and signature verification checks; 89 tests passing.
+24. P2-T8 completed: local SQLite run store with migration tracking and indexed event querying; 94 tests passing.
