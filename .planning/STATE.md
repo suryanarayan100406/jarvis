@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 3.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P3-T8 priority formatter for urgent and critical events.
+5. Next execution target: implement P3-T9 mode switch manager for defined operational modes.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
-2. Implement P3-T8 through P3-T10 with verify-then-advance discipline.
+2. Implement P3-T9 through P3-T11 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -55,3 +55,4 @@
 34. P3-T5 completed: addressing preference layer added with operator and role override precedence across modes; 141 tests passing.
 35. P3-T6 completed: answer-first response formatter with confidence tagging and persona-aware output hooks; 147 tests passing.
 36. P3-T7 completed: status update formatter added on top of session protocol contract with optional address and ETA metadata; 153 tests passing.
+37. P3-T8 completed: priority formatter added for urgent and critical events with escalation and acknowledgement metadata; 159 tests passing.
