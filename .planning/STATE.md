@@ -3,18 +3,18 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 8.
+3. Current phase: 9.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P8-T12 performance tests for visual processing latency.
+5. Next execution target: implement P9-T1 physical connector SDK with capability schema.
 
 ## Active Focus
-1. Add visual understanding and safe UI-level automation.
-2. Build screenshot, OCR, and UI-state perception foundations.
-3. Preserve security safeguards while enabling multimodal execution paths.
+1. Enable optional IoT and robotics integration with strict safety controls.
+2. Build physical connector and simulation-first execution foundations.
+3. Preserve policy-gated operations and emergency interlocks for all physical actions.
 
 ## Immediate Next Actions
-1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
-2. Implement P8-T12 with verify-then-advance discipline.
+1. Start Phase 9 execution from .planning/phases/9/PLAN.md.
+2. Implement P9-T1 through P9-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -124,3 +124,5 @@
 103. P8-T9 completed: low-confidence visual fallback strategy implemented with proceed-confirm-defer classification, planner fallback metadata propagation, and executor enforcement that blocks autonomous actions when confidence is critically low; 504 tests passing.
 104. P8-T10 completed: regression tests added for common desktop and browser multimodal workflows, including end-to-end planning and execution checks plus summary-to-evidence retrieval continuity coverage; 507 tests passing.
 105. P8-T11 completed: adversarial deceptive UI tests added for invisible overlay decoys, spoofed destructive labels, low-confidence defer traps, and scene replay attack rejection; 511 tests passing.
+106. P8-T12 completed: visual processing latency performance tests added with screenshot-to-plan p95 budget checks and batched visual task throughput budgets; 513 tests passing.
+107. Phase 8 completed: tasks P8-T1 through P8-T12 verified and pushed.
