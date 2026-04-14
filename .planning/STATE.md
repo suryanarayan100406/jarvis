@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 2.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P2-T7 tool registry with manifest loading and signature checks.
+5. Next execution target: implement P2-T8 local run store with migrations and event indexing.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -41,3 +41,4 @@
 20. P2-T4 completed: executor engine with timeout, retry, and cancellation hooks; 76 tests passing.
 21. P2-T5 completed: validator stage with policy-aware checks and approval evidence validation; 81 tests passing.
 22. P2-T6 completed: reporter stage with summary and artifact references; 84 tests passing.
+23. P2-T7 completed: tool registry with manifest loading and signature verification checks; 89 tests passing.
