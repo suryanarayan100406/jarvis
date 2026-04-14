@@ -66,6 +66,13 @@ from .watchdog import (
     WatchdogError,
     WatchdogScanResult,
 )
+from .activity_summary import (
+    ActivitySummaryError,
+    AutonomousActivityRecord,
+    AutonomousActivitySummary,
+    AutonomousActivitySummaryGenerator,
+    SummaryPeriod,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -116,4 +123,9 @@ __all__ = [
     "WatchdogScanResult",
     "RunWatchdog",
     "WatchdogError",
+    "SummaryPeriod",
+    "AutonomousActivityRecord",
+    "AutonomousActivitySummary",
+    "AutonomousActivitySummaryGenerator",
+    "ActivitySummaryError",
 ]
