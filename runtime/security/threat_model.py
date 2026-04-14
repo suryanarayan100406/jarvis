@@ -287,6 +287,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="security",
         mapped_components=("runtime.security.forensic_event_export.ForensicEventExporter",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.red_team_harness",
+        name="Red Team Harness",
+        description="Continuously validate injection, escalation, and exfiltration defenses through adversarial scenarios.",
+        owner="security",
+        mapped_components=("runtime.security.red_team_harness.SecurityRedTeamHarness",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -300,6 +307,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
             "mit.untrusted_execution_guardrail",
             "mit.policy_overlay",
             "mit.incident_playbooks",
+            "mit.red_team_harness",
             "mit.audit_chain",
         ),
         detection_signals=("prompt_injection_attempt", "unsafe_instruction_pattern"),
@@ -311,7 +319,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="conversation",
         likelihood=4,
         impact=5,
-        mitigation_ids=("mit.identity_override_guard", "mit.incident_playbooks", "mit.audit_chain"),
+        mitigation_ids=("mit.identity_override_guard", "mit.incident_playbooks", "mit.red_team_harness", "mit.audit_chain"),
         detection_signals=("identity_override_attempt",),
     )
     model.add_abuse_case(
@@ -321,7 +329,7 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="replay",
         likelihood=3,
         impact=4,
-        mitigation_ids=("mit.replay_redaction", "mit.forensic_event_export", "mit.audit_chain"),
+        mitigation_ids=("mit.replay_redaction", "mit.forensic_event_export", "mit.red_team_harness", "mit.audit_chain"),
         detection_signals=("sensitive_payload_request",),
     )
     model.add_abuse_case(

@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 7.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P7-T10 red-team test harness for injection, escalation, and exfiltration scenarios.
+5. Next execution target: implement P7-T11 performance regression checks for security controls.
 
 ## Active Focus
 1. Harden FRIDAY against prompt injection, identity override, and operational misuse.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 7 execution from .planning/phases/7/PLAN.md.
-2. Implement P7-T10 through P7-T12 with verify-then-advance discipline.
+2. Implement P7-T11 through P7-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -109,3 +109,4 @@
 88. P7-T7 completed: policy anomaly detector implemented with per-operator command baselines, dangerous-token and privilege-escalation detection, deny-burst analysis, and escalation recommendation outputs; 423 tests passing.
 89. P7-T8 completed: incident playbook manager implemented for deterministic containment and recovery workflows with default security playbooks, signal-based recommendations, and execution outcome metrics; 429 tests passing.
 90. P7-T9 completed: forensic event exporter implemented for post-incident analysis with filtered evidence bundling, payload redaction, tamper-chain verification, and deterministic artifact digest generation; 436 tests passing.
+91. P7-T10 completed: red-team harness implemented for adversarial injection, escalation, and exfiltration scenarios with deterministic control-verification reports and summary outputs; 440 tests passing.

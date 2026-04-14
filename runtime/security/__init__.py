@@ -57,6 +57,15 @@ from .forensic_event_export import (
     ForensicEventRecord,
     ForensicExportArtifact,
 )
+from .red_team_harness import (
+    RedTeamHarnessError,
+    RedTeamRunReport,
+    RedTeamScenario,
+    RedTeamScenarioReport,
+    SecurityRedTeamHarness,
+    default_red_team_scenarios,
+    summarize_red_team_report,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -102,4 +111,11 @@ __all__ = [
     "ForensicExportArtifact",
     "ForensicEventExporter",
     "ForensicEventExportError",
+    "RedTeamScenario",
+    "RedTeamScenarioReport",
+    "RedTeamRunReport",
+    "SecurityRedTeamHarness",
+    "RedTeamHarnessError",
+    "default_red_team_scenarios",
+    "summarize_red_team_report",
 ]
