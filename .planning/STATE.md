@@ -3,9 +3,9 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 2.
+3. Current phase: 3.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P2-T12 performance tests for startup and plan latency budgets.
+5. Next execution target: implement P3-T1 wake trigger with local phrase detection.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -13,8 +13,8 @@
 3. Validate trust and control boundaries early.
 
 ## Immediate Next Actions
-1. Continue Phase 2 execution from .planning/phases/2/PLAN.md.
-2. Implement P2-T12 with verify-then-advance discipline.
+1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
+2. Implement P3-T1 through P3-T3 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -46,3 +46,5 @@
 25. P2-T9 completed: run replay endpoint for debugging and audit with filters, truncation metadata, and digest checks; 100 tests passing.
 26. P2-T10 completed: CLI commands for submit, status, stop, and replay with operator-focused JSON outputs; 105 tests passing.
 27. P2-T11 completed: integration tests added for end-to-end orchestration, policy-denial propagation, and replay artifact consistency; 108 tests passing.
+28. P2-T12 completed: performance checks for startup, planner latency, and submit acknowledgement budgets; 111 tests passing.
+29. Phase 2 completed: tasks P2-T1 through P2-T12 verified and pushed.
