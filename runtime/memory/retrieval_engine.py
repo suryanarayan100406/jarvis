@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from .indexing_pipeline import IndexedDocumentRecord, IndexedDocumentVersion, MemoryIndexingPipeline
+from .privacy_filter import MemoryPrivacyFilter
 
 
 @dataclass(frozen=True)
@@ -48,8 +49,13 @@ class RetrievalEngineError(ValueError):
 class MemoryRetrievalEngine:
     """Retrieves indexed records and binds ranked results to explicit citations."""
 
-    def __init__(self, index: MemoryIndexingPipeline) -> None:
+    def __init__(
+        self,
+        index: MemoryIndexingPipeline,
+        privacy_filter: MemoryPrivacyFilter | None = None,
+    ) -> None:
         self.index = index
+        self.privacy_filter = privacy_filter
 
     def retrieve(
         self,
@@ -119,6 +125,16 @@ class MemoryRetrievalEngine:
 
         version = self._latest_version(record.index_key)
         excerpt = _excerpt(record.current_content, matched_tokens)
+        citation_metadata = dict(version.metadata)
+
+        if self.privacy_filter is not None:
+            redaction = self.privacy_filter.redact_text(excerpt)
+            excerpt = redaction.redacted_text
+            citation_metadata = self.privacy_filter.redact_metadata(citation_metadata)
+            if redaction.redaction_count > 0:
+                citation_metadata["_excerpt_redactions"] = redaction.redaction_count
+                citation_metadata["_excerpt_redaction_categories"] = redaction.categories
+
         citation = RetrievalCitation(
             citation_id=f"cite-{record.index_key}:{version.version}",
             index_key=record.index_key,
@@ -127,7 +143,7 @@ class MemoryRetrievalEngine:
             version=version.version,
             content_hash=version.content_hash,
             excerpt=excerpt,
-            metadata=dict(version.metadata),
+            metadata=citation_metadata,
         )
 
         return RetrievalMatch(

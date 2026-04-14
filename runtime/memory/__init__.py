@@ -66,6 +66,7 @@ from .preference_profile import (
     PreferenceProfileMemory,
     ResolvedPreferenceProfile,
 )
+from .privacy_filter import MemoryPrivacyFilter, RedactionResult
 
 __all__ = [
     "MemoryDomainError",
@@ -116,4 +117,6 @@ __all__ = [
     "ResolvedPreferenceProfile",
     "PreferenceProfileMemory",
     "PreferenceProfileError",
+    "RedactionResult",
+    "MemoryPrivacyFilter",
 ]
