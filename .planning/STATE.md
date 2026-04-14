@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 5.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P5-T7 status check command and summary renderer.
+5. Next execution target: implement P5-T8 user-correctable memory update workflow.
 
 ## Active Focus
 1. Build persistent memory foundations with explicit context partitioning.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 5 execution from .planning/phases/5/PLAN.md.
-2. Implement P5-T7 with verify-then-advance discipline.
+2. Implement P5-T8 through P5-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -80,3 +80,4 @@
 59. P5-T4 completed: retrieval engine implemented with ranked memory matches and source citation binding to indexed record versions; 282 tests passing.
 60. P5-T5 completed: confidence scoring and evidence ranking implemented with source reliability weighting and banded confidence assessment; 286 tests passing.
 61. P5-T6 completed: open-loop task register service implemented with lifecycle updates, versioned event history, and snapshot metrics; 292 tests passing.
+62. P5-T7 completed: status check command and summary renderer implemented for open-loop scope reporting with prioritized task summaries; 298 tests passing.
