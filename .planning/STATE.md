@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 4.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P4-T6 dry-run mode for potentially destructive operations.
+5. Next execution target: implement P4-T7 rollback actions for service restart and deploy routines.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 4 execution from .planning/phases/4/PLAN.md.
-2. Implement P4-T6 through P4-T7 with verify-then-advance discipline.
+2. Implement P4-T7 through P4-T8 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -66,3 +66,4 @@
 45. P4-T3 completed: SSH remote connector implemented with host-bound key isolation, operation allowlists, and cross-host replay blocking; 201 tests passing.
 46. P4-T4 completed: scoped command template library implemented per host role with allowlist matching and safe template rendering checks; 210 tests passing.
 47. P4-T5 completed: policy overlay implemented for host, command, and operator scope with deny and approval escalation enforcement; 219 tests passing.
+48. P4-T6 completed: dry-run execution gate implemented with destructive operation classification plus one-time preview token enforcement; 227 tests passing.

@@ -13,6 +13,13 @@ from .connector_manager import (
 	ConnectorManagerError,
 	TransportAdapter,
 )
+from .dry_run_gate import (
+	DryRunClassification,
+	DryRunExecutionGate,
+	DryRunExecutionOutcome,
+	DryRunGateError,
+	DryRunPreview,
+)
 from .host_inventory import HostInventoryError, HostInventoryService, HostRecord
 from .policy_overlay import (
 	CommandScopePolicy,
@@ -49,4 +56,9 @@ __all__ = [
 	"CommandScopePolicy",
 	"ControlPlanePolicyOverlay",
 	"ControlPlanePolicyOverlayError",
+	"DryRunClassification",
+	"DryRunPreview",
+	"DryRunExecutionOutcome",
+	"DryRunExecutionGate",
+	"DryRunGateError",
 ]
