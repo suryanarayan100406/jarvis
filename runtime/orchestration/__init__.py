@@ -43,6 +43,13 @@ from .autonomy_policy import (
     AutonomyPolicyRule,
     BoundedAutonomyPolicy,
 )
+from .escalation_workflow import (
+    EscalationRequest,
+    EscalationStatus,
+    EscalationTicket,
+    EscalationWorkflowError,
+    EscalationWorkflowManager,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -76,4 +83,9 @@ __all__ = [
     "AutonomyPolicyDecision",
     "BoundedAutonomyPolicy",
     "AutonomyPolicyError",
+    "EscalationStatus",
+    "EscalationRequest",
+    "EscalationTicket",
+    "EscalationWorkflowManager",
+    "EscalationWorkflowError",
 ]
