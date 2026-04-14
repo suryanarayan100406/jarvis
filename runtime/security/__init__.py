@@ -36,6 +36,12 @@ from .social_engineering_detector import (
     SocialEngineeringSignal,
     SocialEngineeringSignalDetector,
 )
+from .policy_anomaly_detector import (
+    CommandPolicyEvent,
+    PolicyAnomalyAssessment,
+    PolicyAnomalyDetector,
+    PolicyAnomalySignal,
+)
 
 __all__ = [
     "PromptSecurityFilter",
@@ -66,4 +72,8 @@ __all__ = [
     "SocialEngineeringSignal",
     "SocialEngineeringAssessment",
     "SocialEngineeringSignalDetector",
+    "CommandPolicyEvent",
+    "PolicyAnomalySignal",
+    "PolicyAnomalyAssessment",
+    "PolicyAnomalyDetector",
 ]

@@ -266,6 +266,13 @@ def build_default_threat_model() -> ThreatModelRegistry:
         owner="security",
         mapped_components=("runtime.security.social_engineering_detector.SocialEngineeringSignalDetector",),
     )
+    model.register_mitigation(
+        mitigation_id="mit.policy_anomaly_detector",
+        name="Policy Anomaly Detector",
+        description="Detect suspicious command-pattern anomalies and repeated deny-burst behavior.",
+        owner="security",
+        mapped_components=("runtime.security.policy_anomaly_detector.PolicyAnomalyDetector",),
+    )
 
     model.add_abuse_case(
         case_id="abuse.prompt_injection",
@@ -309,8 +316,8 @@ def build_default_threat_model() -> ThreatModelRegistry:
         attack_surface="control-plane",
         likelihood=3,
         impact=5,
-        mitigation_ids=("mit.policy_overlay", "mit.audit_chain"),
-        detection_signals=("blocked_token_detected", "deny_rule_triggered"),
+        mitigation_ids=("mit.policy_overlay", "mit.policy_anomaly_detector", "mit.audit_chain"),
+        detection_signals=("blocked_token_detected", "deny_rule_triggered", "deny_burst_pattern"),
     )
     model.add_abuse_case(
         case_id="abuse.social_engineering",
