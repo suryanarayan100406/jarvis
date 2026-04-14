@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 8.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P8-T8 multimodal evidence store tied to memory system.
+5. Next execution target: implement P8-T9 fallback strategy when visual confidence is low.
 
 ## Active Focus
 1. Add visual understanding and safe UI-level automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 8 execution from .planning/phases/8/PLAN.md.
-2. Implement P8-T8 through P8-T12 with verify-then-advance discipline.
+2. Implement P8-T9 through P8-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -120,3 +120,4 @@
 99. P8-T5 completed: safe UI action executor implemented with precheck and postcheck stage enforcement, single-use confirmation checkpoints for risky actions, and deterministic token validation safeguards; 477 tests passing.
 100. P8-T6 completed: critical before and after UI state validation implemented with snapshot-based invariants, destructive-intent-aware post-action checks, and validation evidence artifacts in executor outputs; 487 tests passing.
 101. P8-T7 completed: document and image summary extraction implemented with OCR, UI, and scene metadata citations, confidence-aware warnings, and deterministic summary IDs; 493 tests passing.
+102. P8-T8 completed: multimodal evidence store implemented with memory-index persistence for summaries and citations, scene evidence bundle records, and retrieval-compatible multimodal source indexing; 498 tests passing.

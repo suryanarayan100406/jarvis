@@ -46,6 +46,13 @@ from .summary_extractor import (
     MultimodalSummaryError,
     MultimodalSummaryResult,
 )
+from .evidence_store import (
+    MultimodalEvidenceBundle,
+    MultimodalEvidenceReference,
+    MultimodalEvidenceStore,
+    MultimodalEvidenceStoreError,
+    MultimodalEvidenceStoreResult,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -80,4 +87,9 @@ __all__ = [
     "MultimodalSummaryResult",
     "DocumentImageSummaryExtractor",
     "MultimodalSummaryError",
+    "MultimodalEvidenceReference",
+    "MultimodalEvidenceStoreResult",
+    "MultimodalEvidenceBundle",
+    "MultimodalEvidenceStore",
+    "MultimodalEvidenceStoreError",
 ]
