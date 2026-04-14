@@ -28,6 +28,12 @@ from .visual_planner import (
     VisualPlanningResult,
     VisualStageBinding,
 )
+from .ui_action_executor import (
+    SafeUIActionExecutor,
+    UIActionExecutionOutcome,
+    UIActionExecutorError,
+    UIConfirmationCheckpoint,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -50,4 +56,8 @@ __all__ = [
     "VisualPlanningResult",
     "VisualStageBinding",
     "VisualPlannerError",
+    "UIConfirmationCheckpoint",
+    "UIActionExecutionOutcome",
+    "SafeUIActionExecutor",
+    "UIActionExecutorError",
 ]
