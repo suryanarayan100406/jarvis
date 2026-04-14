@@ -11,6 +11,11 @@ from typing import Any
 from runtime.pipeline.models import ExecutionResult, PlanResult, PlannedTask, RunContext
 
 from .ui_grounding import UIGroundedElement, UIStateRepresentation
+from .ui_state_validator import (
+    CriticalUIStateValidator,
+    UIElementStateSnapshot,
+    UIStateValidationResult,
+)
 
 
 @dataclass(frozen=True)
@@ -42,12 +47,19 @@ class SafeUIActionExecutor:
     actionable_stages = {"ui_precheck", "ui_action", "ui_postcheck"}
     passthrough_stages = {"scene_bind", "semantic_step"}
 
-    def __init__(self, *, min_precheck_confidence: float = 0.5, stop_on_blocked: bool = True) -> None:
+    def __init__(
+        self,
+        *,
+        min_precheck_confidence: float = 0.5,
+        stop_on_blocked: bool = True,
+        state_validator: CriticalUIStateValidator | None = None,
+    ) -> None:
         if min_precheck_confidence < 0 or min_precheck_confidence > 1:
             raise UIActionExecutorError("min_precheck_confidence must be between 0 and 1")
 
         self.min_precheck_confidence = float(min_precheck_confidence)
         self.stop_on_blocked = bool(stop_on_blocked)
+        self.state_validator = state_validator or CriticalUIStateValidator()
         self._active_checkpoints: dict[str, UIConfirmationCheckpoint] = {}
 
     def execute(
@@ -56,16 +68,23 @@ class SafeUIActionExecutor:
         plan: PlanResult,
         ui_state: UIStateRepresentation,
         *,
+        post_action_ui_state: UIStateRepresentation | None = None,
         confirmation_tokens: dict[str, str] | None = None,
     ) -> UIActionExecutionOutcome:
         _validate_context(context)
         _validate_plan(plan)
         _validate_ui_state(ui_state)
+        effective_after_state = post_action_ui_state or ui_state
+        _validate_ui_state(effective_after_state)
         self._validate_scene_binding(plan, ui_state)
 
         tokens = dict(confirmation_tokens or {})
-        element_index = {element.element_id: element for element in ui_state.elements}
+        before_element_index = {element.element_id: element for element in ui_state.elements}
+        after_element_index = {element.element_id: element for element in effective_after_state.elements}
         completed_action_elements: set[str] = set()
+        critical_action_ids: set[str] = set()
+        critical_before_snapshots: dict[str, UIElementStateSnapshot] = {}
+        validation_records: list[dict[str, Any]] = []
         outputs: list[dict[str, Any]] = []
         issued_checkpoints: list[UIConfirmationCheckpoint] = []
 
@@ -96,10 +115,10 @@ class SafeUIActionExecutor:
                 continue
 
             element_id = _normalize_optional_text(metadata.get("element_id"), fallback=None)
-            element = element_index.get(element_id) if element_id is not None else None
+            before_element = before_element_index.get(element_id) if element_id is not None else None
 
             if action_stage == "ui_precheck":
-                precheck = self._run_precheck(task, metadata, element)
+                precheck = self._run_precheck(task, metadata, before_element)
                 outputs.append({**base_output, **precheck})
                 if precheck["status"] != "success":
                     final_status = "blocked"
@@ -108,8 +127,53 @@ class SafeUIActionExecutor:
                 continue
 
             if action_stage == "ui_action":
+                critical_action = self._is_critical_action(metadata)
+                intent = _normalize_optional_text(metadata.get("intent"), fallback="click")
+                if critical_action:
+                    before_validation = self.state_validator.validate_before(
+                        task_id=task.task_id,
+                        intent=intent,
+                        element=before_element,
+                    )
+                    validation_records.append(_validation_to_record(before_validation))
+                    if not before_validation.passed:
+                        outputs.append(
+                            {
+                                **base_output,
+                                "status": "blocked",
+                                "error": before_validation.reason,
+                                "validation_phase": "before",
+                                "validation_details": dict(before_validation.details),
+                            }
+                        )
+                        final_status = "blocked"
+                        if self.stop_on_blocked:
+                            break
+                        continue
+
+                    if before_element is None:
+                        outputs.append(
+                            {
+                                **base_output,
+                                "status": "blocked",
+                                "error": "Critical before-state snapshot could not be captured for missing target.",
+                            }
+                        )
+                        final_status = "blocked"
+                        if self.stop_on_blocked:
+                            break
+                        continue
+
+                    before_snapshot = self.state_validator.capture_before_snapshot(
+                        task_id=task.task_id,
+                        scene_id=ui_state.scene_id,
+                        element=before_element,
+                    )
+                    critical_action_ids.add(task.task_id)
+                    critical_before_snapshots[task.task_id] = before_snapshot
+
                 requires_confirmation = _as_bool(metadata.get("requires_confirmation", False))
-                checkpoint_reason = self._checkpoint_reason(metadata, element)
+                checkpoint_reason = self._checkpoint_reason(metadata, before_element)
                 if requires_confirmation:
                     provided_token = tokens.get(task.task_id)
                     if provided_token is None:
@@ -154,7 +218,7 @@ class SafeUIActionExecutor:
                             break
                         continue
 
-                action_validation = self._validate_action_target(metadata, element)
+                action_validation = self._validate_action_target(metadata, before_element)
                 if action_validation["status"] != "success":
                     outputs.append({**base_output, **action_validation})
                     final_status = "blocked"
@@ -168,7 +232,57 @@ class SafeUIActionExecutor:
                 continue
 
             if action_stage == "ui_postcheck":
-                postcheck = self._run_postcheck(metadata, element, completed_action_elements)
+                after_element = after_element_index.get(element_id) if element_id is not None else None
+                dependency_task_id = _resolve_dependency_task_id(metadata.get("depends_on"))
+                critical_dependency = (
+                    dependency_task_id in critical_action_ids
+                    or self._is_critical_action(metadata)
+                )
+                if critical_dependency:
+                    snapshot_key = dependency_task_id if dependency_task_id in critical_before_snapshots else task.task_id
+                    before_snapshot = critical_before_snapshots.get(snapshot_key)
+                    if before_snapshot is None:
+                        outputs.append(
+                            {
+                                **base_output,
+                                "status": "blocked",
+                                "error": "Critical after-state validation missing matching before-state snapshot.",
+                                "validation_phase": "after",
+                            }
+                        )
+                        final_status = "blocked"
+                        if self.stop_on_blocked:
+                            break
+                        continue
+
+                    after_validation = self.state_validator.validate_after(
+                        task_id=task.task_id,
+                        intent=_normalize_optional_text(metadata.get("intent"), fallback="click"),
+                        before_snapshot=before_snapshot,
+                        after_element=after_element,
+                    )
+                    validation_records.append(_validation_to_record(after_validation))
+                    if not after_validation.passed:
+                        outputs.append(
+                            {
+                                **base_output,
+                                "status": "blocked",
+                                "error": after_validation.reason,
+                                "validation_phase": "after",
+                                "validation_details": dict(after_validation.details),
+                            }
+                        )
+                        final_status = "blocked"
+                        if self.stop_on_blocked:
+                            break
+                        continue
+
+                postcheck = self._run_postcheck(
+                    metadata,
+                    after_element,
+                    completed_action_elements,
+                    intent=_normalize_optional_text(metadata.get("intent"), fallback="click"),
+                )
                 outputs.append({**base_output, **postcheck})
                 if postcheck["status"] != "success":
                     final_status = "blocked"
@@ -181,13 +295,30 @@ class SafeUIActionExecutor:
         if final_status == "success" and any(item["status"] == "blocked" for item in outputs):
             final_status = "blocked"
 
+        validation_passed_count = sum(1 for record in validation_records if record.get("passed") is True)
+        validation_failed_count = sum(1 for record in validation_records if record.get("passed") is False)
+
+        artifacts: list[dict[str, Any]] = []
+        if validation_records:
+            artifacts.append(
+                {
+                    "artifact_type": "ui_state_validation",
+                    "record_count": len(validation_records),
+                    "records": validation_records,
+                }
+            )
+
         execution = ExecutionResult(
             status=final_status,
             outputs=outputs,
+            artifacts=artifacts,
             metrics={
                 "executed_task_count": len(outputs),
                 "checkpoint_count": len(issued_checkpoints),
                 "runtime_stage_counts": runtime_stage_counts,
+                "critical_state_validation_count": len(validation_records),
+                "critical_state_validation_passed": validation_passed_count,
+                "critical_state_validation_failed": validation_failed_count,
             },
         )
         return UIActionExecutionOutcome(execution=execution, checkpoints=tuple(issued_checkpoints))
@@ -323,6 +454,8 @@ class SafeUIActionExecutor:
         metadata: dict[str, Any],
         element: UIGroundedElement | None,
         completed_action_elements: set[str],
+        *,
+        intent: str | None,
     ) -> dict[str, Any]:
         element_id = _normalize_optional_text(metadata.get("element_id"), fallback=None)
         if element_id is None:
@@ -331,16 +464,23 @@ class SafeUIActionExecutor:
                 "error": "UI postcheck failed: missing element_id metadata.",
             }
 
-        if element is None:
-            return {
-                "status": "blocked",
-                "error": "UI postcheck failed: target element no longer exists.",
-            }
-
         if element_id not in completed_action_elements:
             return {
                 "status": "blocked",
                 "error": "UI postcheck failed: matching ui_action did not complete for target element.",
+            }
+
+        if element is None:
+            if _is_destructive_intent(intent):
+                return {
+                    "status": "success",
+                    "element_id": element_id,
+                    "confirmed": True,
+                    "note": "Target element missing after destructive action.",
+                }
+            return {
+                "status": "blocked",
+                "error": "UI postcheck failed: target element no longer exists.",
             }
 
         return {
@@ -348,6 +488,12 @@ class SafeUIActionExecutor:
             "element_id": element.element_id,
             "confirmed": True,
         }
+
+    @staticmethod
+    def _is_critical_action(metadata: dict[str, Any]) -> bool:
+        requires_confirmation = _as_bool(metadata.get("requires_confirmation", False))
+        risk_hint = _normalize_optional_text(metadata.get("risk_hint"), fallback="standard")
+        return requires_confirmation or risk_hint in {"high", "critical"}
 
     def _checkpoint_reason(self, metadata: dict[str, Any], element: UIGroundedElement | None) -> str:
         if _as_bool(metadata.get("requires_confirmation", False)):
@@ -444,6 +590,32 @@ def _state_flag(state: dict[str, Any], key: str, *, default: bool) -> bool:
         if lowered in {"false", "0", "no", "n", "off"}:
             return False
     return default
+
+
+def _is_destructive_intent(intent: str | None) -> bool:
+    normalized = _normalize_optional_text(intent, fallback="")
+    return normalized in {"delete", "remove", "wipe", "drop", "destroy", "disable"}
+
+
+def _resolve_dependency_task_id(depends_on_value: Any) -> str | None:
+    if not isinstance(depends_on_value, (list, tuple)):
+        return None
+
+    for dependency in depends_on_value:
+        normalized = " ".join(str(dependency).split())
+        if normalized:
+            return normalized
+    return None
+
+
+def _validation_to_record(result: UIStateValidationResult) -> dict[str, Any]:
+    return {
+        "task_id": result.task_id,
+        "phase": result.phase,
+        "passed": result.passed,
+        "reason": result.reason,
+        "details": dict(result.details),
+    }
 
 
 def _normalize_required(value: Any, field_name: str) -> str:

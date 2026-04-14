@@ -34,6 +34,12 @@ from .ui_action_executor import (
     UIActionExecutorError,
     UIConfirmationCheckpoint,
 )
+from .ui_state_validator import (
+    CriticalUIStateValidator,
+    UIElementStateSnapshot,
+    UIStateValidationResult,
+    UIStateValidatorError,
+)
 
 __all__ = [
     "ScreenshotCapture",
@@ -60,4 +66,8 @@ __all__ = [
     "UIActionExecutionOutcome",
     "SafeUIActionExecutor",
     "UIActionExecutorError",
+    "UIElementStateSnapshot",
+    "UIStateValidationResult",
+    "CriticalUIStateValidator",
+    "UIStateValidatorError",
 ]

@@ -230,6 +230,192 @@ class SafeUIActionExecutorTests(unittest.TestCase):
         self.assertEqual(len(ui_action_outputs), 1)
         self.assertEqual(ui_action_outputs[0]["status"], "blocked")
 
+    def test_destructive_action_allows_missing_target_in_after_state(self) -> None:
+        context, plan, before_state = self._build_visual_plan(
+            goal="Delete backup",
+            ocr_payload=[
+                {
+                    "text": "Delete",
+                    "left": 24,
+                    "top": 34,
+                    "width": 52,
+                    "height": 18,
+                    "confidence": 0.9,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+                {
+                    "text": "Backup",
+                    "left": 82,
+                    "top": 34,
+                    "width": 62,
+                    "height": 18,
+                    "confidence": 0.89,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+            ],
+            candidates=[
+                {
+                    "role": "button",
+                    "left": 18,
+                    "top": 28,
+                    "width": 134,
+                    "height": 30,
+                    "confidence": 0.94,
+                }
+            ],
+        )
+
+        pending = self.executor.execute(context, plan, before_state)
+        checkpoint = pending.checkpoints[0]
+        after_state = self._build_ui_state(
+            [
+                {
+                    "text": "Operation Completed",
+                    "left": 20,
+                    "top": 30,
+                    "width": 170,
+                    "height": 18,
+                    "confidence": 0.93,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                }
+            ],
+            candidates=[],
+            source_id="scene:after-delete",
+        )
+
+        result = self.executor.execute(
+            context,
+            plan,
+            before_state,
+            post_action_ui_state=after_state,
+            confirmation_tokens={checkpoint.task_id: checkpoint.token},
+        )
+
+        self.assertEqual(result.execution.status, "success")
+        postcheck_outputs = [entry for entry in result.execution.outputs if entry["action_stage"] == "ui_postcheck"]
+        self.assertEqual(len(postcheck_outputs), 1)
+        self.assertEqual(postcheck_outputs[0]["status"], "success")
+
+    def test_non_destructive_action_blocks_when_target_missing_in_after_state(self) -> None:
+        context, plan, before_state = self._build_visual_plan(
+            goal="Open settings",
+            ocr_payload=[
+                {
+                    "text": "Open",
+                    "left": 20,
+                    "top": 30,
+                    "width": 40,
+                    "height": 18,
+                    "confidence": 0.94,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+                {
+                    "text": "Settings",
+                    "left": 64,
+                    "top": 30,
+                    "width": 72,
+                    "height": 18,
+                    "confidence": 0.93,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+            ],
+            candidates=[
+                {
+                    "role": "button",
+                    "left": 14,
+                    "top": 24,
+                    "width": 132,
+                    "height": 30,
+                    "confidence": 0.96,
+                }
+            ],
+        )
+        after_state = self._build_ui_state(
+            [
+                {
+                    "text": "Dashboard",
+                    "left": 40,
+                    "top": 20,
+                    "width": 90,
+                    "height": 18,
+                    "confidence": 0.9,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                }
+            ],
+            candidates=[],
+            source_id="scene:after-open",
+        )
+
+        result = self.executor.execute(
+            context,
+            plan,
+            before_state,
+            post_action_ui_state=after_state,
+        )
+
+        self.assertEqual(result.execution.status, "blocked")
+        postcheck_outputs = [entry for entry in result.execution.outputs if entry["action_stage"] == "ui_postcheck"]
+        self.assertEqual(len(postcheck_outputs), 1)
+        self.assertEqual(postcheck_outputs[0]["status"], "blocked")
+
+    def test_critical_action_emits_before_after_validation_artifact(self) -> None:
+        context, plan, state = self._build_visual_plan(
+            goal="Delete backup",
+            ocr_payload=[
+                {
+                    "text": "Delete",
+                    "left": 24,
+                    "top": 34,
+                    "width": 52,
+                    "height": 18,
+                    "confidence": 0.9,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+                {
+                    "text": "Backup",
+                    "left": 82,
+                    "top": 34,
+                    "width": 62,
+                    "height": 18,
+                    "confidence": 0.89,
+                    "line_id": "line-1",
+                    "block_id": "block-a",
+                },
+            ],
+            candidates=[
+                {
+                    "role": "button",
+                    "left": 18,
+                    "top": 28,
+                    "width": 134,
+                    "height": 30,
+                    "confidence": 0.94,
+                }
+            ],
+        )
+
+        pending = self.executor.execute(context, plan, state)
+        checkpoint = pending.checkpoints[0]
+        confirmed = self.executor.execute(
+            context,
+            plan,
+            state,
+            confirmation_tokens={checkpoint.task_id: checkpoint.token},
+        )
+
+        self.assertEqual(confirmed.execution.status, "success")
+        self.assertEqual(len(confirmed.execution.artifacts), 1)
+        artifact = confirmed.execution.artifacts[0]
+        self.assertEqual(artifact["artifact_type"], "ui_state_validation")
+        self.assertGreaterEqual(artifact["record_count"], 2)
+
     def test_disabled_element_is_blocked_during_precheck(self) -> None:
         context, plan, state = self._build_visual_plan(
             goal="Open settings",
