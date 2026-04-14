@@ -54,6 +54,11 @@ from .status_check import (
     StatusCheckResponse,
     StatusSummaryRenderer,
 )
+from .memory_correction import (
+    MemoryCorrectionError,
+    MemoryCorrectionRecord,
+    MemoryCorrectionWorkflow,
+)
 
 __all__ = [
     "MemoryDomainError",
@@ -96,4 +101,7 @@ __all__ = [
     "StatusSummaryRenderer",
     "StatusCheckCommand",
     "StatusCheckCommandError",
+    "MemoryCorrectionRecord",
+    "MemoryCorrectionWorkflow",
+    "MemoryCorrectionError",
 ]
