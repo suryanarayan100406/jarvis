@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 3.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P3-T11 conversation regression tests for persona and tone consistency.
+5. Next execution target: implement P3-T12 voice latency and reliability tests under noisy input conditions.
 
 ## Active Focus
 1. Establish core architecture and policy controls before broad automation.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Start Phase 3 execution from .planning/phases/3/PLAN.md.
-2. Implement P3-T11 through P3-T12 with verify-then-advance discipline.
+2. Implement P3-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -58,3 +58,4 @@
 37. P3-T8 completed: priority formatter added for urgent and critical events with escalation and acknowledgement metadata; 159 tests passing.
 38. P3-T9 completed: operational mode switch manager implemented for War Room, Deep Research, Stealth, Creative, and Mission Brief modes; 165 tests passing.
 39. P3-T10 completed: mission brief schema renderer implemented with strict validation and markdown/json output modes; 171 tests passing.
+40. P3-T11 completed: conversation regression tests added for persona addressing and tone consistency across turns and mode transitions; 175 tests passing.
