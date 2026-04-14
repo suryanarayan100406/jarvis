@@ -34,6 +34,12 @@ from .physical_simulation_harness import (
 	PhysicalSimulationHarness,
 	PhysicalSimulationHarnessError,
 )
+from .physical_interlock_engine import (
+	PhysicalInterlockDecision,
+	PhysicalInterlockError,
+	PhysicalInterlockRequest,
+	PhysicalSafetyInterlockEngine,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -104,6 +110,10 @@ __all__ = [
 	"PhysicalPlanExecutionResult",
 	"PhysicalSimulationHarness",
 	"PhysicalSimulationHarnessError",
+	"PhysicalInterlockRequest",
+	"PhysicalInterlockDecision",
+	"PhysicalSafetyInterlockEngine",
+	"PhysicalInterlockError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
