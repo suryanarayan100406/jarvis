@@ -1,5 +1,11 @@
 """Control plane module exports."""
 
+from .command_templates import (
+	CommandTemplateError,
+	CommandTemplateLibrary,
+	CommandTemplateRecord,
+	ResolvedCommand,
+)
 from .connector_manager import (
 	AdapterRegistration,
 	ConnectorExecutionResult,
@@ -23,4 +29,8 @@ __all__ = [
 	"SshExecutionRequest",
 	"SshRemoteConnector",
 	"SshConnectorError",
+	"CommandTemplateRecord",
+	"ResolvedCommand",
+	"CommandTemplateLibrary",
+	"CommandTemplateError",
 ]
