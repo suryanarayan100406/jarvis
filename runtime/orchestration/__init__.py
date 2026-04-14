@@ -58,6 +58,14 @@ from .follow_up_manager import (
     FollowUpSnapshot,
     FollowUpStatus,
 )
+from .watchdog import (
+    RunWatchStatus,
+    RunWatchdog,
+    WatchedRun,
+    WatchdogAction,
+    WatchdogError,
+    WatchdogScanResult,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -102,4 +110,10 @@ __all__ = [
     "FollowUpSnapshot",
     "FollowUpManager",
     "FollowUpManagerError",
+    "RunWatchStatus",
+    "WatchedRun",
+    "WatchdogAction",
+    "WatchdogScanResult",
+    "RunWatchdog",
+    "WatchdogError",
 ]
