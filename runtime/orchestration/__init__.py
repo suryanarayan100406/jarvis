@@ -37,6 +37,12 @@ from .confidence_routing import (
     ConfidenceRoutingError,
     RiskLevel,
 )
+from .autonomy_policy import (
+    AutonomyPolicyDecision,
+    AutonomyPolicyError,
+    AutonomyPolicyRule,
+    BoundedAutonomyPolicy,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -66,4 +72,8 @@ __all__ = [
     "ApprovalRoutingDecision",
     "ActionApprovalConfidenceModel",
     "ConfidenceRoutingError",
+    "AutonomyPolicyRule",
+    "AutonomyPolicyDecision",
+    "BoundedAutonomyPolicy",
+    "AutonomyPolicyError",
 ]
