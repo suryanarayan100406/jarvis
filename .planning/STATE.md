@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T5 addressing-compliance tests for Boss and user overrides.
+5. Next execution target: implement P12-T6 mode-specific behavior tests for War Room, Deep Research, Stealth, Creative, and Mission Brief.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -169,3 +169,4 @@
 148. P12-T2 completed: previous-session carry-over workflow added with open-loop continuity synthesis, deterministic session resume summaries, optional context-note propagation, and owner-scoped carry-over item reporting; 755 tests passing.
 149. P12-T3 completed: communication calibration tracker added with confidence-scored tone and depth and verbosity recommendations, signal-driven preference adaptation workflow, and deterministic calibration snapshot reporting; 761 tests passing.
 150. P12-T4 completed: persona compliance evaluator added for FRIDAY and JARVIS profiles with deterministic compliance checks for sample coverage, addressing consistency, persona-tag presence, and confidence-tag adherence, including batch-level rollup scoring; 766 tests passing.
+151. P12-T5 completed: addressing-compliance tests added for FRIDAY Boss defaults and operator-scoped user overrides, including override precedence, whitespace normalization, and JARVIS honorific interaction checks; 771 tests passing.
