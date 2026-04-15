@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P11-T2 dashboards for runtime, autonomy, and security health.
+5. Next execution target: implement P11-T3 alert rules and on-call routing by severity.
 
 ## Active Focus
 1. Prepare FRIDAY for stable daily operation with production-grade reliability.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 11 execution from .planning/phases/11/PLAN.md.
-2. Implement P11-T2 through P11-T12 with verify-then-advance discipline.
+2. Implement P11-T3 through P11-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -153,3 +153,4 @@
 132. P10-T12 completed: governance review workflow for experiment promotion added with checklist-based approval readiness evaluation, role-gated signoff collection, recommendation-aware finalization controls, and deterministic governance review manifests; 667 tests passing.
 133. Phase 10 completed: tasks P10-T1 through P10-T12 verified and pushed.
 134. P11-T1 completed: production SLO and error-budget baseline definitions added for orchestration, planner, executor, memory, policy, and security subsystems with strict validation, deterministic catalog/report manifests, and burn-rate-based budget monitoring; 673 tests passing.
+135. P11-T2 completed: operations health dashboard builder added for runtime, autonomy, and security with domain-weighted scoring, threshold-based warning/critical status propagation, deterministic dashboard manifests, and markdown summary rendering; 679 tests passing.

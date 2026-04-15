@@ -85,6 +85,16 @@ from .slo_error_budget import (
     build_default_core_slo_catalog,
     validate_slo_catalog,
 )
+from .operations_health_dashboard import (
+    HealthStatus,
+    MetricDirection,
+    OperationalHealthDomainSnapshot,
+    OperationalHealthMetric,
+    OperationalHealthMetricResult,
+    OperationsHealthDashboard,
+    OperationsHealthDashboardBuilder,
+    OperationsHealthDashboardError,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -150,4 +160,12 @@ __all__ = [
     "SLOErrorBudgetError",
     "build_default_core_slo_catalog",
     "validate_slo_catalog",
+    "HealthStatus",
+    "MetricDirection",
+    "OperationalHealthMetric",
+    "OperationalHealthMetricResult",
+    "OperationalHealthDomainSnapshot",
+    "OperationsHealthDashboard",
+    "OperationsHealthDashboardBuilder",
+    "OperationsHealthDashboardError",
 ]
