@@ -55,6 +55,13 @@ from .physical_emergency_stop import (
 	PhysicalEmergencyStopEvent,
 	PhysicalEmergencyStopManager,
 )
+from .physical_telemetry_ingestion import (
+	PhysicalMissionStateSnapshot,
+	PhysicalTelemetryIngestionError,
+	PhysicalTelemetryIngestionManager,
+	PhysicalTelemetryIngestionRequest,
+	PhysicalTelemetrySample,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -140,6 +147,11 @@ __all__ = [
 	"PhysicalEmergencyStopEvent",
 	"PhysicalEmergencyStopManager",
 	"PhysicalEmergencyStopError",
+	"PhysicalTelemetryIngestionRequest",
+	"PhysicalTelemetrySample",
+	"PhysicalMissionStateSnapshot",
+	"PhysicalTelemetryIngestionManager",
+	"PhysicalTelemetryIngestionError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
