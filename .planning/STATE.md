@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T8 prompt handling tests for no-filler and answer-first response contract.
+5. Next execution target: implement P12-T9 status-check accuracy tests for open-loop register summaries.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -172,3 +172,4 @@
 151. P12-T5 completed: addressing-compliance tests added for FRIDAY Boss defaults and operator-scoped user overrides, including override precedence, whitespace normalization, and JARVIS honorific interaction checks; 771 tests passing.
 152. P12-T6 completed: mode-specific behavior compliance tests added for War Room, Deep Research, Stealth, Creative, and Mission Brief contracts, including transition sequencing and policy validation for tone, parallelism, and confirmation gating; 777 tests passing.
 153. P12-T7 completed: ethical refusal evaluator added with policy-violation detection and deterministic refusal decisions, plus safe alternative-path validation that rejects unsafe alternatives and routes compliant fallback guidance; 782 tests passing.
+154. P12-T8 completed: prompt-handling contract tests added for no-filler and answer-first response behavior, with formatter hardening that strips common filler prefixes while preserving confidence and persona tagging guarantees; 787 tests passing.

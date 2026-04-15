@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Literal
 
@@ -44,7 +45,8 @@ class ResponseFormatter:
         persona_id: str | None = None,
     ) -> FormattedResponse:
         normalized_answer = _normalize_text(answer)
-        if not normalized_answer:
+        normalized_answer = _strip_leading_filler(normalized_answer)
+        if not _has_substantive_text(normalized_answer):
             raise ValueError("answer cannot be empty")
 
         normalized_address = _normalize_text(addressed_to)
@@ -107,9 +109,29 @@ def _normalize_text(value: str) -> str:
     return " ".join(value.split())
 
 
+def _strip_leading_filler(value: str) -> str:
+    stripped = value
+    while True:
+        updated = _LEADING_FILLER_PATTERN.sub("", stripped, count=1).strip()
+        if updated == stripped:
+            break
+        stripped = updated
+    return stripped.lstrip(" ,;:.-")
+
+
+def _has_substantive_text(value: str) -> bool:
+    return bool(re.search(r"[A-Za-z0-9]", value))
+
+
 def _normalize_confidence(confidence: float | None) -> float | None:
     if confidence is None:
         return None
 
     bounded = max(0.0, min(1.0, float(confidence)))
     return round(bounded, 3)
+
+
+_LEADING_FILLER_PATTERN = re.compile(
+    r"^(?:sure|certainly|absolutely|of course|no problem|gladly|okay|ok|alright)\b[\s,;:!\-]*",
+    re.IGNORECASE,
+)
