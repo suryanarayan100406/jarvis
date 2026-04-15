@@ -36,6 +36,16 @@ from .cross_domain_transfer import (
     build_default_cross_domain_transfer_suite,
     validate_cross_domain_transfer_suite,
 )
+from .self_improvement_sandbox import (
+    SelfImprovementExperimentProposal,
+    SelfImprovementIsolationProfile,
+    SelfImprovementRunRecord,
+    SelfImprovementSandbox,
+    SelfImprovementSandboxError,
+    SelfImprovementSandboxEvent,
+    build_default_self_improvement_isolation_profile,
+    validate_self_improvement_isolation_profile,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -64,6 +74,14 @@ __all__ = [
     "CrossDomainTransferError",
     "build_default_cross_domain_transfer_suite",
     "validate_cross_domain_transfer_suite",
+    "SelfImprovementIsolationProfile",
+    "SelfImprovementExperimentProposal",
+    "SelfImprovementSandboxEvent",
+    "SelfImprovementRunRecord",
+    "SelfImprovementSandbox",
+    "SelfImprovementSandboxError",
+    "build_default_self_improvement_isolation_profile",
+    "validate_self_improvement_isolation_profile",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
