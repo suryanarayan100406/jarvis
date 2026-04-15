@@ -67,6 +67,15 @@ from .safety_regression_gate import (
     build_default_safety_regression_policy,
     validate_safety_regression_policy,
 )
+from .capability_trend_dashboard import (
+    CapabilityTrendDashboard,
+    CapabilityTrendDashboardBuilder,
+    CapabilityTrendDomainSummary,
+    CapabilityTrendError,
+    CapabilityTrendPoint,
+    CapabilityTrendSummary,
+    TrendConfidenceInterval,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -120,6 +129,13 @@ __all__ = [
     "SafetyRegressionGateError",
     "build_default_safety_regression_policy",
     "validate_safety_regression_policy",
+    "TrendConfidenceInterval",
+    "CapabilityTrendPoint",
+    "CapabilityTrendSummary",
+    "CapabilityTrendDomainSummary",
+    "CapabilityTrendDashboard",
+    "CapabilityTrendDashboardBuilder",
+    "CapabilityTrendError",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
