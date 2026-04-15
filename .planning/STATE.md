@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P11-T4 backup strategy for state, memory, and configuration.
+5. Next execution target: implement P11-T5 restore workflow with integrity checks.
 
 ## Active Focus
 1. Prepare FRIDAY for stable daily operation with production-grade reliability.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 11 execution from .planning/phases/11/PLAN.md.
-2. Implement P11-T4 through P11-T12 with verify-then-advance discipline.
+2. Implement P11-T5 through P11-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -155,3 +155,4 @@
 134. P11-T1 completed: production SLO and error-budget baseline definitions added for orchestration, planner, executor, memory, policy, and security subsystems with strict validation, deterministic catalog/report manifests, and burn-rate-based budget monitoring; 673 tests passing.
 135. P11-T2 completed: operations health dashboard builder added for runtime, autonomy, and security with domain-weighted scoring, threshold-based warning/critical status propagation, deterministic dashboard manifests, and markdown summary rendering; 679 tests passing.
 136. P11-T3 completed: alert-rule evaluation and severity-based on-call routing added with duplicate suppression windows, rule-to-route validation, event-bus subscriber batch processing, and deterministic dispatch records; 686 tests passing.
+137. P11-T4 completed: backup strategy profile and execution manager added for state, memory, and configuration datasets with retention/cadence validation, integrity digest generation, size-limit enforcement, and deterministic backup execution manifests; 695 tests passing.

@@ -105,6 +105,17 @@ from .alert_routing import (
     OnCallRouteDefinition,
     build_default_alert_routing_engine,
 )
+from .backup_strategy import (
+    BackupDatasetPolicy,
+    BackupExecutionRecord,
+    BackupSnapshot,
+    BackupStatus,
+    BackupStrategyError,
+    BackupStrategyManager,
+    BackupStrategyProfile,
+    build_default_backup_strategy_profile,
+    validate_backup_strategy_profile,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -186,4 +197,13 @@ __all__ = [
     "AlertRoutingEngine",
     "AlertRoutingError",
     "build_default_alert_routing_engine",
+    "BackupStatus",
+    "BackupDatasetPolicy",
+    "BackupStrategyProfile",
+    "BackupSnapshot",
+    "BackupExecutionRecord",
+    "BackupStrategyManager",
+    "BackupStrategyError",
+    "build_default_backup_strategy_profile",
+    "validate_backup_strategy_profile",
 ]
