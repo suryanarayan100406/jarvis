@@ -88,6 +88,19 @@ from .failure_taxonomy import (
     build_default_failure_taxonomy,
     validate_failure_taxonomy,
 )
+from .quarterly_gap_report import (
+    MoonshotCapabilityTarget,
+    MoonshotDomainTarget,
+    MoonshotTargetProfile,
+    QuarterlyCapabilityGap,
+    QuarterlyDomainGap,
+    QuarterlyGapRecommendation,
+    QuarterlyGapReport,
+    QuarterlyGapReportError,
+    QuarterlyGapReportGenerator,
+    build_default_moonshot_target_profile,
+    validate_moonshot_target_profile,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -158,6 +171,17 @@ __all__ = [
     "FailureRootCauseLabeler",
     "build_default_failure_taxonomy",
     "validate_failure_taxonomy",
+    "MoonshotDomainTarget",
+    "MoonshotCapabilityTarget",
+    "MoonshotTargetProfile",
+    "QuarterlyDomainGap",
+    "QuarterlyCapabilityGap",
+    "QuarterlyGapRecommendation",
+    "QuarterlyGapReport",
+    "QuarterlyGapReportError",
+    "QuarterlyGapReportGenerator",
+    "build_default_moonshot_target_profile",
+    "validate_moonshot_target_profile",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
