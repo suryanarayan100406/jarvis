@@ -31,6 +31,18 @@ from .ethical_refusal import (
 	RefusalDecisionStatus,
 	SafeAlternativePath,
 )
+from .compliance_dashboard import (
+	ComplianceDashboard,
+	ComplianceDashboardBuilder,
+	ComplianceDashboardError,
+	ComplianceDriftAlert,
+	ComplianceSignalSnapshot,
+	ComplianceTrendPoint,
+	ComplianceTrendSummary,
+	DashboardStatus,
+	DriftSeverity,
+	TrendDirection,
+)
 
 __all__ = [
 	"PersonaProfile",
@@ -64,4 +76,14 @@ __all__ = [
 	"EthicalRefusalDecision",
 	"EthicalRefusalError",
 	"EthicalRefusalEvaluator",
+	"TrendDirection",
+	"DashboardStatus",
+	"DriftSeverity",
+	"ComplianceSignalSnapshot",
+	"ComplianceTrendPoint",
+	"ComplianceTrendSummary",
+	"ComplianceDriftAlert",
+	"ComplianceDashboard",
+	"ComplianceDashboardError",
+	"ComplianceDashboardBuilder",
 ]
