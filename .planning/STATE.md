@@ -3,18 +3,18 @@
 ## Current Status
 1. Project initialized: yes.
 2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 10.
+3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P10-T12 governance review workflow for experiment promotion.
+5. Next execution target: implement P11-T1 SLO and error budget definitions for core subsystems.
 
 ## Active Focus
-1. Establish a controlled moonshot capability program with measurable benchmarks.
-2. Preserve safety regression and rollback guarantees for all experiment pathways.
-3. Build reproducible long-horizon and cross-domain evaluation infrastructure.
+1. Prepare FRIDAY for stable daily operation with production-grade reliability.
+2. Establish SLO-driven monitoring, alerting, and incident response workflows.
+3. Validate launch readiness through release governance and recoverability drills.
 
 ## Immediate Next Actions
-1. Continue Phase 10 execution from .planning/phases/10/PLAN.md.
-2. Implement P10-T12 with verify-then-advance discipline.
+1. Continue Phase 11 execution from .planning/phases/11/PLAN.md.
+2. Implement P11-T1 through P11-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -150,3 +150,5 @@
 129. P10-T9 completed: failure taxonomy and root-cause labeling added with deterministic taxonomy manifests, signal-based root-cause label derivation, safety-gate result adapters, and strict duplicate/root-cause validation controls; 648 tests passing.
 130. P10-T10 completed: quarterly moonshot gap-report generator added with default target profiles, deterministic domain and capability gap scoring, failure-label-informed remediation prioritization, and markdown plus manifest reporting outputs; 654 tests passing.
 131. P10-T11 completed: adversarial uncertainty robustness tests added for benchmark reproducibility under noisy perturbations, hidden uncertainty-regression safety-gate blocking, noisy-signal root-cause labeling resilience, and quarterly risk escalation under severe failure labels; 660 tests passing.
+132. P10-T12 completed: governance review workflow for experiment promotion added with checklist-based approval readiness evaluation, role-gated signoff collection, recommendation-aware finalization controls, and deterministic governance review manifests; 667 tests passing.
+133. Phase 10 completed: tasks P10-T1 through P10-T12 verified and pushed.

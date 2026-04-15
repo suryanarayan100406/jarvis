@@ -101,6 +101,17 @@ from .quarterly_gap_report import (
     build_default_moonshot_target_profile,
     validate_moonshot_target_profile,
 )
+from .governance_review_workflow import (
+    ExperimentPromotionGovernanceReview,
+    ExperimentPromotionGovernanceWorkflow,
+    GovernanceChecklistItem,
+    GovernanceChecklistStatus,
+    GovernanceDecision,
+    GovernanceRecommendation,
+    GovernanceReviewSignoff,
+    GovernanceReviewStatus,
+    GovernanceReviewWorkflowError,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -182,6 +193,15 @@ __all__ = [
     "QuarterlyGapReportGenerator",
     "build_default_moonshot_target_profile",
     "validate_moonshot_target_profile",
+    "GovernanceChecklistStatus",
+    "GovernanceRecommendation",
+    "GovernanceReviewStatus",
+    "GovernanceDecision",
+    "GovernanceChecklistItem",
+    "GovernanceReviewSignoff",
+    "ExperimentPromotionGovernanceReview",
+    "GovernanceReviewWorkflowError",
+    "ExperimentPromotionGovernanceWorkflow",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
