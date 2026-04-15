@@ -43,6 +43,24 @@ from .compliance_dashboard import (
 	DriftSeverity,
 	TrendDirection,
 )
+from .compliance_correction import (
+	ComplianceCorrectionError,
+	ComplianceCorrectionEvent,
+	ComplianceCorrectionPlan,
+	ComplianceCorrectionTask,
+	ComplianceCorrectionWorkflow,
+	CorrectionPlanStatus,
+	CorrectionTaskPriority,
+	CorrectionTaskStatus,
+)
+from .directive_audit import (
+	AuditCheckStatus,
+	DirectiveAuditCheck,
+	DirectiveAuditError,
+	DirectiveAuditPublisher,
+	DirectiveAuditReport,
+	DirectiveAuditStatus,
+)
 
 __all__ = [
 	"PersonaProfile",
@@ -86,4 +104,18 @@ __all__ = [
 	"ComplianceDashboard",
 	"ComplianceDashboardError",
 	"ComplianceDashboardBuilder",
+	"CorrectionTaskPriority",
+	"CorrectionTaskStatus",
+	"CorrectionPlanStatus",
+	"ComplianceCorrectionTask",
+	"ComplianceCorrectionEvent",
+	"ComplianceCorrectionPlan",
+	"ComplianceCorrectionError",
+	"ComplianceCorrectionWorkflow",
+	"AuditCheckStatus",
+	"DirectiveAuditStatus",
+	"DirectiveAuditCheck",
+	"DirectiveAuditReport",
+	"DirectiveAuditError",
+	"DirectiveAuditPublisher",
 ]

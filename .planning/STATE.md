@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T11 correction workflow for failed compliance checks.
+5. Next execution target: run milestone closeout checks and prepare post-Phase-12 transition planning.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -13,9 +13,9 @@
 3. Track compliance drift and enforce correction workflows before release gates.
 
 ## Immediate Next Actions
-1. Continue Phase 12 execution from .planning/phases/12/PLAN.md.
-2. Implement P12-T1 through P12-T12 with verify-then-advance discipline.
-3. Commit and push each verified task.
+1. Run milestone closeout workflow and verify all Phase 12 objectives remain green.
+2. Prepare the next milestone planning handoff from current roadmap and governance artifacts.
+3. Continue commit-and-push discipline for all subsequent verified work.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
 ## Notes
@@ -175,3 +175,6 @@
 154. P12-T8 completed: prompt-handling contract tests added for no-filler and answer-first response behavior, with formatter hardening that strips common filler prefixes while preserving confidence and persona tagging guarantees; 787 tests passing.
 155. P12-T9 completed: status-check accuracy tests added for open-loop register summaries across owner scoping, status-mix metrics, overdue boundary handling, and top-loop ordering consistency; 791 tests passing.
 156. P12-T10 completed: compliance dashboard builder added with component trend aggregation, deterministic markdown and manifest outputs, and warning or critical drift alerts for declining compliance trajectories; 798 tests passing.
+157. P12-T11 completed: compliance correction workflow added for failed persona checks, drift alerts, and ethical-refusal routing gaps with deterministic plan manifests, task lifecycle updates, and finalization gating; 803 tests passing.
+158. P12-T12 completed: directive audit publisher added with release-readiness pass or hold or fail checks across persona baseline, drift posture, correction closure, and ethical routing, including deterministic markdown and manifest reports; 807 tests passing.
+159. Phase 12 completed: tasks P12-T1 through P12-T12 verified and pushed.
