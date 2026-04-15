@@ -73,6 +73,18 @@ from .activity_summary import (
     AutonomousActivitySummaryGenerator,
     SummaryPeriod,
 )
+from .slo_error_budget import (
+    BurnStatus,
+    ErrorBudgetEvaluation,
+    ErrorBudgetMonitor,
+    ErrorBudgetReport,
+    SLOCatalog,
+    SLOErrorBudgetError,
+    SLOObservation,
+    SubsystemSLODefinition,
+    build_default_core_slo_catalog,
+    validate_slo_catalog,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -128,4 +140,14 @@ __all__ = [
     "AutonomousActivitySummary",
     "AutonomousActivitySummaryGenerator",
     "ActivitySummaryError",
+    "BurnStatus",
+    "SubsystemSLODefinition",
+    "SLOCatalog",
+    "SLOObservation",
+    "ErrorBudgetEvaluation",
+    "ErrorBudgetReport",
+    "ErrorBudgetMonitor",
+    "SLOErrorBudgetError",
+    "build_default_core_slo_catalog",
+    "validate_slo_catalog",
 ]
