@@ -11,6 +11,12 @@ from .startup_boot_renderer import (
     StartupBootRenderer,
     StartupBootReport,
 )
+from .session_carryover import (
+    PreviousSessionCarryOverWorkflow,
+    SessionCarryOverError,
+    SessionCarryOverItem,
+    SessionCarryOverSummary,
+)
 
 __all__ = [
     "SessionProtocolContract",
@@ -25,4 +31,8 @@ __all__ = [
     "StartupBootReport",
     "StartupBootRenderError",
     "StartupBootRenderer",
+    "SessionCarryOverItem",
+    "SessionCarryOverSummary",
+    "SessionCarryOverError",
+    "PreviousSessionCarryOverWorkflow",
 ]
