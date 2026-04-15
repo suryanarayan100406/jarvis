@@ -123,6 +123,19 @@ Exit Criteria:
 2. Startup and status-check workflows are reliable under load.
 3. User preference adaptation is accurate and stable across sessions.
 
+### Milestone 12: Governance and Verification Automation
+Goal: Make milestone closure machine-verifiable by standardizing planning evidence artifacts and automating audit and release gates.
+Deliverables:
+1. Per-phase summary, verification, and validation artifact contracts.
+2. Historical artifact backfill for phases 1 through 12.
+3. Automated milestone audit pipeline with deterministic reports.
+4. Requirements traceability generator linking REQ-IDs to phase evidence.
+5. Release-gate integration enforcing artifact completeness and consistency.
+Exit Criteria:
+1. Every active phase has compliant SUMMARY, VERIFICATION, and VALIDATION artifacts.
+2. Milestone audit generation no longer depends on manual reconstruction.
+3. Release completion is blocked when governance artifacts are missing or inconsistent.
+
 ## Dependency Graph (High-Level)
 1. Milestone 1 depends on Milestone 0.
 2. Milestone 2 depends on Milestone 1.
@@ -135,6 +148,7 @@ Exit Criteria:
 9. Milestone 9 runs in parallel from Milestone 3 onward and informs all later milestones.
 10. Milestone 10 depends on Milestones 1 through 9.
 11. Milestone 11 depends on Milestones 2, 4, 6, and 10.
+12. Milestone 12 depends on Milestone 11 and milestone-closeout governance evidence from Milestone 0.
 
 ## Execution Rule
 Each milestone must pass: plan review -> implementation -> verification -> adversarial testing -> release gate.

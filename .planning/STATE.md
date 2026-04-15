@@ -2,19 +2,19 @@
 
 ## Current Status
 1. Project initialized: yes.
-2. Current milestone: 0 (Foundation and Governance).
-3. Current phase: 12.
-4. Planning status: complete for phases 1 through 12.
-5. Next execution target: kick off the next milestone planning cycle from NEXT-MILESTONE-HANDOFF.md.
+2. Current milestone: 12 (Governance and Verification Automation).
+3. Current phase: 13.
+4. Planning status: complete for phases 1 through 17.
+5. Next execution target: implement P13-T1 artifact schema contracts and validation baseline.
 
 ## Active Focus
-1. Validate directive-compliant startup behavior and session continuity.
-2. Ensure persona, addressing, and mode behavior remain consistent and reliable.
-3. Track compliance drift and enforce correction workflows before release gates.
+1. Standardize phase governance artifacts for summary, verification, and validation evidence.
+2. Automate milestone audit and requirements traceability generation from planning artifacts.
+3. Enforce governance-aware release gates for milestone closure.
 
 ## Immediate Next Actions
-1. Kick off next-milestone planning using .planning/NEXT-MILESTONE-HANDOFF.md and .planning/v0-MILESTONE-AUDIT.md.
-2. Define milestone-scoped requirements for governance and verification automation.
+1. Execute Phase 13 tasks for artifact contracts, template generation, and schema validation.
+2. Prepare Phase 14 backfill workflow for phases 1 through 12 evidence reconstruction.
 3. Continue commit-and-push discipline for all subsequent verified work.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -182,3 +182,6 @@
 161. Milestone audit published: .planning/v0-MILESTONE-AUDIT.md with status tech_debt (functional pass, documentation and Nyquist artifact debt tracked for follow-up).
 162. Next-milestone handoff prepared: .planning/NEXT-MILESTONE-HANDOFF.md with proposed governance and verification automation scope.
 163. Milestone archive snapshots created under .planning/milestones for ROADMAP, REQUIREMENTS, and PROJECT baseline preservation.
+164. Milestone 12 planning kicked off: governance and verification automation requirements added to REQUIREMENTS.md.
+165. Roadmap extended with Milestone 12 and new phases 13 through 17 for artifact governance, audit automation, traceability, and release-gate enforcement.
+166. Phase plans added: phases 13 through 17 now include executable PLAN.md files for milestone 12 governance automation workstream.

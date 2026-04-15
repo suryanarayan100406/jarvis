@@ -111,6 +111,30 @@
 4. When declining, the system must offer a safe alternative path where feasible.
 5. For ambiguous requests, the system must prefer clarification before refusal.
 
+### FR-019 Phase Governance Artifact Contracts
+1. Every phase must publish a `SUMMARY` artifact with standardized frontmatter and requirement completion metadata.
+2. Every phase must publish a `VERIFICATION` artifact with explicit status, evidence references, and unresolved gap tracking.
+3. Every phase must publish a `VALIDATION` artifact with Nyquist compliance state and wave completion markers.
+4. Artifact schemas must be machine-parseable and validated before phase closure.
+
+### FR-020 Automated Milestone Audit Pipeline
+1. The system must compute milestone audit status (`passed`, `tech_debt`, `gaps_found`) from phase artifacts.
+2. The audit report must include deterministic scorecards for requirements, phase completion, integration, and flow checks.
+3. The audit pipeline must emit deterministic markdown and manifest outputs suitable for release evidence.
+4. Any unsatisfied requirement in traceability data must force a non-pass milestone status.
+
+### FR-021 Requirements Traceability Automation
+1. The system must map each requirement ID to one or more implementing phases and verification evidence entries.
+2. The traceability generator must classify each requirement as satisfied, partial, unsatisfied, or orphaned.
+3. The generator must emit both human-readable table output and machine-readable manifest output.
+4. Traceability generation must support milestone-level and full-project views.
+
+### FR-022 Governance-Aware Release Gates
+1. Milestone completion must fail when required phase artifacts are missing.
+2. Milestone completion must fail when traceability status includes unsatisfied or orphaned requirements.
+3. Governance gate overrides must require explicit waiver metadata and audit log records.
+4. Release gate evaluation output must be deterministic and reproducible.
+
 ## Non-Functional Requirements
 
 ### NFR-001 Locality
@@ -146,6 +170,14 @@
 1. Uncertain outputs must include explicit confidence scoring.
 2. High-impact recommendations must include rationale and evidence references.
 
+### NFR-009 Governance Determinism
+1. Governance artifacts generated from identical inputs must produce identical digests.
+2. Audit and traceability manifest generation must be stable across repeated runs.
+
+### NFR-010 Planning Evidence Completeness
+1. Artifact linting for a completed phase should run in under 3 seconds on standard planning workloads.
+2. Milestone audit generation should complete in under 5 seconds for up to 20 phases.
+
 ## Acceptance Gates
 1. Gate A: Safety and policy controls pass adversarial tests.
 2. Gate B: Core assistant executes representative end-to-end workflows.
@@ -154,3 +186,5 @@
 5. Gate E: Moonshot benchmark suite shows continuous capability improvement.
 6. Gate F: Persona, addressing, and mode-switch compliance tests pass.
 7. Gate G: Prompt injection and identity override resilience tests pass.
+8. Gate H: Phase governance artifacts pass schema and completeness validation.
+9. Gate I: Automated milestone audit and requirements traceability gates pass without unresolved blockers.

@@ -19,3 +19,8 @@
 10. Phase 10 - Moonshot Capability Program: phases/10/PLAN.md
 11. Phase 11 - Production Reliability and Launch: phases/11/PLAN.md
 12. Phase 12 - Directive Compliance and Operator Excellence: phases/12/PLAN.md
+13. Phase 13 - Governance Artifact Contracts and Templates: phases/13/PLAN.md
+14. Phase 14 - Historical Verification Artifact Backfill: phases/14/PLAN.md
+15. Phase 15 - Automated Milestone Audit Pipeline: phases/15/PLAN.md
+16. Phase 16 - Requirements Traceability Automation: phases/16/PLAN.md
+17. Phase 17 - Governance-Aware Release Gate Integration: phases/17/PLAN.md
