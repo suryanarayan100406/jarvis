@@ -181,3 +181,4 @@
 160. Milestone 0 closeout check completed: full runtime regression rerun at commit 5531abc with 807 passing tests and clean working tree.
 161. Milestone audit published: .planning/v0-MILESTONE-AUDIT.md with status tech_debt (functional pass, documentation and Nyquist artifact debt tracked for follow-up).
 162. Next-milestone handoff prepared: .planning/NEXT-MILESTONE-HANDOFF.md with proposed governance and verification automation scope.
+163. Milestone archive snapshots created under .planning/milestones for ROADMAP, REQUIREMENTS, and PROJECT baseline preservation.
