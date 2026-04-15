@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: archive milestone 0 and begin next-milestone planning cycle.
+5. Next execution target: kick off the next milestone planning cycle from NEXT-MILESTONE-HANDOFF.md.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -13,8 +13,8 @@
 3. Track compliance drift and enforce correction workflows before release gates.
 
 ## Immediate Next Actions
-1. Run milestone archival workflow using .planning/v0-MILESTONE-AUDIT.md as closeout evidence.
-2. Start next-milestone planning from updated project context and requirement priorities.
+1. Kick off next-milestone planning using .planning/NEXT-MILESTONE-HANDOFF.md and .planning/v0-MILESTONE-AUDIT.md.
+2. Define milestone-scoped requirements for governance and verification automation.
 3. Continue commit-and-push discipline for all subsequent verified work.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -180,3 +180,4 @@
 159. Phase 12 completed: tasks P12-T1 through P12-T12 verified and pushed.
 160. Milestone 0 closeout check completed: full runtime regression rerun at commit 5531abc with 807 passing tests and clean working tree.
 161. Milestone audit published: .planning/v0-MILESTONE-AUDIT.md with status tech_debt (functional pass, documentation and Nyquist artifact debt tracked for follow-up).
+162. Next-milestone handoff prepared: .planning/NEXT-MILESTONE-HANDOFF.md with proposed governance and verification automation scope.
