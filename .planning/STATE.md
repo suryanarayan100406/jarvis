@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 10.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P10-T11 adversarial intelligence tests for robustness under uncertainty.
+5. Next execution target: implement P10-T12 governance review workflow for experiment promotion.
 
 ## Active Focus
 1. Establish a controlled moonshot capability program with measurable benchmarks.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 10 execution from .planning/phases/10/PLAN.md.
-2. Implement P10-T11 through P10-T12 with verify-then-advance discipline.
+2. Implement P10-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -149,3 +149,4 @@
 128. P10-T8 completed: capability trend dashboard added with confidence-interval analytics across overall, domain, and capability scores, deterministic dashboard manifest output, and compatibility validation across benchmark run history windows; 642 tests passing.
 129. P10-T9 completed: failure taxonomy and root-cause labeling added with deterministic taxonomy manifests, signal-based root-cause label derivation, safety-gate result adapters, and strict duplicate/root-cause validation controls; 648 tests passing.
 130. P10-T10 completed: quarterly moonshot gap-report generator added with default target profiles, deterministic domain and capability gap scoring, failure-label-informed remediation prioritization, and markdown plus manifest reporting outputs; 654 tests passing.
+131. P10-T11 completed: adversarial uncertainty robustness tests added for benchmark reproducibility under noisy perturbations, hidden uncertainty-regression safety-gate blocking, noisy-signal root-cause labeling resilience, and quarterly risk escalation under severe failure labels; 660 tests passing.
