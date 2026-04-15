@@ -5,6 +5,13 @@ from .mission_brief_renderer import MissionBriefRenderer, MissionBriefValidation
 from .mode_switch import ModePolicy, ModeSwitchManager, ModeTransition
 from .profile_engine import PersonaProfile, PersonaProfileEngine
 from .response_formatter import FormattedResponse, ResponseFormatter
+from .communication_calibration import (
+	CommunicationCalibrationError,
+	CommunicationCalibrationResult,
+	CommunicationCalibrationSignal,
+	CommunicationCalibrationSnapshot,
+	CommunicationCalibrationTracker,
+)
 
 __all__ = [
 	"PersonaProfile",
@@ -18,4 +25,9 @@ __all__ = [
 	"MissionBriefValidationError",
 	"ResponseFormatter",
 	"FormattedResponse",
+	"CommunicationCalibrationSignal",
+	"CommunicationCalibrationSnapshot",
+	"CommunicationCalibrationResult",
+	"CommunicationCalibrationError",
+	"CommunicationCalibrationTracker",
 ]
