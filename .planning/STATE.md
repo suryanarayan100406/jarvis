@@ -5,7 +5,7 @@
 2. Current milestone: 12 (Governance and Verification Automation).
 3. Current phase: 13.
 4. Planning status: complete for phases 1 through 17.
-5. Next execution target: implement P13-T1 artifact schema contracts and validation baseline.
+5. Next execution target: implement P13-T2 verification artifact schema contracts.
 
 ## Active Focus
 1. Standardize phase governance artifacts for summary, verification, and validation evidence.
@@ -13,7 +13,7 @@
 3. Enforce governance-aware release gates for milestone closure.
 
 ## Immediate Next Actions
-1. Execute Phase 13 tasks for artifact contracts, template generation, and schema validation.
+1. Execute Phase 13 task P13-T2 for verification artifact schema contract baseline.
 2. Prepare Phase 14 backfill workflow for phases 1 through 12 evidence reconstruction.
 3. Continue commit-and-push discipline for all subsequent verified work.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
@@ -185,3 +185,4 @@
 164. Milestone 12 planning kicked off: governance and verification automation requirements added to REQUIREMENTS.md.
 165. Roadmap extended with Milestone 12 and new phases 13 through 17 for artifact governance, audit automation, traceability, and release-gate enforcement.
 166. Phase plans added: phases 13 through 17 now include executable PLAN.md files for milestone 12 governance automation workstream.
+167. P13-T1 completed: phase summary artifact schema contract validator implemented in runtime/validation with deterministic manifest support and dedicated tests; 813 tests passing.
