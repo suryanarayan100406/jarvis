@@ -172,6 +172,16 @@ from .failure_injection_drills import (
     FailureType,
     default_failure_injection_scenarios,
 )
+from .operator_runbooks import (
+    OperatorRunbookBundle,
+    OperatorRunbookDocument,
+    OperatorRunbookError,
+    OperatorRunbookFinalizer,
+    OperatorRunbookStep,
+    RunbookPhase,
+    RunbookPriority,
+    build_default_operator_runbook_bundle,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -308,4 +318,12 @@ __all__ = [
     "FailureInjectionDrillError",
     "FailureInjectionDrillRunner",
     "default_failure_injection_scenarios",
+    "RunbookPriority",
+    "RunbookPhase",
+    "OperatorRunbookStep",
+    "OperatorRunbookDocument",
+    "OperatorRunbookBundle",
+    "OperatorRunbookError",
+    "OperatorRunbookFinalizer",
+    "build_default_operator_runbook_bundle",
 ]

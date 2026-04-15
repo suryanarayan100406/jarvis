@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P11-T11 finalize operator runbooks and incident playbooks.
+5. Next execution target: implement P11-T12 launch readiness review and sign-off workflow.
 
 ## Active Focus
 1. Prepare FRIDAY for stable daily operation with production-grade reliability.
@@ -162,3 +162,4 @@
 141. P11-T8 completed: launch checklist manager added with automated gate validation across error budgets, operations health, disaster recovery, release promotion, and operator readiness, including deterministic go or hold or block decisions; 726 tests passing.
 142. P11-T9 completed: sustained reliability soak tests added across backup and restore, disaster recovery drills, release canary and rollback flows, and launch checklist decision behavior under nominal and warning conditions; 730 tests passing.
 143. P11-T10 completed: failure-injection drill runner added with critical-service default scenarios, response-budget-aware containment grading, deterministic drill reports, and coverage tests for missing handlers and degraded responses; 735 tests passing.
+144. P11-T11 completed: operator runbook finalizer added to compile incident playbooks and critical-service drill coverage into deterministic runbook bundles with rendered markdown guidance and escalation-ready priorities; 740 tests passing.
