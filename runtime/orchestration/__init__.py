@@ -137,6 +137,19 @@ from .disaster_recovery_runbook import (
     build_default_disaster_recovery_runbook,
     validate_disaster_recovery_runbook,
 )
+from .release_pipeline import (
+    CanaryEvaluation,
+    CanaryObservation,
+    CanaryStatus,
+    CanaryThresholdPolicy,
+    PipelineStatus,
+    ReleasePipelineError,
+    ReleasePipelineManager,
+    ReleasePipelineRecord,
+    RollbackState,
+    build_default_canary_threshold_policy,
+    validate_canary_threshold_policy,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -244,4 +257,15 @@ __all__ = [
     "DisasterRecoveryRunbookManager",
     "build_default_disaster_recovery_runbook",
     "validate_disaster_recovery_runbook",
+    "CanaryStatus",
+    "PipelineStatus",
+    "RollbackState",
+    "CanaryThresholdPolicy",
+    "CanaryObservation",
+    "CanaryEvaluation",
+    "ReleasePipelineRecord",
+    "ReleasePipelineError",
+    "ReleasePipelineManager",
+    "build_default_canary_threshold_policy",
+    "validate_canary_threshold_policy",
 ]
