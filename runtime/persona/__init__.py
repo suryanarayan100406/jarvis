@@ -12,6 +12,15 @@ from .communication_calibration import (
 	CommunicationCalibrationSnapshot,
 	CommunicationCalibrationTracker,
 )
+from .persona_compliance import (
+	ComplianceStatus,
+	PersonaComplianceBatchReport,
+	PersonaComplianceCheck,
+	PersonaComplianceError,
+	PersonaComplianceEvaluator,
+	PersonaComplianceReport,
+	PersonaComplianceSample,
+)
 
 __all__ = [
 	"PersonaProfile",
@@ -30,4 +39,11 @@ __all__ = [
 	"CommunicationCalibrationResult",
 	"CommunicationCalibrationError",
 	"CommunicationCalibrationTracker",
+	"ComplianceStatus",
+	"PersonaComplianceSample",
+	"PersonaComplianceCheck",
+	"PersonaComplianceReport",
+	"PersonaComplianceBatchReport",
+	"PersonaComplianceError",
+	"PersonaComplianceEvaluator",
 ]

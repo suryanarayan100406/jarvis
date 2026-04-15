@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T4 persona compliance evaluator across FRIDAY and JARVIS profiles.
+5. Next execution target: implement P12-T5 addressing-compliance tests for Boss and user overrides.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -168,3 +168,4 @@
 147. P12-T1 completed: startup boot renderer added with contract-aware boot message generation, integration-state health aggregation, deterministic startup manifests, and integration summary reporting; 750 tests passing.
 148. P12-T2 completed: previous-session carry-over workflow added with open-loop continuity synthesis, deterministic session resume summaries, optional context-note propagation, and owner-scoped carry-over item reporting; 755 tests passing.
 149. P12-T3 completed: communication calibration tracker added with confidence-scored tone and depth and verbosity recommendations, signal-driven preference adaptation workflow, and deterministic calibration snapshot reporting; 761 tests passing.
+150. P12-T4 completed: persona compliance evaluator added for FRIDAY and JARVIS profiles with deterministic compliance checks for sample coverage, addressing consistency, persona-tag presence, and confidence-tag adherence, including batch-level rollup scoring; 766 tests passing.
