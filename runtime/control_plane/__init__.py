@@ -49,6 +49,12 @@ from .physical_geofence_engine import (
 	PhysicalGeofenceEngine,
 	PhysicalGeofenceError,
 )
+from .physical_emergency_stop import (
+	PhysicalEmergencyStopDispatchResult,
+	PhysicalEmergencyStopError,
+	PhysicalEmergencyStopEvent,
+	PhysicalEmergencyStopManager,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -130,6 +136,10 @@ __all__ = [
 	"GeofenceEvaluationDecision",
 	"PhysicalGeofenceEngine",
 	"PhysicalGeofenceError",
+	"PhysicalEmergencyStopDispatchResult",
+	"PhysicalEmergencyStopEvent",
+	"PhysicalEmergencyStopManager",
+	"PhysicalEmergencyStopError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
