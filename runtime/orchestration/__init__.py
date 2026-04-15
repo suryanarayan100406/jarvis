@@ -124,6 +124,19 @@ from .restore_workflow import (
     RestoreWorkflowError,
     RestoreWorkflowResult,
 )
+from .disaster_recovery_runbook import (
+    DisasterRecoveryDrillResult,
+    DisasterRecoveryRunbook,
+    DisasterRecoveryRunbookError,
+    DisasterRecoveryRunbookManager,
+    DrillStatus,
+    RecoveryStepObservation,
+    RecoveryStepStatus,
+    RecoveryWindowEvaluation,
+    RecoveryWindowTarget,
+    build_default_disaster_recovery_runbook,
+    validate_disaster_recovery_runbook,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -220,4 +233,15 @@ __all__ = [
     "RestoreWorkflowResult",
     "RestoreWorkflowEngine",
     "RestoreWorkflowError",
+    "RecoveryStepStatus",
+    "DrillStatus",
+    "RecoveryWindowTarget",
+    "DisasterRecoveryRunbook",
+    "RecoveryStepObservation",
+    "RecoveryWindowEvaluation",
+    "DisasterRecoveryDrillResult",
+    "DisasterRecoveryRunbookError",
+    "DisasterRecoveryRunbookManager",
+    "build_default_disaster_recovery_runbook",
+    "validate_disaster_recovery_runbook",
 ]
