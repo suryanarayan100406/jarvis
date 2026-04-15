@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P11-T8 launch checklist automation and gate validation.
+5. Next execution target: implement P11-T9 reliability soak tests for sustained operation.
 
 ## Active Focus
 1. Prepare FRIDAY for stable daily operation with production-grade reliability.
@@ -159,3 +159,4 @@
 138. P11-T5 completed: restore workflow engine added with strict backup-status gating, per-dataset payload integrity verification, deterministic restore manifests, and failure-aware restore step reporting; 701 tests passing.
 139. P11-T6 completed: disaster-recovery runbook manager added with target RTO/RPO windows, strict required-step failure handling, deterministic drill manifests, and validation of required subsystem recovery coverage; 708 tests passing.
 140. P11-T7 completed: release pipeline manager added with canary threshold policy evaluation, promotion and canary-failure state handling, token-gated rollback execution, and deterministic pipeline manifests; 718 tests passing.
+141. P11-T8 completed: launch checklist manager added with automated gate validation across error budgets, operations health, disaster recovery, release promotion, and operator readiness, including deterministic go or hold or block decisions; 726 tests passing.

@@ -150,6 +150,17 @@ from .release_pipeline import (
     build_default_canary_threshold_policy,
     validate_canary_threshold_policy,
 )
+from .launch_checklist import (
+    LaunchChecklistError,
+    LaunchChecklistManager,
+    LaunchDecision,
+    LaunchGatePolicy,
+    LaunchGateResult,
+    LaunchGateStatus,
+    LaunchReadinessChecklist,
+    build_default_launch_gate_policy,
+    validate_launch_gate_policy,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -268,4 +279,13 @@ __all__ = [
     "ReleasePipelineManager",
     "build_default_canary_threshold_policy",
     "validate_canary_threshold_policy",
+    "LaunchGateStatus",
+    "LaunchDecision",
+    "LaunchGatePolicy",
+    "LaunchGateResult",
+    "LaunchReadinessChecklist",
+    "LaunchChecklistError",
+    "LaunchChecklistManager",
+    "build_default_launch_gate_policy",
+    "validate_launch_gate_policy",
 ]
