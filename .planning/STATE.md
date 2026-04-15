@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 9.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P9-T10 hardware-in-the-loop integration tests.
+5. Next execution target: implement P9-T11 failure-mode tests for sensor loss and actuator faults.
 
 ## Active Focus
 1. Enable optional IoT and robotics integration with strict safety controls.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 9 execution from .planning/phases/9/PLAN.md.
-2. Implement P9-T10 through P9-T12 with verify-then-advance discipline.
+2. Implement P9-T11 through P9-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -135,3 +135,4 @@
 114. P9-T7 completed: physical telemetry ingestion manager added for live mission-state feedback with per-device sequence tracking, state snapshot derivation, and operational event-bus emission for degraded, faulted, and emergency-stop conditions; 563 tests passing.
 115. P9-T8 completed: physical mission template planner added for approved template registration, deterministic binding and payload rendering, and live-control derivation for sandbox and risk-tier approvals; 570 tests passing.
 116. P9-T9 completed: manual takeover and override workflow manager added with role-gated mission takeover sessions, scoped override grants with single-use and expiry handling, and deterministic release or revocation behavior under emergency-stop constraints; 578 tests passing.
+117. P9-T10 completed: hardware-in-the-loop integration tests added for simulation-to-live promotion, manual takeover behavior during active missions, and emergency-stop propagation across mission telemetry and override gating; 581 tests passing.
