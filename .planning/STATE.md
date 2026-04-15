@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 11.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P11-T5 restore workflow with integrity checks.
+5. Next execution target: implement P11-T6 disaster recovery drill orchestrator.
 
 ## Active Focus
 1. Prepare FRIDAY for stable daily operation with production-grade reliability.
@@ -156,3 +156,4 @@
 135. P11-T2 completed: operations health dashboard builder added for runtime, autonomy, and security with domain-weighted scoring, threshold-based warning/critical status propagation, deterministic dashboard manifests, and markdown summary rendering; 679 tests passing.
 136. P11-T3 completed: alert-rule evaluation and severity-based on-call routing added with duplicate suppression windows, rule-to-route validation, event-bus subscriber batch processing, and deterministic dispatch records; 686 tests passing.
 137. P11-T4 completed: backup strategy profile and execution manager added for state, memory, and configuration datasets with retention/cadence validation, integrity digest generation, size-limit enforcement, and deterministic backup execution manifests; 695 tests passing.
+138. P11-T5 completed: restore workflow engine added with strict backup-status gating, per-dataset payload integrity verification, deterministic restore manifests, and failure-aware restore step reporting; 701 tests passing.

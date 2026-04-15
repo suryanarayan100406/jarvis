@@ -116,6 +116,14 @@ from .backup_strategy import (
     build_default_backup_strategy_profile,
     validate_backup_strategy_profile,
 )
+from .restore_workflow import (
+    RestoreStatus,
+    RestoreStepResult,
+    RestoreStepStatus,
+    RestoreWorkflowEngine,
+    RestoreWorkflowError,
+    RestoreWorkflowResult,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -206,4 +214,10 @@ __all__ = [
     "BackupStrategyError",
     "build_default_backup_strategy_profile",
     "validate_backup_strategy_profile",
+    "RestoreStepStatus",
+    "RestoreStatus",
+    "RestoreStepResult",
+    "RestoreWorkflowResult",
+    "RestoreWorkflowEngine",
+    "RestoreWorkflowError",
 ]
