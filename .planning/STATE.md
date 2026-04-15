@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 10.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P10-T1 benchmark taxonomy for reasoning, planning, memory, and tool use.
+5. Next execution target: implement P10-T2 benchmark harness runner with reproducible scoring.
 
 ## Active Focus
 1. Establish a controlled moonshot capability program with measurable benchmarks.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 10 execution from .planning/phases/10/PLAN.md.
-2. Implement P10-T1 through P10-T12 with verify-then-advance discipline.
+2. Implement P10-T2 through P10-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -139,3 +139,4 @@
 118. P9-T11 completed: failure-mode tests added for sensor loss degradation and actuator fault handling across simulation and live execution, including faulted telemetry mission-state transitions and fault event emission checks; 584 tests passing.
 119. P9-T12 completed: compliance tests added for mandatory simulation-before-live policy, including override non-bypass, single-use simulation approval tokens, mutation invalidation, failed-simulation promotion denial, and live-plan control declaration checks; 589 tests passing.
 120. Phase 9 completed: tasks P9-T1 through P9-T12 verified and pushed.
+121. P10-T1 completed: moonshot benchmark taxonomy defined for reasoning, planning, memory, and tool use with weighted domain and capability mappings, difficulty-band definitions, deterministic manifest output, and validation checks; 595 tests passing.
