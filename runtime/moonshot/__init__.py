@@ -46,6 +46,17 @@ from .self_improvement_sandbox import (
     build_default_self_improvement_isolation_profile,
     validate_self_improvement_isolation_profile,
 )
+from .experiment_approval_controls import (
+    ExperimentApprovalControlError,
+    ExperimentApprovalController,
+    ExperimentApprovalPolicy,
+    ExperimentApprovalRecord,
+    ExperimentApprovalRequest,
+    ExperimentPromotionRecord,
+    ExperimentRiskApprovalRule,
+    build_default_experiment_approval_policy,
+    validate_experiment_approval_policy,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -82,6 +93,15 @@ __all__ = [
     "SelfImprovementSandboxError",
     "build_default_self_improvement_isolation_profile",
     "validate_self_improvement_isolation_profile",
+    "ExperimentRiskApprovalRule",
+    "ExperimentApprovalPolicy",
+    "ExperimentApprovalRecord",
+    "ExperimentApprovalRequest",
+    "ExperimentPromotionRecord",
+    "ExperimentApprovalController",
+    "ExperimentApprovalControlError",
+    "build_default_experiment_approval_policy",
+    "validate_experiment_approval_policy",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
