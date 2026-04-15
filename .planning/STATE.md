@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T6 mode-specific behavior tests for War Room, Deep Research, Stealth, Creative, and Mission Brief.
+5. Next execution target: implement P12-T7 ethical refusal evaluator with safe alternative-path checks.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -170,3 +170,4 @@
 149. P12-T3 completed: communication calibration tracker added with confidence-scored tone and depth and verbosity recommendations, signal-driven preference adaptation workflow, and deterministic calibration snapshot reporting; 761 tests passing.
 150. P12-T4 completed: persona compliance evaluator added for FRIDAY and JARVIS profiles with deterministic compliance checks for sample coverage, addressing consistency, persona-tag presence, and confidence-tag adherence, including batch-level rollup scoring; 766 tests passing.
 151. P12-T5 completed: addressing-compliance tests added for FRIDAY Boss defaults and operator-scoped user overrides, including override precedence, whitespace normalization, and JARVIS honorific interaction checks; 771 tests passing.
+152. P12-T6 completed: mode-specific behavior compliance tests added for War Room, Deep Research, Stealth, Creative, and Mission Brief contracts, including transition sequencing and policy validation for tone, parallelism, and confirmation gating; 777 tests passing.
