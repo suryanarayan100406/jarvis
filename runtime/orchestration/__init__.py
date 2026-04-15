@@ -161,6 +161,17 @@ from .launch_checklist import (
     build_default_launch_gate_policy,
     validate_launch_gate_policy,
 )
+from .failure_injection_drills import (
+    FailureInjectionDrillError,
+    FailureInjectionDrillRunner,
+    FailureInjectionReport,
+    FailureInjectionResult,
+    FailureInjectionScenario,
+    FailureOutcome,
+    FailureSeverity,
+    FailureType,
+    default_failure_injection_scenarios,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -288,4 +299,13 @@ __all__ = [
     "LaunchChecklistManager",
     "build_default_launch_gate_policy",
     "validate_launch_gate_policy",
+    "FailureOutcome",
+    "FailureSeverity",
+    "FailureType",
+    "FailureInjectionScenario",
+    "FailureInjectionResult",
+    "FailureInjectionReport",
+    "FailureInjectionDrillError",
+    "FailureInjectionDrillRunner",
+    "default_failure_injection_scenarios",
 ]
