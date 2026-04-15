@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 10.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P10-T4 cross-domain transfer task evaluation suite.
+5. Next execution target: implement P10-T5 self-improvement sandbox with strict isolation.
 
 ## Active Focus
 1. Establish a controlled moonshot capability program with measurable benchmarks.
@@ -14,7 +14,7 @@
 
 ## Immediate Next Actions
 1. Continue Phase 10 execution from .planning/phases/10/PLAN.md.
-2. Implement P10-T3 through P10-T12 with verify-then-advance discipline.
+2. Implement P10-T5 through P10-T12 with verify-then-advance discipline.
 3. Commit and push each verified task.
 4. Follow .planning/EXECUTION-PROTOCOL.md for all progression gates.
 
@@ -142,3 +142,4 @@
 121. P10-T1 completed: moonshot benchmark taxonomy defined for reasoning, planning, memory, and tool use with weighted domain and capability mappings, difficulty-band definitions, deterministic manifest output, and validation checks; 595 tests passing.
 122. P10-T2 completed: benchmark harness runner added with deterministic scenario seeding, strict capability coverage enforcement, weighted domain and overall scoring, and reproducible digest generation for benchmark runs; 601 tests passing.
 123. P10-T3 completed: long-horizon mission scenario suite added with multi-checkpoint mission definitions, perturbation modeling, taxonomy-backed validation, and deterministic conversion into weighted benchmark scenarios; 607 tests passing.
+124. P10-T4 completed: cross-domain transfer evaluation suite added with source-to-target domain bridge scenarios, taxonomy-consistent checkpoint and capability validation, and deterministic conversion into benchmark harness scenarios; 613 tests passing.
