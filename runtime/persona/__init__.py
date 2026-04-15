@@ -21,6 +21,16 @@ from .persona_compliance import (
 	PersonaComplianceReport,
 	PersonaComplianceSample,
 )
+from .ethical_refusal import (
+	AlternativeCheckStatus,
+	AlternativePathCheck,
+	EthicalRefusalDecision,
+	EthicalRefusalError,
+	EthicalRefusalEvaluator,
+	EthicalRefusalRequest,
+	RefusalDecisionStatus,
+	SafeAlternativePath,
+)
 
 __all__ = [
 	"PersonaProfile",
@@ -46,4 +56,12 @@ __all__ = [
 	"PersonaComplianceBatchReport",
 	"PersonaComplianceError",
 	"PersonaComplianceEvaluator",
+	"RefusalDecisionStatus",
+	"AlternativeCheckStatus",
+	"EthicalRefusalRequest",
+	"SafeAlternativePath",
+	"AlternativePathCheck",
+	"EthicalRefusalDecision",
+	"EthicalRefusalError",
+	"EthicalRefusalEvaluator",
 ]
