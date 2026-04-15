@@ -76,6 +76,18 @@ from .capability_trend_dashboard import (
     CapabilityTrendSummary,
     TrendConfidenceInterval,
 )
+from .failure_taxonomy import (
+    FailureCategoryDefinition,
+    FailureLabelingReport,
+    FailureRootCauseDefinition,
+    FailureRootCauseLabel,
+    FailureRootCauseLabeler,
+    FailureSignal,
+    FailureTaxonomy,
+    FailureTaxonomyError,
+    build_default_failure_taxonomy,
+    validate_failure_taxonomy,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -136,6 +148,16 @@ __all__ = [
     "CapabilityTrendDashboard",
     "CapabilityTrendDashboardBuilder",
     "CapabilityTrendError",
+    "FailureCategoryDefinition",
+    "FailureRootCauseDefinition",
+    "FailureTaxonomy",
+    "FailureSignal",
+    "FailureRootCauseLabel",
+    "FailureLabelingReport",
+    "FailureTaxonomyError",
+    "FailureRootCauseLabeler",
+    "build_default_failure_taxonomy",
+    "validate_failure_taxonomy",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]

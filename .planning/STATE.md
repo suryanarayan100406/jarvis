@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 10.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P10-T9 failure taxonomy and root-cause labeling.
+5. Next execution target: implement P10-T10 failure pattern clustering and remediation recommendation scaffolding.
 
 ## Active Focus
 1. Establish a controlled moonshot capability program with measurable benchmarks.
@@ -147,3 +147,4 @@
 126. P10-T6 completed: experiment approval and rollback controller added with risk-tier approval policy rules, multi-reviewer promotion gating, transition-token guarded promotion flow, and single-use rollback-token execution controls; 627 tests passing.
 127. P10-T7 completed: safety regression gate added for model and policy updates with risk-tier threshold policy matrix, integrity checks on benchmark compatibility, and granular overall/domain/capability regression blocking controls; 635 tests passing.
 128. P10-T8 completed: capability trend dashboard added with confidence-interval analytics across overall, domain, and capability scores, deterministic dashboard manifest output, and compatibility validation across benchmark run history windows; 642 tests passing.
+129. P10-T9 completed: failure taxonomy and root-cause labeling added with deterministic taxonomy manifests, signal-based root-cause label derivation, safety-gate result adapters, and strict duplicate/root-cause validation controls; 648 tests passing.
