@@ -62,6 +62,14 @@ from .physical_telemetry_ingestion import (
 	PhysicalTelemetryIngestionRequest,
 	PhysicalTelemetrySample,
 )
+from .physical_mission_templates import (
+	PhysicalMissionExecutionPlan,
+	PhysicalMissionPlanStep,
+	PhysicalMissionTemplate,
+	PhysicalMissionTemplateError,
+	PhysicalMissionTemplatePlanner,
+	PhysicalMissionTemplateStep,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -152,6 +160,12 @@ __all__ = [
 	"PhysicalMissionStateSnapshot",
 	"PhysicalTelemetryIngestionManager",
 	"PhysicalTelemetryIngestionError",
+	"PhysicalMissionTemplateStep",
+	"PhysicalMissionTemplate",
+	"PhysicalMissionPlanStep",
+	"PhysicalMissionExecutionPlan",
+	"PhysicalMissionTemplatePlanner",
+	"PhysicalMissionTemplateError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
