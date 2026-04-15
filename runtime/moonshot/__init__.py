@@ -57,6 +57,16 @@ from .experiment_approval_controls import (
     build_default_experiment_approval_policy,
     validate_experiment_approval_policy,
 )
+from .safety_regression_gate import (
+    SafetyRegressionGate,
+    SafetyRegressionGateError,
+    SafetyRegressionGateResult,
+    SafetyRegressionPolicy,
+    SafetyRegressionRule,
+    SafetyRegressionViolation,
+    build_default_safety_regression_policy,
+    validate_safety_regression_policy,
+)
 
 __all__ = [
     "BenchmarkDomainDefinition",
@@ -102,6 +112,14 @@ __all__ = [
     "ExperimentApprovalControlError",
     "build_default_experiment_approval_policy",
     "validate_experiment_approval_policy",
+    "SafetyRegressionRule",
+    "SafetyRegressionPolicy",
+    "SafetyRegressionViolation",
+    "SafetyRegressionGateResult",
+    "SafetyRegressionGate",
+    "SafetyRegressionGateError",
+    "build_default_safety_regression_policy",
+    "validate_safety_regression_policy",
     "build_default_benchmark_taxonomy",
     "validate_benchmark_taxonomy",
 ]
