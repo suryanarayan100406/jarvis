@@ -5,7 +5,7 @@
 2. Current milestone: 0 (Foundation and Governance).
 3. Current phase: 12.
 4. Planning status: complete for phases 1 through 12.
-5. Next execution target: implement P12-T1 startup boot-sequence renderer and integration state reporting.
+5. Next execution target: implement P12-T2 previous-session carry-over summary workflow.
 
 ## Active Focus
 1. Validate directive-compliant startup behavior and session continuity.
@@ -165,3 +165,4 @@
 144. P11-T11 completed: operator runbook finalizer added to compile incident playbooks and critical-service drill coverage into deterministic runbook bundles with rendered markdown guidance and escalation-ready priorities; 740 tests passing.
 145. P11-T12 completed: launch readiness review workflow added with aggregated gate checklist synthesis, recommendation-aware decisioning, role-gated signoff enforcement, and controlled approval overrides; 745 tests passing.
 146. Phase 11 completed: tasks P11-T1 through P11-T12 verified and pushed.
+147. P12-T1 completed: startup boot renderer added with contract-aware boot message generation, integration-state health aggregation, deterministic startup manifests, and integration summary reporting; 750 tests passing.
