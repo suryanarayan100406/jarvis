@@ -70,6 +70,13 @@ from .physical_mission_templates import (
 	PhysicalMissionTemplatePlanner,
 	PhysicalMissionTemplateStep,
 )
+from .physical_manual_takeover import (
+	PhysicalManualOverrideGrant,
+	PhysicalManualTakeoverError,
+	PhysicalManualTakeoverEvent,
+	PhysicalManualTakeoverManager,
+	PhysicalManualTakeoverSession,
+)
 from .connector_health import (
 	ConnectorHealthError,
 	ConnectorHealthMonitor,
@@ -166,6 +173,11 @@ __all__ = [
 	"PhysicalMissionExecutionPlan",
 	"PhysicalMissionTemplatePlanner",
 	"PhysicalMissionTemplateError",
+	"PhysicalManualTakeoverSession",
+	"PhysicalManualOverrideGrant",
+	"PhysicalManualTakeoverEvent",
+	"PhysicalManualTakeoverManager",
+	"PhysicalManualTakeoverError",
 	"SshHostCredentials",
 	"SshExecutionRequest",
 	"SshRemoteConnector",
