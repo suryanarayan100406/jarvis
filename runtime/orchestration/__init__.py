@@ -95,6 +95,16 @@ from .operations_health_dashboard import (
     OperationsHealthDashboardBuilder,
     OperationsHealthDashboardError,
 )
+from .alert_routing import (
+    AlertDispatchRecord,
+    AlertRoutingBatchResult,
+    AlertRoutingEngine,
+    AlertRoutingError,
+    AlertRuleDefinition,
+    DispatchStatus,
+    OnCallRouteDefinition,
+    build_default_alert_routing_engine,
+)
 
 __all__ = [
     "RunStateMachine",
@@ -168,4 +178,12 @@ __all__ = [
     "OperationsHealthDashboard",
     "OperationsHealthDashboardBuilder",
     "OperationsHealthDashboardError",
+    "DispatchStatus",
+    "AlertRuleDefinition",
+    "OnCallRouteDefinition",
+    "AlertDispatchRecord",
+    "AlertRoutingBatchResult",
+    "AlertRoutingEngine",
+    "AlertRoutingError",
+    "build_default_alert_routing_engine",
 ]
