@@ -39,6 +39,28 @@ python -m runtime.cli submit --goal "Install smoke check" --actor-id boss
 python -m runtime.cli assistant --mode both --actor-id boss
 ```
 
+Hindi-first assistant with startup briefing:
+
+```bash
+python -m runtime.cli assistant --mode both --actor-id boss --language hi
+```
+
+Disable startup weather/news briefing:
+
+```bash
+python -m runtime.cli assistant --mode both --actor-id boss --language hi --no-startup-brief
+```
+
+## 6. Optional Ollama Integration
+If you want richer local conversational responses:
+
+```bash
+ollama pull qwen2.5:3b-instruct
+python -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider ollama --ollama-model qwen2.5:3b-instruct
+```
+
+If Ollama is not running, FRIDAY automatically falls back to deterministic replies.
+
 ## Common Setup Issues
 
 ### PowerShell script execution blocked

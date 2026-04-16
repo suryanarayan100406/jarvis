@@ -19,6 +19,46 @@ $rate = [int]$env:FRIDAY_TTS_RATE
 if ($rate -lt -10) { $rate = -10 }
 if ($rate -gt 10) { $rate = 10 }
 $synth.Rate = $rate
+
+$preferredVoice = $env:FRIDAY_TTS_VOICE
+$preferredCulture = $env:FRIDAY_TTS_LANGUAGE
+$voiceSelected = $false
+
+if (-not [string]::IsNullOrWhiteSpace($preferredVoice)) {
+    try {
+        $synth.SelectVoice($preferredVoice)
+        $voiceSelected = $true
+    } catch {
+    }
+}
+
+if (-not $voiceSelected -and -not [string]::IsNullOrWhiteSpace($preferredCulture)) {
+    foreach ($installed in $synth.GetInstalledVoices()) {
+        $info = $installed.VoiceInfo
+        if ($null -ne $info -and $null -ne $info.Culture) {
+            if ($info.Culture.Name -like "$preferredCulture*") {
+                try {
+                    $synth.SelectVoice($info.Name)
+                    $voiceSelected = $true
+                    break
+                } catch {
+                }
+            }
+        }
+    }
+}
+
+if (-not $voiceSelected -and $preferredCulture -eq "hi-IN") {
+    foreach ($candidate in @("Microsoft Heera Desktop", "Microsoft Kalpana Desktop", "Microsoft Ravi Desktop")) {
+        try {
+            $synth.SelectVoice($candidate)
+            $voiceSelected = $true
+            break
+        } catch {
+        }
+    }
+}
+
 $text = $env:FRIDAY_TTS_TEXT
 if (-not [string]::IsNullOrWhiteSpace($text)) {
     $synth.Speak($text)
@@ -59,12 +99,16 @@ class WindowsAudioIO:
         *,
         powershell_executable: str = "powershell.exe",
         speech_rate: int = 0,
+        voice_language: str = "en-US",
+        voice_name: str | None = None,
         stt_timeout_seconds: int = 8,
         runner: PowerShellRunner | None = None,
         system_name: str | None = None,
     ) -> None:
         self.powershell_executable = powershell_executable
         self.speech_rate = int(speech_rate)
+        self.voice_language = str(voice_language).strip() or "en-US"
+        self.voice_name = _normalize_text(voice_name or "")
         self.stt_timeout_seconds = max(1, int(stt_timeout_seconds))
         self._runner = runner or subprocess.run
         self._system_name = (system_name or platform.system()).strip().lower()
@@ -81,6 +125,8 @@ class WindowsAudioIO:
         env = os.environ.copy()
         env["FRIDAY_TTS_TEXT"] = normalized
         env["FRIDAY_TTS_RATE"] = str(self.speech_rate)
+        env["FRIDAY_TTS_LANGUAGE"] = self.voice_language
+        env["FRIDAY_TTS_VOICE"] = self.voice_name
 
         completed = self._run_powershell(_SPEAK_SCRIPT, env=env, timeout_seconds=20)
         self._ensure_success(completed, action="text-to-speech")

@@ -36,7 +36,7 @@ if not exist ".venv\Scripts\python.exe" (
 )
 
 echo [INFO] Launching FRIDAY assistant...
-"%PYTHON%" -m runtime.cli assistant --mode text --actor-id boss
+"%PYTHON%" -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider auto
 exit /b %errorlevel%
 
 :setup
@@ -98,7 +98,7 @@ exit /b 0
 exit /b %errorlevel%
 
 :assistant
-"%PYTHON%" -m runtime.cli assistant %1 %2 %3 %4 %5 %6 %7 %8 %9
+"%PYTHON%" -m runtime.cli assistant %*
 exit /b %errorlevel%
 
 :submit
@@ -173,7 +173,7 @@ exit /b 0
 @echo   friday.bat test
 @echo   friday.bat verify
 @echo   friday.bat cli-help
-@echo   friday.bat assistant [--mode text^|audio^|both] [--actor-id boss]
+@echo   friday.bat assistant [--mode text^|audio^|both] [--actor-id boss] [--language hi^|en]
 @echo   friday.bat submit "^<goal^>" [actor_id]
 @echo   friday.bat status "^<run_id^>"
 @echo   friday.bat replay "^<run_id^>" [limit]
@@ -181,7 +181,7 @@ exit /b 0
 @echo.
 @echo Examples:
 @echo   friday.bat verify
-@echo   friday.bat assistant --mode both --actor-id boss
+@echo   friday.bat assistant --mode both --actor-id boss --language hi --llm-provider auto
 @echo   friday.bat submit "Generate system status summary" boss
 @echo   friday.bat status "123e4567-e89b-12d3-a456-426614174000"
 @echo.

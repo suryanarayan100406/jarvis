@@ -157,6 +157,9 @@ class RuntimeCliTests(unittest.TestCase):
                 "text",
                 "--actor-id",
                 "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
             )
 
         self.assertEqual(code, 0)
@@ -174,6 +177,9 @@ class RuntimeCliTests(unittest.TestCase):
                 "text",
                 "--actor-id",
                 "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
             )
 
         self.assertEqual(code, 0)
@@ -188,12 +194,48 @@ class RuntimeCliTests(unittest.TestCase):
                 "text",
                 "--actor-id",
                 "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
                 "--show-metadata",
             )
 
         self.assertEqual(code, 0)
         self.assertEqual(stderr, "")
         self.assertIn("[run_id:", stdout)
+
+    def test_assistant_defaults_to_hindi_reply_style(self) -> None:
+        with patch("builtins.input", side_effect=["collect diagnostics", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("FRIDAY> Ho gaya, boss. Maine complete kar diya: collect diagnostics.", stdout)
+
+    def test_assistant_no_startup_brief_disables_weather_news_line(self) -> None:
+        with patch("builtins.input", side_effect=["/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("FRIDAY> Good", stdout)
+        self.assertNotIn("weather/news", stdout)
 
     def _run(self, *args: str) -> tuple[int, str, str]:
         stdout = io.StringIO()

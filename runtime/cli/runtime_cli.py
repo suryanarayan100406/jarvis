@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
 from dataclasses import asdict
@@ -20,6 +21,7 @@ from runtime.pipeline import (
     SummaryReporter,
     new_run_context,
 )
+from runtime.assistant import OllamaResponseEngine, StartupBriefingService, compose_reply, normalize_language
 from runtime.replay import RunReplayEndpoint, RunReplayNotFoundError
 from runtime.store import LocalRunStore, RunEvent, RunRecord
 from runtime.voice import ConversationTurnManager, WindowsAudioIO, WindowsAudioIoError
@@ -220,11 +222,22 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
     mode = str(args.mode).lower()
     allow_audio = mode in {"audio", "both"}
     allow_text = mode in {"text", "both"}
+    language = normalize_language(args.language)
+    startup_service = StartupBriefingService()
+    llm_engine = OllamaResponseEngine(
+        enabled=args.llm_provider in {"auto", "ollama"},
+        host=args.ollama_host,
+        model=args.ollama_model,
+        timeout_seconds=args.ollama_timeout_seconds,
+    )
+    ollama_warned = False
 
     voice: WindowsAudioIO | None = None
     if allow_audio:
         voice = WindowsAudioIO(
             speech_rate=args.voice_rate,
+            voice_language="hi-IN" if language == "hi" else "en-IN",
+            voice_name=args.voice_name,
             stt_timeout_seconds=args.timeout_seconds,
         )
         if not voice.is_supported():
@@ -252,14 +265,42 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
             _emit_json(err, {"error_code": "assistant_failed", "message": str(exc)})
             return 1
 
-        _emit_json(out, payload)
+        assistant_text = _render_assistant_response(
+            user_text=prompt,
+            payload=payload,
+            actor_id=args.actor_id,
+            language=language,
+        )
+        llm_text = llm_engine.generate_reply(
+            user_text=prompt,
+            actor_id=args.actor_id,
+            language=language,
+            payload=payload,
+        )
+        if llm_text:
+            assistant_text = llm_text
+        enriched_payload = dict(payload)
+        enriched_payload["assistant_text"] = assistant_text
+
+        _emit_json(out, enriched_payload)
         if allow_audio and voice is not None:
-            _safe_speak(voice, str(payload.get("summary", "")), err)
+            _safe_speak(voice, assistant_text, err)
         return 0 if payload["status"] == "completed" else 2
 
     out.write("FRIDAY assistant mode online. Type /help for commands.\n")
+    if args.no_startup_brief:
+        startup_text = startup_service.build_greeting(actor_id=args.actor_id, language=language)
+    else:
+        startup_text = startup_service.build_briefing(
+            actor_id=args.actor_id,
+            language=language,
+            city=args.city,
+            news_topic=args.news_topic,
+            live=_should_use_live_startup_brief(args),
+        )
+    out.write(f"FRIDAY> {startup_text}\n")
     if allow_audio and voice is not None:
-        _safe_speak(voice, "FRIDAY online. Ready when you are, Boss.", err)
+        _safe_speak(voice, startup_text, err)
 
     turns = ConversationTurnManager()
     last_payload: dict[str, object] | None = None
@@ -297,7 +338,12 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
         if lowered in {"/exit", "exit", "quit", "/quit"}:
             break
         if lowered in {"/help", "help"}:
-            _print_assistant_help(out, allow_audio=allow_audio)
+            _print_assistant_help(
+                out,
+                allow_audio=allow_audio,
+                language=language,
+                llm_provider=args.llm_provider,
+            )
             continue
         if lowered in {"/last", "last"}:
             if last_payload is None:
@@ -311,7 +357,10 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
             continue
 
         if lowered in {"hi", "hello", "hey", "hey friday", "good morning", "good evening"}:
-            assistant_text = f"Hello {args.actor_id}. I am online and ready."
+            if language == "hi":
+                assistant_text = f"Namaste {args.actor_id}. Main online hoon aur ready hoon."
+            else:
+                assistant_text = f"Hello {args.actor_id}. I am online and ready."
             out.write(f"FRIDAY> {assistant_text}\n")
             if allow_audio and voice is not None:
                 _safe_speak(voice, assistant_text, err)
@@ -322,7 +371,23 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
 
         try:
             payload = _execute_goal(goal=user_text, actor_id=args.actor_id, store=store)
-            assistant_text = _render_assistant_response(user_text=user_text, payload=payload, actor_id=args.actor_id)
+            assistant_text = _render_assistant_response(
+                user_text=user_text,
+                payload=payload,
+                actor_id=args.actor_id,
+                language=language,
+            )
+            llm_text = llm_engine.generate_reply(
+                user_text=user_text,
+                actor_id=args.actor_id,
+                language=language,
+                payload=payload,
+            )
+            if llm_text:
+                assistant_text = llm_text
+            elif args.llm_provider == "ollama" and not ollama_warned:
+                err.write("[WARN] Ollama response unavailable. Falling back to deterministic replies.\n")
+                ollama_warned = True
             turns.append_response(turn.turn_id, assistant_text)
             turns.complete(turn.turn_id)
             last_payload = payload
@@ -507,6 +572,19 @@ def _build_parser() -> argparse.ArgumentParser:
     assistant_parser.add_argument("--prompt", help="Run a single assistant prompt and exit")
     assistant_parser.add_argument("--timeout-seconds", type=int, default=8)
     assistant_parser.add_argument("--voice-rate", type=int, default=0)
+    assistant_parser.add_argument("--voice-name")
+    assistant_parser.add_argument("--language", choices=("hi", "en"), default="hi")
+    assistant_parser.add_argument("--city", default="Bengaluru")
+    assistant_parser.add_argument("--news-topic", default="India technology")
+    assistant_parser.add_argument("--no-startup-brief", action="store_true")
+    assistant_parser.add_argument(
+        "--llm-provider",
+        choices=("auto", "deterministic", "ollama"),
+        default="auto",
+    )
+    assistant_parser.add_argument("--ollama-model", default="qwen2.5:3b-instruct")
+    assistant_parser.add_argument("--ollama-host", default="http://127.0.0.1:11434")
+    assistant_parser.add_argument("--ollama-timeout-seconds", type=int, default=6)
     assistant_parser.add_argument("--show-metadata", action="store_true")
     assistant_parser.add_argument("--db-path", default=str(DEFAULT_DB_PATH))
 
@@ -533,24 +611,39 @@ def _safe_speak(voice: WindowsAudioIO, text: str, err: TextIO) -> None:
         err.write(f"[WARN] Voice output unavailable: {exc}\n")
 
 
-def _print_assistant_help(stream: TextIO, *, allow_audio: bool) -> None:
+def _print_assistant_help(stream: TextIO, *, allow_audio: bool, language: str, llm_provider: str) -> None:
     stream.write("Commands:\n")
     stream.write("  /help   show this help\n")
     stream.write("  /exit   close assistant mode\n")
     stream.write("  /last   show metadata for the previous run\n")
     if allow_audio:
         stream.write("  /listen capture one spoken input in mixed mode\n")
+    stream.write(f"Profile: language={language}, llm_provider={llm_provider}\n")
 
 
-def _render_assistant_response(*, user_text: str, payload: dict[str, object], actor_id: str) -> str:
-    status = str(payload.get("status", "")).lower()
-    validation_passed = bool(payload.get("validation_passed", False))
+def _render_assistant_response(
+    *,
+    user_text: str,
+    payload: dict[str, object],
+    actor_id: str,
+    language: str,
+) -> str:
+    return compose_reply(
+        user_text=user_text,
+        payload=payload,
+        actor_id=actor_id,
+        language=language,
+    )
 
-    if status == "completed" and validation_passed:
-        return f"Done, {actor_id}. I completed: {user_text}."
-    if status == "completed":
-        return f"{actor_id}, I completed the run but validation reported issues."
-    return f"{actor_id}, the run ended with status {status}."
+
+def _should_use_live_startup_brief(args: argparse.Namespace) -> bool:
+    if args.no_startup_brief:
+        return False
+    if os.getenv("FRIDAY_FORCE_LIVE_BRIEF", "").strip() == "1":
+        return True
+
+    stdin = getattr(sys, "stdin", None)
+    return bool(stdin is not None and hasattr(stdin, "isatty") and stdin.isatty())
 
 
 def _normalize_text(text: str) -> str:

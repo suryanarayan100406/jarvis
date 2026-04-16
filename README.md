@@ -5,12 +5,13 @@ Local-first autonomous assistant runtime inspired by FRIDAY and JARVIS, focused 
 ## Project Status
 - Milestone execution through Phase 12 is complete and verified.
 - Governance and verification automation planning has started (Phases 13-17).
-- Full regression result at current head: 813 tests passing.
+- Full regression is passing at current head.
 
 ## Prerequisites
 - Python 3.12+
 - Git
 - PowerShell (Windows) or Bash-compatible shell (Linux/macOS)
+- Optional: Ollama (for richer local conversational responses)
 
 ## Installation
 
@@ -79,6 +80,15 @@ Assistant mode options:
 - `--mode text` text-only interactive session.
 - `--mode audio` voice-only interaction (Windows).
 - `--mode both` text session with optional `/listen` voice capture and spoken responses.
+- `--language hi|en` response style language (`hi` default).
+- `--city` city for startup weather briefing (`Bengaluru` default).
+- `--news-topic` topic for startup headline briefing (`India technology` default).
+- `--no-startup-brief` disable startup weather/news briefing.
+- `--llm-provider auto|deterministic|ollama` choose response engine (`auto` default).
+- `--ollama-model` choose Ollama model name.
+- `--ollama-host` Ollama endpoint (`http://127.0.0.1:11434` default).
+- `--ollama-timeout-seconds` max wait for local model reply.
+- `--voice-name` preferred Windows TTS voice name.
 - `--prompt "..."` single-turn assistant execution without opening an interactive loop.
 - `--show-metadata` show run and status metadata after each response.
 
@@ -95,6 +105,21 @@ Windows launcher shortcut:
 ```powershell
 friday.bat assistant --mode both --actor-id boss
 ```
+
+### Optional Ollama Setup
+Install/start Ollama, then pull a small local model:
+
+```bash
+ollama pull qwen2.5:3b-instruct
+```
+
+Run FRIDAY with explicit Ollama mode:
+
+```bash
+python -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider ollama --ollama-model qwen2.5:3b-instruct
+```
+
+If Ollama is unavailable, FRIDAY falls back to deterministic responses automatically.
 
 ## Feature Overview
 

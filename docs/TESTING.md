@@ -26,6 +26,11 @@ python -m unittest runtime.tests.test_phase_summary_contract
 python -m unittest runtime.tests.test_phase_summary_contract runtime.tests.test_directive_audit
 ```
 
+Assistant-focused targeted set:
+```bash
+python -m unittest runtime.tests.test_runtime_cli runtime.tests.test_windows_audio_io runtime.tests.test_personal_assistant
+```
+
 ## Suggested Validation Sequence
 1. Run targeted tests for changed files.
 2. Run full suite before commit.

@@ -32,6 +32,9 @@ This document summarizes FRIDAY runtime capabilities by subsystem.
 - Communication calibration and directive-compliance evaluation
 - Compliance drift, correction workflow, and directive audit reporting
 - Windows text+audio interactive session support (`assistant --mode audio|both`)
+- Hindi-first conversational defaults (`--language hi`) with English override
+- Startup greeting with optional weather/news briefing
+- Optional Ollama-backed conversational layer with deterministic fallback
 
 ## 6. Multimodal and UI Automation
 - Screenshot pipeline and OCR/layout analysis
