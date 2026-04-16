@@ -56,7 +56,10 @@ class WindowsAudioIOTests(unittest.TestCase):
         self.assertEqual(env["FRIDAY_TTS_VOICE"], "Microsoft Heera Desktop")
 
     def test_listen_once_returns_transcript_when_present(self) -> None:
+        observed: dict[str, object] = {}
+
         def fake_runner(command, *, capture_output, text, timeout, env):
+            observed["env"] = env
             return subprocess.CompletedProcess(command, 0, stdout="status report ready\n", stderr="")
 
         adapter = WindowsAudioIO(system_name="Windows", runner=fake_runner)
@@ -64,6 +67,8 @@ class WindowsAudioIOTests(unittest.TestCase):
         transcript = adapter.listen_once(timeout_seconds=6)
 
         self.assertEqual(transcript, "status report ready")
+        env = observed["env"]
+        self.assertEqual(env["FRIDAY_STT_LANGUAGE"], "en-US")
 
     def test_listen_once_returns_none_when_no_transcript(self) -> None:
         def fake_runner(command, *, capture_output, text, timeout, env):

@@ -81,11 +81,11 @@ Assistant mode options:
 - `--mode audio` voice-only interaction (Windows).
 - `--mode both` text session with optional `/listen` voice capture and spoken responses.
 - `--language hi|en` response style language (`hi` default).
-- `--city` city for startup weather briefing (`Bengaluru` default).
+- `--city` city for startup weather briefing (`auto` default; resolves from network geolocation when available).
 - `--news-topic` topic for startup headline briefing (`India technology` default).
 - `--no-startup-brief` disable startup weather/news briefing.
 - `--llm-provider auto|deterministic|ollama` choose response engine (`auto` default).
-- `--ollama-model` choose Ollama model name.
+- `--ollama-model` choose Ollama model name (`gemma4:latest` default).
 - `--ollama-host` Ollama endpoint (`http://127.0.0.1:11434` default).
 - `--ollama-timeout-seconds` max wait for local model reply.
 - `--voice-name` preferred Windows TTS voice name.
@@ -96,6 +96,8 @@ Interactive assistant commands:
 - `/help` show assistant commands.
 - `/listen` capture one voice input in `--mode both`.
 - `/last` show the previous run metadata (`run_id`, `status`, `plan_id`).
+- `/todos` list open todos remembered by assistant.
+- `/done <N>` mark todo number `N` as done.
 - `/exit` close assistant mode.
 
 Default run store path:
@@ -106,20 +108,68 @@ Windows launcher shortcut:
 friday.bat assistant --mode both --actor-id boss
 ```
 
+Default double-click launcher behavior:
+- Runs assistant in `--mode both` + Hindi + live startup briefing + auto city detection.
+
+## Recommended Local Model
+Recommended default local model for laptop usage:
+- `qwen2.5:3b-instruct` (good quality/speed balance on typical consumer hardware)
+
+Higher-quality alternatives (if your machine can handle them):
+- `qwen2.5:7b-instruct`
+- `llama3.1:8b`
+
 ### Optional Ollama Setup
-Install/start Ollama, then pull a small local model:
+Install/start Ollama, then pull your local model:
 
 ```bash
-ollama pull qwen2.5:3b-instruct
+ollama pull gemma4:latest
+```
+
+Batch launcher (auto-start Ollama + pull model + start FRIDAY):
+
+```powershell
+friday.bat ollama qwen2.5:3b-instruct
 ```
 
 Run FRIDAY with explicit Ollama mode:
 
 ```bash
-python -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider ollama --ollama-model qwen2.5:3b-instruct
+python -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider ollama --ollama-model gemma4:latest
 ```
 
 If Ollama is unavailable, FRIDAY falls back to deterministic responses automatically.
+
+Windows one-command Ollama launch:
+
+```powershell
+friday.bat ollama gemma4:latest
+```
+
+## Intent and Outcome Behavior
+Assistant now uses intent routing:
+- Questions -> direct answers.
+- Commands -> executes bounded local actions and returns audited outcome.
+- Goals -> deterministic orchestration pipeline with run metadata.
+- Memory/todo phrases -> stored in local assistant memory.
+
+Supported direct desktop commands include:
+- `open chrome`
+- `open edge`
+- `open notepad`
+- `open website https://example.com`
+- `send email to <address> about <subject>` (opens compose; does not auto-send)
+- `create folder <path>`
+- `download <url> to <path>`
+
+Every command/goal response includes an `ADMIN` outcome line describing:
+- What was recognized.
+- What action was attempted.
+- Whether it succeeded.
+- What was found/done.
+
+## Safety Note
+FRIDAY is intentionally bounded and does not run unconstrained autonomous roaming control over your laptop. The current design executes a curated command set and reports outcomes transparently.
 
 ## Feature Overview
 

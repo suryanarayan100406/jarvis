@@ -15,6 +15,7 @@ if /I "%COMMAND%"=="setup" goto :setup
 if /I "%COMMAND%"=="test" goto :test
 if /I "%COMMAND%"=="verify" goto :verify
 if /I "%COMMAND%"=="cli-help" goto :cli_help
+if /I "%COMMAND%"=="ollama" goto :ollama
 if /I "%COMMAND%"=="assistant" goto :assistant
 if /I "%COMMAND%"=="submit" goto :submit
 if /I "%COMMAND%"=="status" goto :status
@@ -36,7 +37,7 @@ if not exist ".venv\Scripts\python.exe" (
 )
 
 echo [INFO] Launching FRIDAY assistant...
-"%PYTHON%" -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider auto
+"%PYTHON%" -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider auto --ollama-model gemma4:latest --city auto
 exit /b %errorlevel%
 
 :setup
@@ -95,6 +96,35 @@ exit /b 0
 
 :cli_help
 "%PYTHON%" -m runtime.cli --help
+exit /b %errorlevel%
+
+:ollama
+if "%~1"=="" (
+    set "OLLAMA_MODEL=gemma4:latest"
+) else (
+    set "OLLAMA_MODEL=%~1"
+)
+
+where ollama >nul 2>nul
+if errorlevel 1 (
+    echo [ERROR] Ollama is not installed or not on PATH.
+    echo Install from: https://ollama.com/download
+    exit /b 1
+)
+
+echo [INFO] Starting Ollama service if not already running...
+start "" /B ollama serve >nul 2>nul
+
+echo [INFO] Pulling model: %OLLAMA_MODEL%
+ollama pull %OLLAMA_MODEL%
+if errorlevel 1 (
+    echo [ERROR] Failed to pull model %OLLAMA_MODEL%.
+    exit /b 1
+)
+
+echo [OK] Ollama model ready: %OLLAMA_MODEL%
+echo [INFO] Launching FRIDAY with Ollama brain...
+"%PYTHON%" -m runtime.cli assistant --mode both --actor-id boss --language hi --llm-provider ollama --ollama-model %OLLAMA_MODEL% --city auto
 exit /b %errorlevel%
 
 :assistant
@@ -173,6 +203,7 @@ exit /b 0
 @echo   friday.bat test
 @echo   friday.bat verify
 @echo   friday.bat cli-help
+@echo   friday.bat ollama [model]
 @echo   friday.bat assistant [--mode text^|audio^|both] [--actor-id boss] [--language hi^|en]
 @echo   friday.bat submit "^<goal^>" [actor_id]
 @echo   friday.bat status "^<run_id^>"
@@ -181,6 +212,7 @@ exit /b 0
 @echo.
 @echo Examples:
 @echo   friday.bat verify
+@echo   friday.bat ollama gemma4:latest
 @echo   friday.bat assistant --mode both --actor-id boss --language hi --llm-provider auto
 @echo   friday.bat submit "Generate system status summary" boss
 @echo   friday.bat status "123e4567-e89b-12d3-a456-426614174000"

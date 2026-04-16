@@ -70,12 +70,29 @@ _LISTEN_SCRIPT = """
 Add-Type -AssemblyName System.Speech
 $timeout = [int]$env:FRIDAY_STT_TIMEOUT
 if ($timeout -lt 1) { $timeout = 1 }
+$preferredCulture = $env:FRIDAY_STT_LANGUAGE
+$recognizer = $null
 
-try {
-    $culture = [System.Globalization.CultureInfo]::InstalledUICulture
-    $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine($culture)
-} catch {
-    $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine
+if (-not [string]::IsNullOrWhiteSpace($preferredCulture)) {
+    try {
+        foreach ($candidate in [System.Speech.Recognition.SpeechRecognitionEngine]::InstalledRecognizers()) {
+            if ($null -ne $candidate.Culture -and $candidate.Culture.Name -like "$preferredCulture*") {
+                $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine($candidate.Culture)
+                break
+            }
+        }
+    } catch {
+        $recognizer = $null
+    }
+}
+
+if ($null -eq $recognizer) {
+    try {
+        $culture = [System.Globalization.CultureInfo]::InstalledUICulture
+        $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine($culture)
+    } catch {
+        $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine
+    }
 }
 
 $recognizer.SetInputToDefaultAudioDevice()
@@ -138,6 +155,7 @@ class WindowsAudioIO:
         resolved_timeout = self.stt_timeout_seconds if timeout_seconds is None else max(1, int(timeout_seconds))
         env = os.environ.copy()
         env["FRIDAY_STT_TIMEOUT"] = str(resolved_timeout)
+        env["FRIDAY_STT_LANGUAGE"] = self.voice_language
 
         completed = self._run_powershell(
             _LISTEN_SCRIPT,

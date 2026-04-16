@@ -51,6 +51,83 @@ def compose_reply(
     return f"{actor_id}, the run ended with status {status}."
 
 
+def compose_question_answer(
+    *,
+    user_text: str,
+    actor_id: str,
+    language: str,
+) -> str:
+    """Provide lightweight direct answers for common question categories."""
+    resolved_language = normalize_language(language)
+    lowered = _normalize_text(user_text).lower()
+
+    if "weather" in lowered:
+        if resolved_language == "hi":
+            return (
+                f"{actor_id}, latest weather startup briefing ke time pe fetch hota hai. "
+                "Agar chaho to abhi bhi main weather refresh command se pull kar sakta hoon."
+            )
+        return (
+            f"{actor_id}, weather is fetched during startup briefing. "
+            "If you want, I can also refresh it now on command."
+        )
+
+    if "news" in lowered:
+        if resolved_language == "hi":
+            return f"{actor_id}, main trusted RSS sources se headlines summarize karta hoon."
+        return f"{actor_id}, I summarize headlines from trusted RSS sources."
+
+    if "who are you" in lowered or "tum kaun" in lowered:
+        if resolved_language == "hi":
+            return f"Main FRIDAY hoon, {actor_id}. Main tumhara local-first AI assistant hoon."
+        return f"I am FRIDAY, {actor_id}, your local-first AI assistant."
+
+    if resolved_language == "hi":
+        return (
+            f"{actor_id}, mujhe samajh aaya. Iska short answer: haan, main help kar sakta hoon. "
+            "Agar chahe to main isko step-by-step tod kar bhi bata doon."
+        )
+    return (
+        f"{actor_id}, understood. Short answer: yes, I can help with that. "
+        "I can also break it down step by step if you want."
+    )
+
+
+def compose_social_reply(*, user_text: str, actor_id: str, language: str) -> str:
+    """Return short conversational replies for acknowledgements and small-talk."""
+    resolved_language = normalize_language(language)
+    lowered = _normalize_text(user_text).lower()
+
+    if resolved_language == "hi":
+        if lowered in {"thanks", "thank you", "shukriya"}:
+            return f"Always, {actor_id}. Aur kuch karein?"
+        if lowered in {"ji", "haan", "han", "ok", "okay", "theek", "thik"}:
+            return f"Ji {actor_id}, boliye. Main sun raha hoon."
+        return f"Haan {actor_id}, main yahin hoon. Aap bolo."
+
+    if lowered in {"thanks", "thank you"}:
+        return f"Always, {actor_id}. What should we do next?"
+    if lowered in {"yes", "ok", "okay", "yeah"}:
+        return f"Yes {actor_id}, I am here. Tell me what you need."
+    return f"I am with you, {actor_id}. Go ahead."
+
+
+def detect_current_city(timeout_seconds: int = 2) -> str | None:
+    """Resolve approximate city using public IP geolocation with graceful fallback."""
+    request = Request(
+        "https://ipapi.co/json/",
+        headers={"User-Agent": "FRIDAY/1.0", "Accept": "application/json"},
+        method="GET",
+    )
+    try:
+        with urlopen(request, timeout=max(1, int(timeout_seconds))) as response:
+            payload = json.loads(response.read().decode("utf-8", errors="replace"))
+            city = _normalize_text(str(payload.get("city", "")))
+            return city or None
+    except Exception:
+        return None
+
+
 class StartupBriefingService:
     """Builds startup weather/news briefings with graceful offline fallback."""
 
@@ -75,13 +152,16 @@ class StartupBriefingService:
     ) -> str:
         """Return a single-line startup briefing tuned to language and time of day."""
         resolved_language = normalize_language(language)
+        resolved_city = _normalize_text(city)
+        if not resolved_city:
+            resolved_city = detect_current_city() or "Bengaluru"
         part_of_day = _part_of_day(now)
         greeting = _greeting(actor_id=actor_id, language=resolved_language, part_of_day=part_of_day)
 
         if not live:
             return _offline_brief(greeting=greeting, language=resolved_language)
 
-        weather = self._weather_line(city=city, language=resolved_language)
+        weather = self._weather_line(city=resolved_city, language=resolved_language)
         headlines = self._headline_line(topic=news_topic, language=resolved_language)
 
         if weather is None and headlines is None:
@@ -189,21 +269,89 @@ class OllamaResponseEngine:
             payload=payload,
         )
 
-        body = json.dumps(
-            {
+        options = {
+            "temperature": 0.35,
+            "num_predict": 180,
+        }
+
+        error_count = 0
+
+        payload_json = self._safe_call_ollama(
+            path="/api/generate",
+            body={
                 "model": self.model,
                 "prompt": prompt,
                 "stream": False,
-                "options": {
-                    "temperature": 0.35,
-                    "num_predict": 180,
-                },
-            }
-        ).encode("utf-8")
+                "options": options,
+            },
+        )
+        if payload_json is not None:
+            content = _normalize_text(str(payload_json.get("response", "")))
+            if content:
+                return content
+        else:
+            error_count += 1
 
+        chat_payload = self._safe_call_ollama(
+            path="/api/chat",
+            body={
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "stream": False,
+                "options": options,
+            },
+        )
+        if chat_payload is not None:
+            message = chat_payload.get("message", {})
+            if isinstance(message, dict):
+                chat_content = _normalize_text(str(message.get("content", "")))
+                if chat_content:
+                    return chat_content
+        else:
+            error_count += 1
+
+        compact_prompt = _build_compact_ollama_prompt(
+            user_text=user_text,
+            actor_id=actor_id,
+            language=normalize_language(language),
+        )
+        compact_chat_payload = self._safe_call_ollama(
+            path="/api/chat",
+            body={
+                "model": self.model,
+                "messages": [{"role": "user", "content": compact_prompt}],
+                "stream": False,
+                "options": {
+                    "temperature": 0.3,
+                    "num_predict": 512,
+                },
+            },
+        )
+        if compact_chat_payload is not None:
+            compact_message = compact_chat_payload.get("message", {})
+            if isinstance(compact_message, dict):
+                compact_content = _normalize_text(str(compact_message.get("content", "")))
+                if compact_content:
+                    return compact_content
+
+        if compact_chat_payload is None:
+            error_count += 1
+
+        if error_count >= 3:
+            self._disabled_by_error = True
+        return None
+
+    def _safe_call_ollama(self, *, path: str, body: dict[str, object]) -> dict[str, object] | None:
+        try:
+            return self._call_ollama(path=path, body=body)
+        except (URLError, TimeoutError, json.JSONDecodeError, ValueError):
+            return None
+
+    def _call_ollama(self, *, path: str, body: dict[str, object]) -> dict[str, object]:
+        encoded = json.dumps(body).encode("utf-8")
         request = Request(
-            f"{self.host}/api/generate",
-            data=body,
+            f"{self.host}{path}",
+            data=encoded,
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -211,19 +359,12 @@ class OllamaResponseEngine:
             },
             method="POST",
         )
-
-        try:
-            with urlopen(request, timeout=self.timeout_seconds) as response:
-                response_text = response.read().decode("utf-8")
-                payload_json = json.loads(response_text)
-        except (URLError, TimeoutError, json.JSONDecodeError):
-            self._disabled_by_error = True
-            return None
-
-        content = _normalize_text(str(payload_json.get("response", "")))
-        if not content:
-            return None
-        return content
+        with urlopen(request, timeout=self.timeout_seconds) as response:
+            response_text = response.read().decode("utf-8")
+            payload_json = json.loads(response_text)
+        if not isinstance(payload_json, dict):
+            raise ValueError("Unexpected Ollama response payload")
+        return payload_json
 
 
 def _build_ollama_prompt(
@@ -259,6 +400,18 @@ def _build_ollama_prompt(
             f"Pipeline summary: {summary}",
             "Now produce the assistant response only.",
         ]
+    )
+
+
+def _build_compact_ollama_prompt(*, user_text: str, actor_id: str, language: str) -> str:
+    if language == "hi":
+        return (
+            f"Tum FRIDAY ho. {actor_id} ko ek short helpful jawab do (1-2 lines). "
+            f"User request: {user_text}"
+        )
+    return (
+        f"You are FRIDAY. Give {actor_id} a short helpful answer (1-2 lines). "
+        f"User request: {user_text}"
     )
 
 
@@ -314,6 +467,9 @@ def _normalize_text(text: str) -> str:
 __all__ = [
     "normalize_language",
     "compose_reply",
+    "compose_question_answer",
+    "compose_social_reply",
+    "detect_current_city",
     "StartupBriefingService",
     "OllamaResponseEngine",
 ]

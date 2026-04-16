@@ -147,7 +147,7 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertEqual(payload["status"], "completed")
         self.assertTrue(payload["validation_passed"])
         self.assertIn("summary", payload)
-        self.assertIn("run=", payload["summary"])
+        self.assertIn("admin_report", payload)
 
     def test_assistant_interactive_text_turn_and_exit(self) -> None:
         with patch("builtins.input", side_effect=["collect diagnostics", "/exit"]):
@@ -165,7 +165,8 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(stderr, "")
         self.assertIn("FRIDAY assistant mode online", stdout)
-        self.assertIn("FRIDAY> Done, boss. I completed: collect diagnostics.", stdout)
+        self.assertIn("FRIDAY>", stdout)
+        self.assertIn("ADMIN>", stdout)
         self.assertNotIn("[run_id:", stdout)
         self.assertIn("Session closed.", stdout)
 
@@ -217,7 +218,7 @@ class RuntimeCliTests(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(stderr, "")
-        self.assertIn("FRIDAY> Ho gaya, boss. Maine complete kar diya: collect diagnostics.", stdout)
+        self.assertIn("FRIDAY>", stdout)
 
     def test_assistant_no_startup_brief_disables_weather_news_line(self) -> None:
         with patch("builtins.input", side_effect=["/exit"]):
@@ -234,8 +235,82 @@ class RuntimeCliTests(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(stderr, "")
-        self.assertIn("FRIDAY> Good", stdout)
+        self.assertIn("FRIDAY>", stdout)
         self.assertNotIn("weather/news", stdout)
+
+    def test_assistant_question_gets_direct_answer_path(self) -> None:
+        with patch("builtins.input", side_effect=["who are you?", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("FRIDAY>", stdout)
+        self.assertIn("ADMIN> Intent: question", stdout)
+
+    def test_assistant_command_open_website_reports_outcome(self) -> None:
+        with patch("builtins.input", side_effect=["open website https://example.com", "/exit"]):
+            with patch("runtime.assistant.assistant_agents.webbrowser.open", return_value=True):
+                code, stdout, stderr = self._run(
+                    "assistant",
+                    "--mode",
+                    "text",
+                    "--actor-id",
+                    "boss",
+                    "--language",
+                    "en",
+                    "--no-startup-brief",
+                )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("ADMIN> Intent: command", stdout)
+
+    def test_assistant_smalltalk_does_not_run_goal_pipeline(self) -> None:
+        with patch("builtins.input", side_effect=["ji", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "hi",
+                "--no-startup-brief",
+                "--llm-provider",
+                "deterministic",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("ADMIN> Intent: chat", stdout)
+        self.assertNotIn("Intent: goal", stdout)
+
+    def test_assistant_memory_todos_flow(self) -> None:
+        with patch("builtins.input", side_effect=["todo finish release checklist", "/todos", "/done 1", "/todos", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "en",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("Open todos:", stdout)
+        self.assertIn("Closed todo:", stdout)
 
     def _run(self, *args: str) -> tuple[int, str, str]:
         stdout = io.StringIO()
