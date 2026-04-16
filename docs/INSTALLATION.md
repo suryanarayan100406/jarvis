@@ -36,6 +36,7 @@ If the test output ends with `OK`, installation is complete.
 ```bash
 python -m runtime.cli --help
 python -m runtime.cli submit --goal "Install smoke check" --actor-id boss
+python -m runtime.cli assistant --mode both --actor-id boss
 ```
 
 ## Common Setup Issues

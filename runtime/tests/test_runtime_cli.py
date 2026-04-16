@@ -129,6 +129,25 @@ class RuntimeCliTests(unittest.TestCase):
         payload = json.loads(stderr)
         self.assertEqual(payload["error_code"], "run_not_found")
 
+    def test_assistant_prompt_executes_single_turn(self) -> None:
+        code, stdout, stderr = self._run(
+            "assistant",
+            "--mode",
+            "text",
+            "--actor-id",
+            "boss",
+            "--prompt",
+            "Summarize open priorities",
+        )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        payload = json.loads(stdout)
+        self.assertEqual(payload["status"], "completed")
+        self.assertTrue(payload["validation_passed"])
+        self.assertIn("summary", payload)
+        self.assertIn("run=", payload["summary"])
+
     def _run(self, *args: str) -> tuple[int, str, str]:
         stdout = io.StringIO()
         stderr = io.StringIO()

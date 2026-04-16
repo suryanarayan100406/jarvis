@@ -70,8 +70,24 @@ python -m runtime.cli replay --run-id <RUN_ID> --limit 25
 python -m runtime.cli stop --run-id <RUN_ID> --reason operator_request
 ```
 
+Interactive assistant mode:
+```bash
+python -m runtime.cli assistant --mode both --actor-id boss
+```
+
+Assistant mode options:
+- `--mode text` text-only interactive session.
+- `--mode audio` voice-only interaction (Windows).
+- `--mode both` text session with optional `/listen` voice capture and spoken responses.
+- `--prompt "..."` single-turn assistant execution without opening an interactive loop.
+
 Default run store path:
 - `runtime/data/runs.db`
+
+Windows launcher shortcut:
+```powershell
+friday.bat assistant --mode both --actor-id boss
+```
 
 ## Feature Overview
 

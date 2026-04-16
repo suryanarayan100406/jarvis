@@ -6,6 +6,7 @@ This document summarizes FRIDAY runtime capabilities by subsystem.
 - Deterministic plan -> execute -> validate -> report pipeline
 - Runtime module boundaries and coordinator flow
 - Replayable run history and structured event records
+- Interactive assistant CLI mode for single-turn and continuous sessions
 
 ## 2. Policy and Safety
 - Risk-tier policy decisions (low/medium/high/critical)
@@ -30,6 +31,7 @@ This document summarizes FRIDAY runtime capabilities by subsystem.
 - Answer-first and no-filler response contracts
 - Communication calibration and directive-compliance evaluation
 - Compliance drift, correction workflow, and directive audit reporting
+- Windows text+audio interactive session support (`assistant --mode audio|both`)
 
 ## 6. Multimodal and UI Automation
 - Screenshot pipeline and OCR/layout analysis
