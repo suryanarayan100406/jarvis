@@ -7,6 +7,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from runtime.cli import run_cli
 from runtime.store import LocalRunStore
@@ -147,6 +148,22 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertTrue(payload["validation_passed"])
         self.assertIn("summary", payload)
         self.assertIn("run=", payload["summary"])
+
+    def test_assistant_interactive_text_turn_and_exit(self) -> None:
+        with patch("builtins.input", side_effect=["hello", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("FRIDAY assistant mode online", stdout)
+        self.assertIn("FRIDAY>", stdout)
+        self.assertIn("Session closed.", stdout)
 
     def _run(self, *args: str) -> tuple[int, str, str]:
         stdout = io.StringIO()

@@ -299,7 +299,7 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
             _print_assistant_help(out, allow_audio=allow_audio)
             continue
 
-        turn = turns.start_turn(user_text=user_text, source=source)
+        turn = turns.start_turn(user_input=user_text, source=source)
         turns.begin_response(turn.turn_id)
 
         try:
