@@ -80,6 +80,13 @@ Assistant mode options:
 - `--mode audio` voice-only interaction (Windows).
 - `--mode both` text session with optional `/listen` voice capture and spoken responses.
 - `--prompt "..."` single-turn assistant execution without opening an interactive loop.
+- `--show-metadata` show run and status metadata after each response.
+
+Interactive assistant commands:
+- `/help` show assistant commands.
+- `/listen` capture one voice input in `--mode both`.
+- `/last` show the previous run metadata (`run_id`, `status`, `plan_id`).
+- `/exit` close assistant mode.
 
 Default run store path:
 - `runtime/data/runs.db`

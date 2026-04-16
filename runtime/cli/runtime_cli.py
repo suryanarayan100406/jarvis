@@ -262,6 +262,7 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
         _safe_speak(voice, "FRIDAY online. Ready when you are, Boss.", err)
 
     turns = ConversationTurnManager()
+    last_payload: dict[str, object] | None = None
 
     while True:
         user_text = ""
@@ -298,25 +299,44 @@ def _assistant_command(args: argparse.Namespace, store: LocalRunStore, out: Text
         if lowered in {"/help", "help"}:
             _print_assistant_help(out, allow_audio=allow_audio)
             continue
+        if lowered in {"/last", "last"}:
+            if last_payload is None:
+                out.write("FRIDAY> No previous run metadata is available yet.\n")
+                continue
+            out.write(
+                "FRIDAY> "
+                + f"last run_id={last_payload['run_id']} status={last_payload['status']} plan_id={last_payload['plan_id']}"
+                + "\n"
+            )
+            continue
+
+        if lowered in {"hi", "hello", "hey", "hey friday", "good morning", "good evening"}:
+            assistant_text = f"Hello {args.actor_id}. I am online and ready."
+            out.write(f"FRIDAY> {assistant_text}\n")
+            if allow_audio and voice is not None:
+                _safe_speak(voice, assistant_text, err)
+            continue
 
         turn = turns.start_turn(user_input=user_text, source=source)
         turns.begin_response(turn.turn_id)
 
         try:
             payload = _execute_goal(goal=user_text, actor_id=args.actor_id, store=store)
-            assistant_text = str(payload.get("summary", ""))
+            assistant_text = _render_assistant_response(user_text=user_text, payload=payload, actor_id=args.actor_id)
             turns.append_response(turn.turn_id, assistant_text)
             turns.complete(turn.turn_id)
+            last_payload = payload
         except Exception as exc:
             turns.cancel(turn.turn_id)
-            assistant_text = f"Execution failed: {exc}"
+            assistant_text = f"I could not complete that request. Details: {exc}"
             out.write(f"FRIDAY> {assistant_text}\n")
             if allow_audio and voice is not None:
                 _safe_speak(voice, assistant_text, err)
             continue
 
         out.write(f"FRIDAY> {assistant_text}\n")
-        out.write(f"[run_id: {payload['run_id']} | status: {payload['status']}]\n")
+        if args.show_metadata:
+            out.write(f"[run_id: {payload['run_id']} | status: {payload['status']}]\n")
 
         if allow_audio and voice is not None:
             _safe_speak(voice, assistant_text, err)
@@ -487,6 +507,7 @@ def _build_parser() -> argparse.ArgumentParser:
     assistant_parser.add_argument("--prompt", help="Run a single assistant prompt and exit")
     assistant_parser.add_argument("--timeout-seconds", type=int, default=8)
     assistant_parser.add_argument("--voice-rate", type=int, default=0)
+    assistant_parser.add_argument("--show-metadata", action="store_true")
     assistant_parser.add_argument("--db-path", default=str(DEFAULT_DB_PATH))
 
     return parser
@@ -516,8 +537,20 @@ def _print_assistant_help(stream: TextIO, *, allow_audio: bool) -> None:
     stream.write("Commands:\n")
     stream.write("  /help   show this help\n")
     stream.write("  /exit   close assistant mode\n")
+    stream.write("  /last   show metadata for the previous run\n")
     if allow_audio:
         stream.write("  /listen capture one spoken input in mixed mode\n")
+
+
+def _render_assistant_response(*, user_text: str, payload: dict[str, object], actor_id: str) -> str:
+    status = str(payload.get("status", "")).lower()
+    validation_passed = bool(payload.get("validation_passed", False))
+
+    if status == "completed" and validation_passed:
+        return f"Done, {actor_id}. I completed: {user_text}."
+    if status == "completed":
+        return f"{actor_id}, I completed the run but validation reported issues."
+    return f"{actor_id}, the run ended with status {status}."
 
 
 def _normalize_text(text: str) -> str:

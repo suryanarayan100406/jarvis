@@ -150,7 +150,7 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertIn("run=", payload["summary"])
 
     def test_assistant_interactive_text_turn_and_exit(self) -> None:
-        with patch("builtins.input", side_effect=["hello", "/exit"]):
+        with patch("builtins.input", side_effect=["collect diagnostics", "/exit"]):
             code, stdout, stderr = self._run(
                 "assistant",
                 "--mode",
@@ -162,8 +162,38 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(stderr, "")
         self.assertIn("FRIDAY assistant mode online", stdout)
-        self.assertIn("FRIDAY>", stdout)
+        self.assertIn("FRIDAY> Done, boss. I completed: collect diagnostics.", stdout)
+        self.assertNotIn("[run_id:", stdout)
         self.assertIn("Session closed.", stdout)
+
+    def test_assistant_interactive_can_show_last_run_metadata(self) -> None:
+        with patch("builtins.input", side_effect=["check status", "/last", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("FRIDAY> last run_id=", stdout)
+
+    def test_assistant_interactive_show_metadata_flag_prints_run_line(self) -> None:
+        with patch("builtins.input", side_effect=["collect diagnostics", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--show-metadata",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("[run_id:", stdout)
 
     def _run(self, *args: str) -> tuple[int, str, str]:
         stdout = io.StringIO()
