@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 cd /d "%~dp0"
 
-if "%~1"=="" goto :usage
+if "%~1"=="" goto :launch_default
 
 set "COMMAND=%~1"
 shift
@@ -24,6 +24,20 @@ if /I "%COMMAND%"=="stop" goto :stop
 echo [ERROR] Unknown command: %COMMAND%
 echo.
 goto :usage_error
+
+:launch_default
+if not exist ".venv\Scripts\python.exe" (
+    echo [INFO] First-time setup required.
+    call :setup
+    if errorlevel 1 exit /b 1
+) else (
+    call :resolve_python
+    if errorlevel 1 exit /b 1
+)
+
+echo [INFO] Launching FRIDAY assistant...
+"%PYTHON%" -m runtime.cli assistant --mode text --actor-id boss
+exit /b %errorlevel%
 
 :setup
 echo [INFO] Setting up FRIDAY environment...
@@ -154,6 +168,7 @@ exit /b 0
 @echo FRIDAY Windows Launcher
 @echo.
 @echo Usage:
+@echo   friday.bat ^(no args - launches assistant^)
 @echo   friday.bat setup
 @echo   friday.bat test
 @echo   friday.bat verify
