@@ -256,6 +256,44 @@ class RuntimeCliTests(unittest.TestCase):
         self.assertIn("FRIDAY>", stdout)
         self.assertIn("ADMIN> Intent: question", stdout)
 
+    def test_assistant_question_name_variant_returns_identity(self) -> None:
+        with patch("builtins.input", side_effect=["your name?", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "en",
+                "--llm-provider",
+                "deterministic",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("I am FRIDAY", stdout)
+
+    def test_assistant_question_math_returns_numeric_answer(self) -> None:
+        with patch("builtins.input", side_effect=["2+2?", "/exit"]):
+            code, stdout, stderr = self._run(
+                "assistant",
+                "--mode",
+                "text",
+                "--actor-id",
+                "boss",
+                "--language",
+                "en",
+                "--llm-provider",
+                "deterministic",
+                "--no-startup-brief",
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("the answer is 4", stdout)
+
     def test_assistant_command_open_website_reports_outcome(self) -> None:
         with patch("builtins.input", side_effect=["open website https://example.com", "/exit"]):
             with patch("runtime.assistant.assistant_agents.webbrowser.open", return_value=True):

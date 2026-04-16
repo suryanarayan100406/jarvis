@@ -144,8 +144,9 @@ class WindowsAudioIO:
         env["FRIDAY_TTS_RATE"] = str(self.speech_rate)
         env["FRIDAY_TTS_LANGUAGE"] = self.voice_language
         env["FRIDAY_TTS_VOICE"] = self.voice_name
+        timeout_seconds = _estimate_tts_timeout_seconds(normalized)
 
-        completed = self._run_powershell(_SPEAK_SCRIPT, env=env, timeout_seconds=20)
+        completed = self._run_powershell(_SPEAK_SCRIPT, env=env, timeout_seconds=timeout_seconds)
         self._ensure_success(completed, action="text-to-speech")
         return True
 
@@ -207,6 +208,12 @@ class WindowsAudioIO:
 
 def _normalize_text(text: str) -> str:
     return " ".join(str(text).split())
+
+
+def _estimate_tts_timeout_seconds(text: str) -> int:
+    # Approximate speaking time budget with guardrails for short and long phrases.
+    estimated = 10 + int(len(text) / 12)
+    return max(20, min(180, estimated))
 
 
 def _resolve_powershell_executable(preferred: str) -> str:

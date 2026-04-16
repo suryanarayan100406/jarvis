@@ -55,6 +55,20 @@ class WindowsAudioIOTests(unittest.TestCase):
         self.assertEqual(env["FRIDAY_TTS_LANGUAGE"], "hi-IN")
         self.assertEqual(env["FRIDAY_TTS_VOICE"], "Microsoft Heera Desktop")
 
+    def test_speak_uses_adaptive_timeout_for_long_text(self) -> None:
+        observed: dict[str, object] = {}
+
+        def fake_runner(command, *, capture_output, text, timeout, env):
+            observed["timeout"] = timeout
+            return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+        adapter = WindowsAudioIO(system_name="Windows", runner=fake_runner)
+
+        spoken = adapter.speak("status " * 200)
+
+        self.assertTrue(spoken)
+        self.assertGreater(observed["timeout"], 20)
+
     def test_listen_once_returns_transcript_when_present(self) -> None:
         observed: dict[str, object] = {}
 

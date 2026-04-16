@@ -76,6 +76,24 @@ class PersonalAssistantTests(unittest.TestCase):
 
         self.assertIn("FRIDAY", answer)
 
+    def test_compose_question_answer_handles_name_question_variant(self) -> None:
+        answer = compose_question_answer(
+            user_text="your name?",
+            actor_id="boss",
+            language="en",
+        )
+
+        self.assertIn("I am FRIDAY", answer)
+
+    def test_compose_question_answer_handles_simple_math(self) -> None:
+        answer = compose_question_answer(
+            user_text="2+2?",
+            actor_id="boss",
+            language="en",
+        )
+
+        self.assertIn("4", answer)
+
     def test_startup_brief_live_uses_weather_and_headlines(self) -> None:
         def fake_json_fetcher(url: str, timeout: int) -> dict[str, object]:
             return {

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import ast
 import json
+import operator
+import re
 from datetime import datetime
 from typing import Callable
 from urllib.error import URLError
@@ -61,6 +64,17 @@ def compose_question_answer(
     resolved_language = normalize_language(language)
     lowered = _normalize_text(user_text).lower()
 
+    math_value = _evaluate_simple_math(lowered)
+    if math_value is not None:
+        if resolved_language == "hi":
+            return f"{actor_id}, iska answer {math_value} hai."
+        return f"{actor_id}, the answer is {math_value}."
+
+    if _looks_like_name_query(lowered):
+        if resolved_language == "hi":
+            return f"Main FRIDAY hoon, {actor_id}. Main tumhara local-first AI assistant hoon."
+        return f"I am FRIDAY, {actor_id}, your local-first AI assistant."
+
     if "weather" in lowered:
         if resolved_language == "hi":
             return (
@@ -91,6 +105,74 @@ def compose_question_answer(
         f"{actor_id}, understood. Short answer: yes, I can help with that. "
         "I can also break it down step by step if you want."
     )
+
+
+def _looks_like_name_query(lowered: str) -> bool:
+    signals = (
+        "who are you",
+        "your name",
+        "what is your name",
+        "what's your name",
+        "tum kaun",
+        "tumhara naam",
+        "aapka naam",
+        "naam kya hai",
+    )
+    return any(signal in lowered for signal in signals)
+
+
+def _evaluate_simple_math(lowered: str) -> int | float | None:
+    candidate = lowered.strip().rstrip("?")
+    candidate = candidate.replace("x", "*")
+
+    # Keep the evaluator intentionally strict to avoid executing arbitrary expressions.
+    if not candidate or not re.fullmatch(r"[0-9\s\+\-\*\/\(\)\.]+", candidate):
+        return None
+
+    try:
+        expression = ast.parse(candidate, mode="eval")
+        value = _eval_node(expression.body)
+    except Exception:
+        return None
+
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return round(float(value), 6)
+
+
+def _eval_node(node: ast.AST) -> float:
+    if isinstance(node, ast.BinOp):
+        left = _eval_node(node.left)
+        right = _eval_node(node.right)
+        op_type = type(node.op)
+        if op_type not in _ALLOWED_BINARY_OPS:
+            raise ValueError("unsupported operator")
+        return _ALLOWED_BINARY_OPS[op_type](left, right)
+
+    if isinstance(node, ast.UnaryOp):
+        operand = _eval_node(node.operand)
+        op_type = type(node.op)
+        if op_type not in _ALLOWED_UNARY_OPS:
+            raise ValueError("unsupported unary operator")
+        return _ALLOWED_UNARY_OPS[op_type](operand)
+
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return float(node.value)
+
+    raise ValueError("unsupported expression")
+
+
+_ALLOWED_BINARY_OPS: dict[type[ast.AST], Callable[[float, float], float]] = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+}
+
+_ALLOWED_UNARY_OPS: dict[type[ast.AST], Callable[[float], float]] = {
+    ast.UAdd: operator.pos,
+    ast.USub: operator.neg,
+}
 
 
 def compose_social_reply(*, user_text: str, actor_id: str, language: str) -> str:
